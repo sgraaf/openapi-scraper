@@ -1,0 +1,29 @@
+name: Scrape latest descriptions
+
+on:
+  workflow_dispatch:
+  schedule:
+  - cron:  '27 4 * * *'
+
+jobs:
+  scheduled:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out this repo
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Configure Git for commits
+      run: |-
+        git config user.name "Automated"
+        git config user.email "actions@users.noreply.github.com"
+    - name: GitHub
+      run: |-
+        mkdir -p github
+        curl https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json | jq . > github/github.json
+    - name: Commit and push if it changed
+      run: |-
+        git add -A
+        timestamp=$(date -u)
+        git commit -m "GitHub: ${timestamp}" || exit 0
+        git push
