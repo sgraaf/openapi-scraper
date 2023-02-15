@@ -21,6 +21,10 @@ jobs:
       run: |-
         mkdir -p github
         curl https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json | jq . > github/github.json
+    - name: OpenAI
+      run: |-
+        mkdir -p openai
+        curl https://raw.githubusercontent.com/openai/openai-openapi/master/openapi.yaml > openai/openai.yaml
     - name: Commit and push if it changed
       run: |-
         git add -A
