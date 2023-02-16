@@ -21,6 +21,12 @@ jobs:
       run: |-
         mkdir -p github
         curl https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json | jq . > github/github.json
+    - name: Commit and push if it changed
+      run: |-
+        git add -A
+        timestamp=$(date -u)
+        git commit -m "GitHub: ${timestamp}" || exit 0
+        git push
     - name: OpenAI
       run: |-
         mkdir -p openai
@@ -29,5 +35,5 @@ jobs:
       run: |-
         git add -A
         timestamp=$(date -u)
-        git commit -m "GitHub: ${timestamp}" || exit 0
+        git commit -m "OpenAI: ${timestamp}" || exit 0
         git push
