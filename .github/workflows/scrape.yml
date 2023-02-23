@@ -1,4 +1,4 @@
-name: Scrape latest descriptions
+name: Scrape latest OpenAPI specifications
 
 on:
   workflow_dispatch:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Check out this repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
     - name: Configure Git for commits
@@ -19,21 +19,35 @@ jobs:
         git config user.email "actions@users.noreply.github.com"
     - name: GitHub
       run: |-
-        mkdir -p github
-        curl https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json | jq . > github/github.json
+        mkdir -p $name
+        curl https://raw.githubusercontent.com/$owner/$repo/$branch/$path | jq . > $name/$name.${path##*.}
+        echo 'LATEST_COMMIT_URL='$(curl https://api.github.com/repos/$owner/$repo/commits?path=$path | jq .[0].html_url | tr -d \") >> $GITHUB_ENV
+      env:
+        name: github
+        owner: github
+        repo: rest-api-description
+        branch: main
+        path: descriptions/api.github.com/api.github.com.json
     - name: Commit and push if it changed
       run: |-
         git add -A
         timestamp=$(date -u)
-        git commit -m "GitHub: ${timestamp}" || exit 0
+        git commit -m "GitHub: ${timestamp}" -m "See ${LATEST_COMMIT_URL} for the latest commit before this change." || exit 0
         git push
     - name: OpenAI
       run: |-
-        mkdir -p openai
-        curl https://raw.githubusercontent.com/openai/openai-openapi/master/openapi.yaml > openai/openai.yaml
+        mkdir -p $name
+        curl https://raw.githubusercontent.com/$owner/$repo/$branch/$path > $name/$name.${path##*.}
+        echo 'LATEST_COMMIT_URL='$(curl https://api.github.com/repos/$owner/$repo/commits?path=$path | jq .[0].html_url | tr -d \") >> $GITHUB_ENV
+      env:
+        name: openai
+        owner: openai
+        repo: openai-openapi
+        branch: master
+        path: openapi.yaml
     - name: Commit and push if it changed
       run: |-
         git add -A
         timestamp=$(date -u)
-        git commit -m "OpenAI: ${timestamp}" || exit 0
+        git commit -m "OpenAI: ${timestamp}" -m "See ${LATEST_COMMIT_URL} for the latest commit before this change." || exit 0
         git push
