@@ -382,8 +382,8 @@ paths:
             const openai = new OpenAIApi(configuration);
             const response = await openai.createImageEdit(
               fs.createReadStream("otter.png"),
-              fs.createReadStream("mask.png"),
               "A cute baby sea otter wearing a beret",
+              fs.createReadStream("mask.png"),
               2,
               "1024x1024"
             );
@@ -2809,6 +2809,12 @@ components:
           description: |
             The format of the transcript output, in one of these options: json, text, srt, verbose_json, or vtt.
           type: string
+          enum:
+            - json
+            - text
+            - srt
+            - verbose_json
+            - vtt
           default: json
         temperature:
           description: |
