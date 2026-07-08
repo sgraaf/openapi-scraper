@@ -60324,7 +60324,7 @@
                 "default": {
                   "value": {
                     "vcs": "subversion",
-                    "vcs_url": "http://svn.mycompany.com/svn/myproject",
+                    "vcs_url": "http://svn.example.com/svn/myproject",
                     "vcs_username": "octocat",
                     "vcs_password": "secret"
                   }
@@ -133212,6 +133212,22 @@
           }
         }
       },
+      "repository-rule-license-compliance-scanning": {
+        "title": "license_compliance_scanning",
+        "description": "Enforce any added or changed dependencies to comply with the organization's license policy.",
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "license_compliance_scanning"
+            ]
+          }
+        }
+      },
       "repository-rule-file-path-restriction": {
         "title": "file_path_restriction",
         "description": "Prevent commits that include changes in specified file and folder paths from being pushed to the commit graph. This includes absolute paths that contain file names.",
@@ -133392,6 +133408,9 @@
           },
           {
             "$ref": "#/components/schemas/repository-rule-copilot-code-review"
+          },
+          {
+            "$ref": "#/components/schemas/repository-rule-license-compliance-scanning"
           },
           {
             "$ref": "#/components/schemas/repository-rule-file-path-restriction"
@@ -150040,6 +150059,16 @@
             "allOf": [
               {
                 "$ref": "#/components/schemas/repository-rule-copilot-code-review"
+              },
+              {
+                "$ref": "#/components/schemas/repository-rule-ruleset-info"
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/repository-rule-license-compliance-scanning"
               },
               {
                 "$ref": "#/components/schemas/repository-rule-ruleset-info"
@@ -300246,7 +300275,7 @@
           "token_last_eight": "Ae178B4a",
           "hashed_token": "25f94a2a5c7fbaf499c665bc73d67c1c87e496da8985131633ee0a95819db2e8",
           "app": {
-            "url": "http://my-github-app.com",
+            "url": "https://example.com",
             "name": "my github app",
             "client_id": "Iv1.8a61f9b3a7aba766"
           },
@@ -300287,7 +300316,7 @@
           "token_last_eight": "Ae178B4a",
           "hashed_token": "25f94a2a5c7fbaf499c665bc73d67c1c87e496da8985131633ee0a95819db2e8",
           "app": {
-            "url": "http://my-github-app.com",
+            "url": "https://example.com",
             "name": "my github app",
             "client_id": "Iv1.8a61f9b3a7aba766"
           },
@@ -321510,7 +321539,7 @@
         "value": {
           "vcs": "subversion",
           "use_lfs": true,
-          "vcs_url": "http://svn.mycompany.com/svn/myproject",
+          "vcs_url": "http://svn.example.com/svn/myproject",
           "status": "complete",
           "status_text": "Done",
           "has_large_files": true,
@@ -321527,7 +321556,7 @@
         "value": {
           "vcs": "subversion",
           "use_lfs": true,
-          "vcs_url": "http://svn.mycompany.com/svn/myproject",
+          "vcs_url": "http://svn.example.com/svn/myproject",
           "status": "importing",
           "status_text": "Importing...",
           "has_large_files": false,
@@ -321546,7 +321575,7 @@
         "value": {
           "vcs": "subversion",
           "use_lfs": true,
-          "vcs_url": "http://svn.mycompany.com/svn/myproject",
+          "vcs_url": "http://svn.example.com/svn/myproject",
           "status": "detecting",
           "url": "https://api.github.com/repos/octocat/socm/import",
           "html_url": "https://import.github.com/octocat/socm/import",
@@ -321559,7 +321588,7 @@
         "value": {
           "vcs": "tfvc",
           "use_lfs": true,
-          "vcs_url": "http://tfs.mycompany.com/tfs/myproject",
+          "vcs_url": "http://tfs.example.com/tfs/myproject",
           "tfvc_project": "project1",
           "status": "importing",
           "status_text": "Importing...",
@@ -321579,7 +321608,7 @@
         "value": {
           "vcs": "subversion",
           "use_lfs": true,
-          "vcs_url": "http://svn.mycompany.com/svn/myproject",
+          "vcs_url": "http://svn.example.com/svn/myproject",
           "status": "importing",
           "status_text": "Importing...",
           "has_large_files": false,
