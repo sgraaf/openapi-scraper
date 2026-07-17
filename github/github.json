@@ -869,6 +869,16 @@
                             "type": "string",
                             "format": "date-time",
                             "description": "Timestamp when the task was created"
+                          },
+                          "custom_agent": {
+                            "type": "object",
+                            "description": "Custom agent metadata associated with this task",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "description": "The custom agent's filename without the extension - for example, `performance-optimizer` for a `.github/agents/performance-optimizer.agent.md` custom agent."
+                              }
+                            }
                           }
                         }
                       },
@@ -1255,6 +1265,10 @@
                     "type": "string",
                     "description": "The model to use for this task. The allowed models may change over time and depend on the user's GitHub Copilot plan and organization policies. Currently supported values: `claude-sonnet-4.6`, `claude-opus-4.6`, `gpt-5.2-codex`, `gpt-5.3-codex`, `gpt-5.4`, `claude-sonnet-4.5`, `claude-opus-4.5`"
                   },
+                  "custom_agent": {
+                    "type": "string",
+                    "description": "Optional identifier for a custom agent to use for this task. Use the custom agent's filename without the extension - for example, for a `.github/agents/performance-optimizer.agent.md` custom agent, use `performance-optimizer`."
+                  },
                   "create_pull_request": {
                     "type": "boolean",
                     "description": "Whether to create a PR.",
@@ -1275,6 +1289,14 @@
                   "value": {
                     "prompt": "Fix the login button on the homepage",
                     "base_ref": "main"
+                  }
+                },
+                "with-custom-agent": {
+                  "summary": "Task with a custom agent",
+                  "value": {
+                    "prompt": "Fix the login button on the homepage",
+                    "base_ref": "main",
+                    "custom_agent": "my-custom-agent"
                   }
                 }
               }
@@ -1477,6 +1499,16 @@
                       "type": "string",
                       "format": "date-time",
                       "description": "Timestamp when the task was created"
+                    },
+                    "custom_agent": {
+                      "type": "object",
+                      "description": "Custom agent metadata associated with this task",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "The custom agent's filename without the extension - for example, `performance-optimizer` for a `.github/agents/performance-optimizer.agent.md` custom agent."
+                        }
+                      }
                     }
                   }
                 },
@@ -1499,6 +1531,34 @@
                       },
                       "state": "queued",
                       "session_count": 1,
+                      "artifacts": [],
+                      "archived_at": null,
+                      "created_at": "2025-01-01T00:00:00Z",
+                      "updated_at": "2025-01-01T00:00:00Z"
+                    }
+                  },
+                  "with-custom-agent": {
+                    "summary": "Task created with a custom agent",
+                    "value": {
+                      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                      "url": "https://api.github.com/agents/repos/octocat/hello-world/tasks/a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                      "html_url": "https://github.com/octocat/hello-world/copilot/tasks/a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                      "name": "Fix the login button on the homepage",
+                      "creator": {
+                        "id": 1
+                      },
+                      "creator_type": "user",
+                      "owner": {
+                        "id": 1
+                      },
+                      "repository": {
+                        "id": 1296269
+                      },
+                      "state": "queued",
+                      "session_count": 1,
+                      "custom_agent": {
+                        "id": "my-custom-agent"
+                      },
                       "artifacts": [],
                       "archived_at": null,
                       "created_at": "2025-01-01T00:00:00Z",
@@ -1973,6 +2033,16 @@
                           "type": "string",
                           "format": "date-time",
                           "description": "Timestamp when the task was created"
+                        },
+                        "custom_agent": {
+                          "type": "object",
+                          "description": "Custom agent metadata associated with this task",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "description": "The custom agent's filename without the extension - for example, `performance-optimizer` for a `.github/agents/performance-optimizer.agent.md` custom agent."
+                            }
+                          }
                         }
                       }
                     },
@@ -2079,6 +2149,29 @@
                               "model": {
                                 "type": "string",
                                 "description": "Model used for this session"
+                              },
+                              "usage": {
+                                "type": "object",
+                                "description": "Structured information about billing units consumed by the session.",
+                                "required": [
+                                  "type",
+                                  "amount"
+                                ],
+                                "properties": {
+                                  "type": {
+                                    "type": "string",
+                                    "description": "Billing unit used for this session. New sessions since June 1, 2026 use `ai_credits`, but older sessions use `premium_requests`.",
+                                    "enum": [
+                                      "ai_credits",
+                                      "premium_requests"
+                                    ]
+                                  },
+                                  "amount": {
+                                    "type": "number",
+                                    "format": "double",
+                                    "description": "Number of billing units used by this session. When the `type` is `ai_credits`, the value is a whole number, expressed in nano units. When presenting this to a human, divide by 1,000,000,000 and round to one decimal place. When aggregating (for example, summing usage across sessions), sum the nano values first, and divide once at the end before presenting to a human to avoid losing precision. When the `type` is `premium_requests`, the value may be fractional (for example `1.5`)."
+                                  }
+                                }
                               },
                               "error": {
                                 "type": "object",
@@ -2738,6 +2831,16 @@
                             "type": "string",
                             "format": "date-time",
                             "description": "Timestamp when the task was created"
+                          },
+                          "custom_agent": {
+                            "type": "object",
+                            "description": "Custom agent metadata associated with this task",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "description": "The custom agent's filename without the extension - for example, `performance-optimizer` for a `.github/agents/performance-optimizer.agent.md` custom agent."
+                              }
+                            }
                           }
                         }
                       },
@@ -3240,6 +3343,16 @@
                           "type": "string",
                           "format": "date-time",
                           "description": "Timestamp when the task was created"
+                        },
+                        "custom_agent": {
+                          "type": "object",
+                          "description": "Custom agent metadata associated with this task",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "description": "The custom agent's filename without the extension - for example, `performance-optimizer` for a `.github/agents/performance-optimizer.agent.md` custom agent."
+                            }
+                          }
                         }
                       }
                     },
@@ -3346,6 +3459,29 @@
                               "model": {
                                 "type": "string",
                                 "description": "Model used for this session"
+                              },
+                              "usage": {
+                                "type": "object",
+                                "description": "Structured information about billing units consumed by the session.",
+                                "required": [
+                                  "type",
+                                  "amount"
+                                ],
+                                "properties": {
+                                  "type": {
+                                    "type": "string",
+                                    "description": "Billing unit used for this session. New sessions since June 1, 2026 use `ai_credits`, but older sessions use `premium_requests`.",
+                                    "enum": [
+                                      "ai_credits",
+                                      "premium_requests"
+                                    ]
+                                  },
+                                  "amount": {
+                                    "type": "number",
+                                    "format": "double",
+                                    "description": "Number of billing units used by this session. When the `type` is `ai_credits`, the value is a whole number, expressed in nano units. When presenting this to a human, divide by 1,000,000,000 and round to one decimal place. When aggregating (for example, summing usage across sessions), sum the nano values first, and divide once at the end before presenting to a human to avoid losing precision. When the `type` is `premium_requests`, the value may be fractional (for example `1.5`)."
+                                  }
+                                }
                               },
                               "error": {
                                 "type": "object",
@@ -4898,6 +5034,9 @@
           },
           "404": {
             "$ref": "#/components/responses/not_found"
+          },
+          "410": {
+            "$ref": "#/components/responses/gone"
           }
         },
         "x-github": {
@@ -4951,6 +5090,9 @@
                 }
               }
             }
+          },
+          "410": {
+            "$ref": "#/components/responses/gone"
           }
         },
         "x-github": {
@@ -5001,6 +5143,9 @@
           },
           "404": {
             "$ref": "#/components/responses/not_found"
+          },
+          "410": {
+            "$ref": "#/components/responses/gone"
           }
         },
         "x-github": {
@@ -5051,6 +5196,9 @@
                 }
               }
             }
+          },
+          "410": {
+            "$ref": "#/components/responses/gone"
           }
         },
         "x-github": {
@@ -5098,6 +5246,9 @@
           },
           "404": {
             "$ref": "#/components/responses/not_found"
+          },
+          "410": {
+            "$ref": "#/components/responses/gone"
           }
         },
         "x-github": {
@@ -5151,6 +5302,9 @@
                 }
               }
             }
+          },
+          "410": {
+            "$ref": "#/components/responses/gone"
           }
         },
         "x-github": {
@@ -6850,6 +7004,63 @@
                 }
               }
             }
+          },
+          "500": {
+            "$ref": "#/components/responses/internal_error"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not_found"
+          }
+        },
+        "x-github": {
+          "githubCloudOnly": false,
+          "enabledForGitHubApps": true,
+          "category": "copilot",
+          "subcategory": "copilot-usage-metrics"
+        }
+      }
+    },
+    "/enterprises/{enterprise}/copilot/metrics/reports/repos-1-day": {
+      "get": {
+        "summary": "Get Copilot enterprise repository report for a specific day",
+        "description": "Use this endpoint to retrieve download links for the Copilot enterprise repository report for a specific day. The report provides per-repository pull request metrics for Copilot across the enterprise, with one entry per repository.\n\nThe report contains repository-level pull request activity for the specified day, including the Copilot Coding Agent (CCA) and Copilot Code Review (CCR) breakdowns. Only repositories that had activity on the specified day are included. Reports are generated daily and made available for download through signed URLs with a limited expiration time.\n\nThe response includes download links to the report files, along with the specific date of the report. The report covers a complete day for which data has been processed.\n\nEnterprise owners, billing managers, and authorized users with fine-grained \"View Enterprise Copilot Metrics\" permission can retrieve Copilot metrics reports for the enterprise. OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `read:enterprise` scopes to use this endpoint.",
+        "tags": [
+          "copilot"
+        ],
+        "operationId": "copilot/copilot-enterprise-repos-one-day-report",
+        "externalDocs": {
+          "description": "API method documentation",
+          "url": "https://docs.github.com/rest/copilot/copilot-usage-metrics#get-copilot-enterprise-repository-report-for-a-specific-day"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/enterprise"
+          },
+          {
+            "$ref": "#/components/parameters/day"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/copilot-usage-metrics-1-day-report"
+                },
+                "examples": {
+                  "default": {
+                    "$ref": "#/components/examples/copilot-usage-metrics-1-day-report"
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "$ref": "#/components/responses/no_content"
           },
           "500": {
             "$ref": "#/components/responses/internal_error"
@@ -19337,6 +19548,11 @@
                       ]
                     }
                   },
+                  "partial_success": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "When enabled, deployments associated with repositories the actor can write to are processed\nwhile deployments associated with repositories that cannot be resolved or written to by the actor\nare skipped and reported in the `errors` array. When false (the default), the endpoint returns\nan error if any targeted repository cannot be resolved, the actor lacks write access, or no matching attestation can be found.\n"
+                  },
                   "return_records": {
                     "type": "boolean",
                     "default": true,
@@ -19400,6 +19616,139 @@
                 "examples": {
                   "default": {
                     "$ref": "#/components/examples/artifact-deployment-record-list"
+                  }
+                }
+              }
+            }
+          },
+          "207": {
+            "description": "This response format is only returned when `partial_success` is set to true in the request body.\nSuccessfully processed deployments are included in the `deployment_records` field. Records that could\nnot be processed and were skipped because of unresolvable repositories, missing actor permissions, or lack of a matching attestation are\nincluded in the `errors` field.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "total_count": {
+                      "description": "The number of deployment records created or updated.",
+                      "type": "integer"
+                    },
+                    "deployment_records": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/artifact-deployment-record"
+                      }
+                    },
+                    "errors": {
+                      "type": "array",
+                      "description": "A list of errors for deployments that could not be processed.",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "cause": {
+                            "type": "string",
+                            "description": "The reason the deployment failed processing.",
+                            "enum": [
+                              "unauthorized",
+                              "not_found"
+                            ]
+                          },
+                          "deployment": {
+                            "type": "object",
+                            "description": "The deployment payload that could not be processed.",
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "description": "The name of the artifact."
+                              },
+                              "digest": {
+                                "type": "string",
+                                "description": "The digest of the artifact."
+                              },
+                              "deployment_name": {
+                                "type": "string",
+                                "description": "The name of the deployment that failed processing."
+                              },
+                              "version": {
+                                "type": "string",
+                                "nullable": true,
+                                "description": "The version of the deployment."
+                              },
+                              "status": {
+                                "type": "string",
+                                "description": "The deployment status."
+                              },
+                              "github_repository": {
+                                "type": "string",
+                                "nullable": true,
+                                "description": "The repository associated with the deployment."
+                              },
+                              "tags": {
+                                "type": "object",
+                                "additionalProperties": {
+                                  "type": "string"
+                                },
+                                "description": "Custom metadata tags for the deployment."
+                              },
+                              "runtime_risks": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                },
+                                "description": "Runtime risk classifications for the deployment."
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "total_count"
+                  ]
+                },
+                "examples": {
+                  "partial_success": {
+                    "value": {
+                      "total_count": 1,
+                      "deployment_records": [
+                        {
+                          "id": 42,
+                          "digest": "sha256:1bb1e949e55dcefc6353e7b36c8897d2a107d8e8dca49d4e3c0ea8493fc0bc72",
+                          "logical_environment": "prod",
+                          "physical_environment": "us-east-1a",
+                          "cluster": "production-cluster",
+                          "deployment_name": "deployment-pod",
+                          "tags": {
+                            "owning-team": "platform"
+                          },
+                          "runtime_risks": [
+                            "sensitive-data"
+                          ],
+                          "created_at": "2024-01-01T12:00:00Z",
+                          "updated_at": "2024-01-01T12:30:00Z",
+                          "attestation_id": 777
+                        }
+                      ],
+                      "errors": [
+                        {
+                          "cause": "unauthorized",
+                          "deployment": {
+                            "name": "my-image",
+                            "digest": "sha256:5aa19f9a13f67a644f6d8528e2eb5cf64431e236df5dbbd44ff9b9e3f6fc6cb2",
+                            "deployment_name": "restricted-deployment",
+                            "version": "2.1.1",
+                            "status": "deployed",
+                            "github_repository": "private-repo",
+                            "tags": {
+                              "owning-team": "platform"
+                            },
+                            "runtime_risks": [
+                              "sensitive-data"
+                            ]
+                          }
+                        }
+                      ]
+                    }
                   }
                 }
               }
@@ -26084,6 +26433,63 @@
                 }
               }
             }
+          },
+          "500": {
+            "$ref": "#/components/responses/internal_error"
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not_found"
+          }
+        },
+        "x-github": {
+          "githubCloudOnly": false,
+          "enabledForGitHubApps": true,
+          "category": "copilot",
+          "subcategory": "copilot-usage-metrics"
+        }
+      }
+    },
+    "/orgs/{org}/copilot/metrics/reports/repos-1-day": {
+      "get": {
+        "summary": "Get Copilot organization repository report for a specific day",
+        "description": "Use this endpoint to retrieve download links for the Copilot organization repository report for a specific day. The report provides per-repository pull request metrics for Copilot across the organization, with one entry per repository.\n\nThe report contains repository-level pull request activity for the specified day, including the Copilot Coding Agent (CCA) and Copilot Code Review (CCR) breakdowns. Only repositories that had activity on the specified day are included. Reports are generated daily and made available for download through signed URLs with a limited expiration time.\n\nThe response includes download links to the report files, along with the specific date of the report. The report covers a complete day for which data has been processed.\n\nOrganization owners and authorized users with fine-grained \"View Organization Copilot Metrics\" permission can retrieve Copilot metrics reports for the organization. OAuth app tokens and personal access tokens (classic) need the `read:org` scope to use this endpoint.\n\nFor more information about organization metrics attribution, see [How are metrics attributed across organizations](https://docs.github.com/copilot/concepts/copilot-metrics#how-are-metrics-attributed-across-organizations).",
+        "tags": [
+          "copilot"
+        ],
+        "operationId": "copilot/copilot-organization-repos-one-day-report",
+        "externalDocs": {
+          "description": "API method documentation",
+          "url": "https://docs.github.com/rest/copilot/copilot-usage-metrics#get-copilot-organization-repository-report-for-a-specific-day"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/org"
+          },
+          {
+            "$ref": "#/components/parameters/day"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/copilot-usage-metrics-1-day-report"
+                },
+                "examples": {
+                  "default": {
+                    "$ref": "#/components/examples/copilot-usage-metrics-1-day-report"
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "$ref": "#/components/responses/no_content"
           },
           "500": {
             "$ref": "#/components/responses/internal_error"
@@ -55126,6 +55532,14 @@
                         "type": "string",
                         "description": "A custom allowlist entry, as a host or URL, that the firewall will allow the Copilot cloud agent to access."
                       }
+                    },
+                    "is_automations_enabled": {
+                      "type": "boolean",
+                      "description": "Whether automations are enabled in this repository. When true, users can create automations that automatically run agents on a schedule or in response to events like new issues or updated pull requests."
+                    },
+                    "require_write_access_for_automation_triggers": {
+                      "type": "boolean",
+                      "description": "Whether write access is required for automation triggers. When true, automations will only run if the user triggering the event has write access to the repository. When false, users can create automations that listen for events triggered by users without write access."
                     }
                   },
                   "required": [
@@ -55134,7 +55548,9 @@
                     "require_actions_workflow_approval",
                     "is_firewall_enabled",
                     "is_firewall_recommended_allowlist_enabled",
-                    "custom_allowlist"
+                    "custom_allowlist",
+                    "is_automations_enabled",
+                    "require_write_access_for_automation_triggers"
                   ]
                 },
                 "examples": {
@@ -55151,7 +55567,9 @@
                       "require_actions_workflow_approval": true,
                       "is_firewall_enabled": true,
                       "is_firewall_recommended_allowlist_enabled": true,
-                      "custom_allowlist": []
+                      "custom_allowlist": [],
+                      "is_automations_enabled": true,
+                      "require_write_access_for_automation_triggers": true
                     }
                   },
                   "configured": {
@@ -55189,7 +55607,9 @@
                       "custom_allowlist": [
                         "sentry.io",
                         "https://api.example.com"
-                      ]
+                      ],
+                      "is_automations_enabled": true,
+                      "require_write_access_for_automation_triggers": false
                     }
                   }
                 }
@@ -130825,6 +131245,50 @@
         ],
         "nullable": true
       },
+      "pull-request-stack": {
+        "title": "Pull Request Stack",
+        "description": "The stack information associated with a pull request.",
+        "type": "object",
+        "properties": {
+          "base": {
+            "type": "object",
+            "properties": {
+              "ref": {
+                "type": "string",
+                "description": "The base ref of the stack this pull request belongs to."
+              },
+              "sha": {
+                "type": "string",
+                "description": "The base SHA of the stack this pull request belongs to."
+              }
+            },
+            "required": [
+              "ref",
+              "sha"
+            ]
+          },
+          "size": {
+            "type": "integer",
+            "description": "The total number of pull requests in the stack."
+          },
+          "position": {
+            "type": "integer",
+            "description": "The one-based position of this pull request within the stack, where 1 is the bottom of the stack."
+          },
+          "id": {
+            "type": "integer",
+            "description": "The ID of the stack that this pull request belongs to."
+          },
+          "number": {
+            "type": "integer",
+            "description": "The number of the stack that this pull request belongs to."
+          }
+        },
+        "required": [
+          "base"
+        ],
+        "nullable": true
+      },
       "pull-request-simple": {
         "title": "Pull Request Simple",
         "description": "Pull Request Simple",
@@ -131105,6 +131569,9 @@
           },
           "auto_merge": {
             "$ref": "#/components/schemas/auto-merge"
+          },
+          "stack": {
+            "$ref": "#/components/schemas/pull-request-stack"
           },
           "draft": {
             "description": "Indicates whether or not the pull request is a draft.",
@@ -150757,6 +151224,9 @@
           "auto_merge": {
             "$ref": "#/components/schemas/auto-merge"
           },
+          "stack": {
+            "$ref": "#/components/schemas/pull-request-stack"
+          },
           "draft": {
             "description": "Indicates whether or not the pull request is a draft.",
             "example": false,
@@ -166421,6 +166891,9 @@
             "type": "string",
             "format": "uri"
           },
+          "stack": {
+            "$ref": "#/components/schemas/pull-request-stack"
+          },
           "state": {
             "description": "State of this Pull Request. Either `open` or `closed`.",
             "type": "string",
@@ -168270,6 +168743,14 @@
             "type": "string",
             "description": "The slug identifier for the provider of the secret that was detected.",
             "nullable": true
+          },
+          "secret_category": {
+            "type": "string",
+            "description": "The category of the detected secret. `default` covers specific provider patterns and custom patterns; `generic` covers non-specific patterns and AI-detected secrets.",
+            "enum": [
+              "default",
+              "generic"
+            ]
           },
           "validity": {
             "type": "string",
@@ -218037,6 +218518,9 @@
                 "type": "string",
                 "format": "uri"
               },
+              "stack": {
+                "$ref": "#/components/schemas/pull-request-stack"
+              },
               "state": {
                 "description": "State of this Pull Request. Either `open` or `closed`.",
                 "type": "string",
@@ -221077,6 +221561,9 @@
               "review_comments_url": {
                 "type": "string",
                 "format": "uri"
+              },
+              "stack": {
+                "$ref": "#/components/schemas/pull-request-stack"
               },
               "state": {
                 "description": "State of this Pull Request. Either `open` or `closed`.",
@@ -224121,6 +224608,9 @@
               "review_comments_url": {
                 "type": "string",
                 "format": "uri"
+              },
+              "stack": {
+                "$ref": "#/components/schemas/pull-request-stack"
               },
               "state": {
                 "description": "State of this Pull Request. Either `open` or `closed`.",
@@ -227275,6 +227765,9 @@
                 "type": "string",
                 "format": "uri"
               },
+              "stack": {
+                "$ref": "#/components/schemas/pull-request-stack"
+              },
               "state": {
                 "description": "State of this Pull Request. Either `open` or `closed`.",
                 "type": "string",
@@ -230411,6 +230904,9 @@
                 "type": "string",
                 "format": "uri"
               },
+              "stack": {
+                "$ref": "#/components/schemas/pull-request-stack"
+              },
               "state": {
                 "description": "State of this Pull Request. Either `open` or `closed`.",
                 "type": "string",
@@ -233445,6 +233941,9 @@
               "review_comments_url": {
                 "type": "string",
                 "format": "uri"
+              },
+              "stack": {
+                "$ref": "#/components/schemas/pull-request-stack"
               },
               "state": {
                 "description": "State of this Pull Request. Either `open` or `closed`.",
@@ -236489,6 +236988,9 @@
               "review_comments_url": {
                 "type": "string",
                 "format": "uri"
+              },
+              "stack": {
+                "$ref": "#/components/schemas/pull-request-stack"
               },
               "state": {
                 "description": "State of this Pull Request. Either `open` or `closed`.",
@@ -239910,6 +240412,9 @@
                 "type": "string",
                 "format": "uri"
               },
+              "stack": {
+                "$ref": "#/components/schemas/pull-request-stack"
+              },
               "state": {
                 "type": "string",
                 "enum": [
@@ -242797,6 +243302,9 @@
               "review_comments_url": {
                 "type": "string",
                 "format": "uri"
+              },
+              "stack": {
+                "$ref": "#/components/schemas/pull-request-stack"
               },
               "state": {
                 "type": "string",
@@ -245692,6 +246200,9 @@
               "review_comments_url": {
                 "type": "string",
                 "format": "uri"
+              },
+              "stack": {
+                "$ref": "#/components/schemas/pull-request-stack"
               },
               "state": {
                 "type": "string",
@@ -248591,6 +249102,9 @@
               "review_comments_url": {
                 "type": "string",
                 "format": "uri"
+              },
+              "stack": {
+                "$ref": "#/components/schemas/pull-request-stack"
               },
               "state": {
                 "type": "string",
@@ -254634,6 +255148,9 @@
                     "type": "string",
                     "format": "uri"
                   },
+                  "stack": {
+                    "$ref": "#/components/schemas/pull-request-stack"
+                  },
                   "state": {
                     "description": "State of this Pull Request. Either `open` or `closed`.",
                     "type": "string",
@@ -257749,6 +258266,9 @@
                   "review_comments_url": {
                     "type": "string",
                     "format": "uri"
+                  },
+                  "stack": {
+                    "$ref": "#/components/schemas/pull-request-stack"
                   },
                   "state": {
                     "description": "State of this Pull Request. Either `open` or `closed`.",
@@ -260954,6 +261474,9 @@
                     "type": "string",
                     "format": "uri"
                   },
+                  "stack": {
+                    "$ref": "#/components/schemas/pull-request-stack"
+                  },
                   "state": {
                     "description": "State of this Pull Request. Either `open` or `closed`.",
                     "type": "string",
@@ -264057,6 +264580,9 @@
                     "type": "string",
                     "format": "uri"
                   },
+                  "stack": {
+                    "$ref": "#/components/schemas/pull-request-stack"
+                  },
                   "state": {
                     "description": "State of this Pull Request. Either `open` or `closed`.",
                     "type": "string",
@@ -267110,6 +267636,9 @@
                 "type": "string",
                 "format": "uri"
               },
+              "stack": {
+                "$ref": "#/components/schemas/pull-request-stack"
+              },
               "state": {
                 "type": "string",
                 "enum": [
@@ -269933,6 +270462,9 @@
               "review_comments_url": {
                 "type": "string",
                 "format": "uri"
+              },
+              "stack": {
+                "$ref": "#/components/schemas/pull-request-stack"
               },
               "state": {
                 "type": "string",
@@ -273107,6 +273639,9 @@
                 "type": "string",
                 "format": "uri"
               },
+              "stack": {
+                "$ref": "#/components/schemas/pull-request-stack"
+              },
               "state": {
                 "type": "string",
                 "enum": [
@@ -273687,6 +274222,9 @@
           },
           "installation": {
             "$ref": "#/components/schemas/simple-installation"
+          },
+          "stack": {
+            "$ref": "#/components/schemas/pull-request-stack"
           },
           "number": {
             "$ref": "#/components/schemas/webhooks_number"
@@ -276511,6 +277049,9 @@
               "review_comments_url": {
                 "type": "string",
                 "format": "uri"
+              },
+              "stack": {
+                "$ref": "#/components/schemas/pull-request-stack"
               },
               "state": {
                 "description": "State of this Pull Request. Either `open` or `closed`.",
@@ -279560,6 +280101,9 @@
               "review_comments_url": {
                 "type": "string",
                 "format": "uri"
+              },
+              "stack": {
+                "$ref": "#/components/schemas/pull-request-stack"
               },
               "state": {
                 "description": "State of this Pull Request. Either `open` or `closed`.",
@@ -282613,6 +283157,9 @@
                 "type": "string",
                 "format": "uri"
               },
+              "stack": {
+                "$ref": "#/components/schemas/pull-request-stack"
+              },
               "state": {
                 "description": "State of this Pull Request. Either `open` or `closed`.",
                 "type": "string",
@@ -285660,6 +286207,9 @@
                 "type": "string",
                 "format": "uri"
               },
+              "stack": {
+                "$ref": "#/components/schemas/pull-request-stack"
+              },
               "state": {
                 "description": "State of this Pull Request. Either `open` or `closed`.",
                 "type": "string",
@@ -288689,6 +289239,9 @@
               "review_comments_url": {
                 "type": "string",
                 "format": "uri"
+              },
+              "stack": {
+                "$ref": "#/components/schemas/pull-request-stack"
               },
               "state": {
                 "description": "State of this Pull Request. Either `open` or `closed`.",
@@ -340546,6 +341099,16 @@
           }
         }
       },
+      "gone": {
+        "description": "Gone",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/basic-error"
+            }
+          }
+        }
+      },
       "internal_error": {
         "description": "Internal Error",
         "content": {
@@ -340857,16 +341420,6 @@
       },
       "temporary_redirect": {
         "description": "Temporary Redirect",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/basic-error"
-            }
-          }
-        }
-      },
-      "gone": {
-        "description": "Gone",
         "content": {
           "application/json": {
             "schema": {
