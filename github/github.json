@@ -63683,6 +63683,23 @@
                             "color": {
                               "type": "string",
                               "nullable": true
+                            },
+                            "rationale": {
+                              "type": "string",
+                              "description": "Optional reasoning for selecting this label."
+                            },
+                            "suggest": {
+                              "type": "boolean",
+                              "description": "If `true`, the change is stored as a pending suggestion for human review rather than applied directly."
+                            },
+                            "confidence": {
+                              "type": "string",
+                              "description": "The confidence level for this label choice.",
+                              "enum": [
+                                "low",
+                                "medium",
+                                "high"
+                              ]
                             }
                           }
                         }
@@ -63702,6 +63719,23 @@
                           "properties": {
                             "login": {
                               "type": "string"
+                            },
+                            "rationale": {
+                              "type": "string",
+                              "description": "Optional reasoning for selecting this assignee."
+                            },
+                            "suggest": {
+                              "type": "boolean",
+                              "description": "If `true`, the change is stored as a pending suggestion for human review rather than applied directly."
+                            },
+                            "confidence": {
+                              "type": "string",
+                              "description": "The confidence level for this assignee choice.",
+                              "enum": [
+                                "low",
+                                "medium",
+                                "high"
+                              ]
                             }
                           }
                         }
@@ -63734,6 +63768,23 @@
                             }
                           ],
                           "description": "The value to set for the field. For multi-select fields, provide an array of option names."
+                        },
+                        "rationale": {
+                          "type": "string",
+                          "description": "Optional reasoning for setting this field value."
+                        },
+                        "suggest": {
+                          "type": "boolean",
+                          "description": "If `true`, the change is stored as a pending suggestion for human review rather than applied directly."
+                        },
+                        "confidence": {
+                          "type": "string",
+                          "description": "The confidence level for this field value choice.",
+                          "enum": [
+                            "low",
+                            "medium",
+                            "high"
+                          ]
                         }
                       },
                       "required": [
@@ -63744,10 +63795,44 @@
                     }
                   },
                   "type": {
-                    "type": "string",
-                    "description": "The name of the issue type to associate with this issue or use `null` to remove the current issue type. Only users with push access can set the type for issues. Without push access to the repository, type changes are silently dropped.",
+                    "description": "The issue type to associate with this issue. Only users with push access can set the type for issues. Without push access to the repository, type changes are silently dropped.",
                     "nullable": true,
-                    "example": "Epic"
+                    "oneOf": [
+                      {
+                        "type": "string",
+                        "description": "The name of the issue type.",
+                        "example": "Epic"
+                      },
+                      {
+                        "type": "object",
+                        "description": "The issue type with optional metadata.",
+                        "properties": {
+                          "value": {
+                            "type": "string",
+                            "description": "The name of the issue type to associate with this issue, or `null` to remove the current issue type.",
+                            "nullable": true,
+                            "example": "Epic"
+                          },
+                          "rationale": {
+                            "type": "string",
+                            "description": "Optional reasoning for selecting this type."
+                          },
+                          "suggest": {
+                            "type": "boolean",
+                            "description": "If `true`, the change is stored as a pending suggestion for human review rather than applied directly."
+                          },
+                          "confidence": {
+                            "type": "string",
+                            "description": "The confidence level for this type choice.",
+                            "enum": [
+                              "low",
+                              "medium",
+                              "high"
+                            ]
+                          }
+                        }
+                      }
+                    ]
                   }
                 }
               },
@@ -63782,7 +63867,176 @@
                     },
                     {
                       "type": "object",
-                      "properties": {}
+                      "properties": {
+                        "suggestions": {
+                          "type": "object",
+                          "description": "Pending suggestions for each suggestible field (`type`,\n`issue_field_values`, `labels`, `assignees`, `state`) the\nrequest touched. Omitted for fields not in the request or\nwith no pending suggestions. Items tagged `already_applied`\nare echoes of the current request's inputs whose target is\nalready applied to the issue; they are not persisted as\npending suggestions.\n",
+                          "properties": {
+                            "type": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "value": {
+                                    "type": "string"
+                                  },
+                                  "rationale": {
+                                    "type": "string"
+                                  },
+                                  "suggest": {
+                                    "type": "boolean"
+                                  },
+                                  "confidence": {
+                                    "type": "string",
+                                    "enum": [
+                                      "low",
+                                      "medium",
+                                      "high"
+                                    ]
+                                  },
+                                  "already_applied": {
+                                    "type": "boolean"
+                                  }
+                                }
+                              }
+                            },
+                            "issue_field_values": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "field_id": {
+                                    "type": "integer"
+                                  },
+                                  "value": {
+                                    "oneOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {
+                                        "type": "number"
+                                      },
+                                      {
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string"
+                                        }
+                                      }
+                                    ]
+                                  },
+                                  "rationale": {
+                                    "type": "string"
+                                  },
+                                  "suggest": {
+                                    "type": "boolean"
+                                  },
+                                  "confidence": {
+                                    "type": "string",
+                                    "enum": [
+                                      "low",
+                                      "medium",
+                                      "high"
+                                    ]
+                                  },
+                                  "already_applied": {
+                                    "type": "boolean"
+                                  }
+                                }
+                              }
+                            },
+                            "labels": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "rationale": {
+                                    "type": "string"
+                                  },
+                                  "suggest": {
+                                    "type": "boolean"
+                                  },
+                                  "confidence": {
+                                    "type": "string",
+                                    "enum": [
+                                      "low",
+                                      "medium",
+                                      "high"
+                                    ]
+                                  },
+                                  "already_applied": {
+                                    "type": "boolean"
+                                  }
+                                }
+                              }
+                            },
+                            "assignees": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "login": {
+                                    "type": "string"
+                                  },
+                                  "rationale": {
+                                    "type": "string"
+                                  },
+                                  "suggest": {
+                                    "type": "boolean"
+                                  },
+                                  "confidence": {
+                                    "type": "string",
+                                    "enum": [
+                                      "low",
+                                      "medium",
+                                      "high"
+                                    ]
+                                  },
+                                  "already_applied": {
+                                    "type": "boolean"
+                                  }
+                                }
+                              }
+                            },
+                            "state": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "value": {
+                                    "type": "string"
+                                  },
+                                  "state_reason": {
+                                    "type": "string"
+                                  },
+                                  "duplicate_issue_id": {
+                                    "type": "integer"
+                                  },
+                                  "rationale": {
+                                    "type": "string"
+                                  },
+                                  "suggest": {
+                                    "type": "boolean"
+                                  },
+                                  "confidence": {
+                                    "type": "string",
+                                    "enum": [
+                                      "low",
+                                      "medium",
+                                      "high"
+                                    ]
+                                  },
+                                  "already_applied": {
+                                    "type": "boolean"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
                     }
                   ]
                 },
@@ -63874,7 +64128,40 @@
                     "type": "array",
                     "description": "Usernames of people to assign this issue to. _NOTE: Only users with push access can add assignees to an issue. Assignees are silently ignored otherwise._",
                     "items": {
-                      "type": "string"
+                      "oneOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "login": {
+                              "type": "string",
+                              "description": "The login of the user to assign."
+                            },
+                            "rationale": {
+                              "type": "string",
+                              "description": "Optional reasoning for adding this assignee."
+                            },
+                            "suggest": {
+                              "type": "boolean",
+                              "description": "If `true`, the assignee is stored as a pending suggestion for human review rather than applied directly."
+                            },
+                            "confidence": {
+                              "type": "string",
+                              "description": "The confidence level for this assignee choice.",
+                              "enum": [
+                                "low",
+                                "medium",
+                                "high"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "login"
+                          ]
+                        }
+                      ]
                     }
                   }
                 }
@@ -65110,9 +65397,42 @@
                       "labels": {
                         "type": "array",
                         "minItems": 1,
-                        "description": "The names of the labels to add to the issue's existing labels. You can also pass an `array` of labels directly, but GitHub recommends passing an object with the `labels` key. To replace all of the labels for an issue, use \"[Set labels for an issue](https://docs.github.com/rest/issues/labels#set-labels-for-an-issue).\"",
+                        "description": "The labels to add to the issue's existing labels. You can also pass an `array` of labels directly, but GitHub recommends passing an object with the `labels` key. To replace all of the labels for an issue, use \"[Set labels for an issue](https://docs.github.com/rest/issues/labels#set-labels-for-an-issue).\"",
                         "items": {
-                          "type": "string"
+                          "oneOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "name": {
+                                  "type": "string",
+                                  "description": "The name of the label to add."
+                                },
+                                "rationale": {
+                                  "type": "string",
+                                  "description": "Optional reasoning for adding this label."
+                                },
+                                "suggest": {
+                                  "type": "boolean",
+                                  "description": "If `true`, the label is stored as a pending suggestion for human review rather than applied directly."
+                                },
+                                "confidence": {
+                                  "type": "string",
+                                  "description": "The confidence level for this label choice.",
+                                  "enum": [
+                                    "low",
+                                    "medium",
+                                    "high"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "name"
+                              ]
+                            }
+                          ]
                         }
                       }
                     }
@@ -65130,6 +65450,23 @@
                       "properties": {
                         "name": {
                           "type": "string"
+                        },
+                        "rationale": {
+                          "type": "string",
+                          "description": "Optional reasoning for adding this label."
+                        },
+                        "suggest": {
+                          "type": "boolean",
+                          "description": "If `true`, the label is stored as a pending suggestion for human review rather than applied directly."
+                        },
+                        "confidence": {
+                          "type": "string",
+                          "description": "The confidence level for this label choice.",
+                          "enum": [
+                            "low",
+                            "medium",
+                            "high"
+                          ]
                         }
                       },
                       "required": [
@@ -66194,6 +66531,240 @@
         }
       }
     },
+    "/repos/{owner}/{repo}/issues/{issue_number}/suggestions": {
+      "get": {
+        "summary": "List issue suggestions",
+        "description": "Lists the suggestions on an issue. A suggestion is an agent-proposed change to an issue's type, labels, fields, assignees, or closed state that a maintainer can approve or dismiss.\n\nBy default only pending suggestions are returned. Use `state=all` to return suggestions in every state, or `state=<state>` to filter to a single state. Use `action=<action>` to return only suggestions for a specific change.\n\nThis endpoint is only available while the issue suggestions feature is enabled for the repository, and only supports issues, not pull requests.\n\nRequires triage access to the repository.",
+        "tags": [
+          "issues"
+        ],
+        "operationId": "issues/list-suggestions",
+        "externalDocs": {
+          "description": "API method documentation",
+          "url": "https://docs.github.com/rest/issues/issues#list-issue-suggestions"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/owner"
+          },
+          {
+            "$ref": "#/components/parameters/repo"
+          },
+          {
+            "$ref": "#/components/parameters/issue-number"
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "description": "Filter suggestions by their state.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "pending",
+                "applied",
+                "approved",
+                "dismissed",
+                "replaced",
+                "all"
+              ],
+              "default": "pending"
+            }
+          },
+          {
+            "name": "action",
+            "in": "query",
+            "required": false,
+            "description": "Filter suggestions by the change they propose.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "set_type",
+                "add_label",
+                "add_field",
+                "add_assignee",
+                "close_issue"
+              ]
+            }
+          },
+          {
+            "$ref": "#/components/parameters/per-page"
+          },
+          {
+            "$ref": "#/components/parameters/page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/issue-suggestion"
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "$ref": "#/components/examples/issue-suggestions"
+                  }
+                }
+              }
+            },
+            "headers": {
+              "Link": {
+                "$ref": "#/components/headers/link"
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/not_found"
+          },
+          "422": {
+            "$ref": "#/components/responses/validation_failed"
+          }
+        },
+        "x-github": {
+          "githubCloudOnly": false,
+          "enabledForGitHubApps": true,
+          "category": "issues",
+          "subcategory": "issues"
+        }
+      }
+    },
+    "/repos/{owner}/{repo}/issues/{issue_number}/suggestions/{suggestion_id}/approve": {
+      "post": {
+        "summary": "Approve an issue suggestion",
+        "description": "Approves a pending suggestion on an issue. Applies the proposed change (creating the corresponding timeline event), transitions the suggestion to `approved`, and dismisses any competing pending suggestions for the same change.\n\nRequires triage access to the repository. Approving a suggestion also requires permission to perform the change it applies (for example, setting the issue type, adding a label or assignee, or closing the issue); this only affects fine-grained access tokens and GitHub Apps whose permissions are narrower than the triage role. This endpoint only supports issues, not pull requests.",
+        "tags": [
+          "issues"
+        ],
+        "operationId": "issues/approve-suggestion",
+        "externalDocs": {
+          "description": "API method documentation",
+          "url": "https://docs.github.com/rest/issues/issues#approve-an-issue-suggestion"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/owner"
+          },
+          {
+            "$ref": "#/components/parameters/repo"
+          },
+          {
+            "$ref": "#/components/parameters/issue-number"
+          },
+          {
+            "name": "suggestion_id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the suggestion.",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/issue-suggestion"
+                },
+                "examples": {
+                  "default": {
+                    "$ref": "#/components/examples/issue-suggestion"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not_found"
+          },
+          "422": {
+            "$ref": "#/components/responses/validation_failed"
+          }
+        },
+        "x-github": {
+          "githubCloudOnly": false,
+          "enabledForGitHubApps": true,
+          "category": "issues",
+          "subcategory": "issues"
+        }
+      }
+    },
+    "/repos/{owner}/{repo}/issues/{issue_number}/suggestions/{suggestion_id}/dismiss": {
+      "post": {
+        "summary": "Dismiss an issue suggestion",
+        "description": "Dismisses a pending suggestion on an issue. Transitions the suggestion to `dismissed` without applying any change or creating a timeline event.\n\nRequires triage access to the repository. This endpoint only supports issues, not pull requests.",
+        "tags": [
+          "issues"
+        ],
+        "operationId": "issues/dismiss-suggestion",
+        "externalDocs": {
+          "description": "API method documentation",
+          "url": "https://docs.github.com/rest/issues/issues#dismiss-an-issue-suggestion"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/owner"
+          },
+          {
+            "$ref": "#/components/parameters/repo"
+          },
+          {
+            "$ref": "#/components/parameters/issue-number"
+          },
+          {
+            "name": "suggestion_id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the suggestion.",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/issue-suggestion"
+                },
+                "examples": {
+                  "default": {
+                    "$ref": "#/components/examples/issue-suggestion"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/not_found"
+          },
+          "422": {
+            "$ref": "#/components/responses/validation_failed"
+          }
+        },
+        "x-github": {
+          "githubCloudOnly": false,
+          "enabledForGitHubApps": true,
+          "category": "issues",
+          "subcategory": "issues"
+        }
+      }
+    },
     "/repos/{owner}/{repo}/issues/{issue_number}/timeline": {
       "get": {
         "summary": "List timeline events for an issue",
@@ -66221,6 +66792,9 @@
           },
           {
             "$ref": "#/components/parameters/page"
+          },
+          {
+            "$ref": "#/components/parameters/issue-timeline-exclude"
           }
         ],
         "responses": {
@@ -149287,6 +149861,124 @@
           {
             "$ref": "#/components/schemas/blocking-removed-issue-event"
           }
+        ]
+      },
+      "issue-suggestion": {
+        "title": "Issue Suggestion",
+        "description": "An agent-proposed change to an issue that a maintainer can approve or dismiss.",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The unique identifier of the suggestion."
+          },
+          "issue_id": {
+            "type": "integer",
+            "description": "The unique identifier of the issue the suggestion applies to."
+          },
+          "action": {
+            "type": "string",
+            "description": "The kind of change proposed.",
+            "enum": [
+              "set_type",
+              "add_label",
+              "add_field",
+              "add_assignee",
+              "close_issue"
+            ]
+          },
+          "state": {
+            "type": "string",
+            "description": "The suggestion's lifecycle state.",
+            "enum": [
+              "pending",
+              "applied",
+              "approved",
+              "dismissed",
+              "replaced"
+            ]
+          },
+          "target_id": {
+            "type": "integer",
+            "description": "The identifier of the target the change applies to (issue type, label, field, assignee, or duplicate issue), when applicable.",
+            "nullable": true
+          },
+          "target_value": {
+            "description": "The proposed value, when applicable. An array for multi-select field suggestions.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            ]
+          },
+          "rationale": {
+            "type": "string",
+            "description": "The rationale the actor provided for the suggestion.",
+            "nullable": true
+          },
+          "confidence": {
+            "type": "string",
+            "description": "The actor's confidence level in the suggestion.",
+            "enum": [
+              "LOW",
+              "MEDIUM",
+              "HIGH"
+            ],
+            "nullable": true
+          },
+          "actor_id": {
+            "type": "integer",
+            "description": "The unique identifier of the actor that proposed the suggestion.",
+            "nullable": true
+          },
+          "issue_event_id": {
+            "type": "integer",
+            "description": "The identifier of the timeline event created when the suggestion was approved, when applicable.",
+            "nullable": true
+          },
+          "resolved_by": {
+            "type": "integer",
+            "description": "The unique identifier of the user who approved or dismissed the suggestion.",
+            "nullable": true
+          },
+          "created_at": {
+            "type": "string",
+            "description": "The time the suggestion was created.",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "description": "The time the suggestion was last updated.",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "issue_id",
+          "action",
+          "state",
+          "target_id",
+          "target_value",
+          "rationale",
+          "confidence",
+          "actor_id",
+          "issue_event_id",
+          "resolved_by",
+          "created_at",
+          "updated_at"
         ]
       },
       "timeline-comment-event": {
@@ -328564,6 +329256,57 @@
           }
         ]
       },
+      "issue-suggestions": {
+        "value": [
+          {
+            "id": 12,
+            "issue_id": 4567,
+            "action": "add_label",
+            "state": "pending",
+            "target_id": 208045946,
+            "target_value": null,
+            "rationale": "This looks like a bug report based on the stack trace in the description.",
+            "confidence": "HIGH",
+            "actor_id": 41898282,
+            "issue_event_id": null,
+            "resolved_by": null,
+            "created_at": "2026-06-01T14:20:00Z",
+            "updated_at": "2026-06-01T14:20:00Z"
+          },
+          {
+            "id": 13,
+            "issue_id": 4567,
+            "action": "set_type",
+            "state": "pending",
+            "target_id": 3,
+            "target_value": "Bug",
+            "rationale": "The report describes unexpected behaviour with reproduction steps.",
+            "confidence": "MEDIUM",
+            "actor_id": 41898282,
+            "issue_event_id": null,
+            "resolved_by": null,
+            "created_at": "2026-06-01T14:21:00Z",
+            "updated_at": "2026-06-01T14:21:00Z"
+          }
+        ]
+      },
+      "issue-suggestion": {
+        "value": {
+          "id": 12,
+          "issue_id": 4567,
+          "action": "add_label",
+          "state": "approved",
+          "target_id": 208045946,
+          "target_value": null,
+          "rationale": "This looks like a bug report based on the stack trace in the description.",
+          "confidence": "HIGH",
+          "actor_id": 41898282,
+          "issue_event_id": 6430295168,
+          "resolved_by": 583231,
+          "created_at": "2026-06-01T14:20:00Z",
+          "updated_at": "2026-06-01T15:05:00Z"
+        }
+      },
       "timeline-issue-events": {
         "value": [
           {
@@ -340766,6 +341509,14 @@
         "required": true,
         "schema": {
           "type": "integer"
+        }
+      },
+      "issue-timeline-exclude": {
+        "name": "exclude",
+        "in": "query",
+        "description": "A comma-separated list of timeline event names to exclude from the response.",
+        "schema": {
+          "type": "string"
         }
       },
       "key-id": {
