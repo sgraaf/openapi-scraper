@@ -28986,22 +28986,6 @@ components:
           anyOf:
             - $ref: "#/components/schemas/AuditLogActor"
             - type: "null"
-        source:
-          type: string
-          description: The server-derived administrative authorization context recorded
-            for the action, when available. API-key paths identify the
-            authenticated API surface; biscuit-authorized paths identify the
-            permission namespace used for authorization. This does not
-            necessarily identify the literal client software.
-          enum:
-            - cloud_console
-            - adminapi
-            - retool
-            - glass
-            - managementapi
-            - tenantapi
-            - scim
-            - backfill
         api_key.created:
           type: object
           description: The details for events with this `type`.
@@ -36584,6 +36568,10 @@ components:
           description: >
             The audio file object (not file name) to transcribe, in one of these
             formats: flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, or webm.
+
+            The request must include enough format metadata for the file to be
+            identified. We recommend an extension-bearing filename and an
+            appropriate content type.
           type: string
           x-oaiTypeLabel: file
           format: binary
@@ -36948,7 +36936,10 @@ components:
         file:
           description: >
             The audio file object (not file name) translate, in one of these
-            formats: flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, or webm.
+            formats: flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, or webm. The
+            request must include enough format metadata for the file to be
+            identified. We recommend an extension-bearing filename and an
+            appropriate content type.
           type: string
           x-oaiTypeLabel: file
           format: binary
@@ -44025,6 +44016,9 @@ components:
             - gpt-5-pro
             - gpt-5-pro-2025-10-06
             - gpt-5.1-codex-max
+            - gpt-daybreak-blue-latest
+            - gpt-daybreak-red-latest
+            - gpt-5.6-cyber
     ModelIdsShared:
       example: gpt-5.4
       anyOf:
@@ -77504,6 +77498,9 @@ components:
             - gpt-5-pro
             - gpt-5-pro-2025-10-06
             - gpt-5.1-codex-max
+            - gpt-daybreak-blue-latest
+            - gpt-daybreak-red-latest
+            - gpt-5.6-cyber
     BetaModelIdsShared:
       example: gpt-5.4
       anyOf:
