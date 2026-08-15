@@ -109,6 +109,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ListAssistantsResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: List assistants
         group: assistants
@@ -216,6 +218,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AssistantObject"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Create assistant
         group: assistants
@@ -386,6 +390,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AssistantObject"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Retrieve assistant
         group: assistants
@@ -461,6 +467,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AssistantObject"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Modify assistant
         group: assistants
@@ -560,6 +568,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/DeleteAssistantResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Delete assistant
         group: assistants
@@ -628,6 +638,8 @@ paths:
             text/event-stream:
               schema:
                 $ref: "#/components/schemas/CreateSpeechResponseStreamEvent"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Create speech
         group: audio
@@ -743,6 +755,8 @@ paths:
             text/event-stream:
               schema:
                 $ref: "#/components/schemas/CreateTranscriptionResponseStreamEvent"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Create transcription
         group: audio
@@ -1337,6 +1351,8 @@ paths:
                 oneOf:
                   - $ref: "#/components/schemas/CreateTranslationResponseJson"
                   - $ref: "#/components/schemas/CreateTranslationResponseVerboseJson"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Create translation
         group: audio
@@ -2141,6 +2157,8 @@ paths:
             text/event-stream:
               schema:
                 $ref: "#/components/schemas/CreateChatCompletionStreamResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Create chat completion
         group: chat
@@ -3360,6 +3378,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CreateCompletionResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Create completion
         group: completions
@@ -3530,6 +3550,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ContainerListResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: List containers
         group: containers
@@ -3578,6 +3600,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ContainerResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Create container
         group: containers
@@ -3643,6 +3667,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ContainerResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Retrieve container
         group: containers
@@ -3680,6 +3706,8 @@ paths:
       responses:
         "200":
           description: OK
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Delete a container
         group: containers
@@ -3728,6 +3756,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ContainerFileResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Create container file
         group: containers
@@ -3794,6 +3824,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ContainerFileListResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: List container files
         group: containers
@@ -3844,6 +3876,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ContainerFileResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Retrieve container file
         group: containers
@@ -3883,6 +3917,8 @@ paths:
       responses:
         "200":
           description: OK
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Delete a container file
         group: containers
@@ -3917,6 +3953,8 @@ paths:
       responses:
         "200":
           description: Success
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Retrieve container file content
         group: containers
@@ -3975,6 +4013,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ConversationItemList"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Create items
         group: conversations
@@ -4195,6 +4235,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ConversationItemList"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: List items
         group: conversations
@@ -4291,6 +4333,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ConversationItem"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Retrieve an item
         group: conversations
@@ -4366,6 +4410,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ConversationResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Delete an item
         group: conversations
@@ -4434,6 +4480,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CreateEmbeddingResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Create embeddings
         group: embeddings
@@ -4571,6 +4619,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/EvalList"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: List evals
         group: evals
@@ -4694,6 +4744,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Eval"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Create eval
         group: evals
@@ -4879,6 +4931,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Eval"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Get an eval
         group: evals
@@ -4987,6 +5041,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Eval"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Update an eval
         group: evals
@@ -5105,6 +5161,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Delete an eval
         group: evals
@@ -5191,6 +5249,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/EvalRunList"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Get eval runs
         group: evals
@@ -5336,6 +5396,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Create eval run
         group: evals
@@ -5532,6 +5594,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/EvalRun"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Get an eval run
         group: evals
@@ -5734,6 +5798,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/EvalRun"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Cancel eval run
         group: evals
@@ -5953,6 +6019,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Delete eval run
         group: evals
@@ -6055,6 +6123,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/EvalRunOutputItemList"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Get eval run output items
         group: evals
@@ -6187,6 +6257,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/EvalRunOutputItem"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Get an output item of an eval run
         group: evals
@@ -8717,19 +8789,22 @@ paths:
                   "id": "model-id-0",
                   "object": "model",
                   "created": 1686935002,
-                  "owned_by": "organization-owner"
+                  "owned_by": "organization-owner",
+                  "shutdown_date": null
                 },
                 {
                   "id": "model-id-1",
                   "object": "model",
                   "created": 1686935002,
                   "owned_by": "organization-owner",
+                  "shutdown_date": null
                 },
                 {
                   "id": "model-id-2",
                   "object": "model",
                   "created": 1686935002,
-                  "owned_by": "openai"
+                  "owned_by": "openai",
+                  "shutdown_date": "2026-10-23"
                 },
               ]
             }
@@ -8797,7 +8872,8 @@ paths:
               "id": "VAR_chat_model_id",
               "object": "model",
               "created": 1686935002,
-              "owned_by": "openai"
+              "owned_by": "openai",
+              "shutdown_date": "2026-10-23"
             }
     delete:
       operationId: deleteModel
@@ -9500,6 +9576,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ListAuditLogsResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: List audit logs
         group: audit-logs
@@ -9615,6 +9693,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ListCertificatesResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: List organization certificates
         group: administration
@@ -9669,6 +9749,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Certificate"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Upload certificate
         group: administration
@@ -9723,6 +9805,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/OrganizationCertificateActivationResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Activate certificates for organization
         group: administration
@@ -9794,6 +9878,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/OrganizationCertificateDeactivationResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Deactivate certificates for organization
         group: administration
@@ -9875,6 +9961,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Certificate"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Get certificate
         group: administration
@@ -9924,6 +10012,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Certificate"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Modify certificate
         group: administration
@@ -9975,6 +10065,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/DeleteCertificateResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Delete certificate
         group: administration
@@ -10072,6 +10164,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UsageResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Costs
         group: usage-costs
@@ -10223,6 +10317,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/GroupListResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: List groups
         group: administration
@@ -10269,6 +10365,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/GroupResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Create group
         group: administration
@@ -10311,6 +10409,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/GroupResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Retrieve group
         group: administration
@@ -10358,6 +10458,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/GroupResourceWithSuccess"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Update group
         group: administration
@@ -10400,6 +10502,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/GroupDeletedResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Delete group
         group: administration
@@ -10464,6 +10568,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RoleListResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: List group organization role assignments
         group: administration
@@ -10529,6 +10635,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/GroupRoleAssignment"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Assign organization role to group
         group: administration
@@ -10592,6 +10700,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AssignedRoleDetails"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Retrieve group organization role
         group: administration
@@ -10646,6 +10756,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/DeletedRoleAssignmentResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Unassign organization role from group
         group: administration
@@ -10711,6 +10823,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserListResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: List group users
         group: administration
@@ -10761,6 +10875,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/GroupUserAssignment"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Add group user
         group: administration
@@ -10807,6 +10923,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/GroupMemberUser"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Retrieve group user
         group: administration
@@ -10852,6 +10970,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/GroupUserDeletedResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Remove group user
         group: administration
@@ -11573,6 +11693,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ListProjectCertificatesResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: List project certificates
         group: administration
@@ -11635,6 +11757,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/OrganizationProjectCertificateActivationResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Activate certificates for project
         group: administration
@@ -11706,6 +11830,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/OrganizationProjectCertificateDeactivationResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Deactivate certificates for project
         group: administration
@@ -11875,6 +12001,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProjectGroupListResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: List project groups
         group: administration
@@ -11927,6 +12055,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProjectGroup"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Add project group
         group: administration
@@ -11988,6 +12118,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProjectGroup"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Retrieve project group
         group: administration
@@ -12033,6 +12165,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProjectGroupDeletedResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Remove project group
         group: administration
@@ -13353,6 +13487,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/PublicRoleListResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: List organization roles
         group: administration
@@ -13403,6 +13539,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Role"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Create organization role
         group: administration
@@ -13455,6 +13593,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Role"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Retrieve organization role
         group: administration
@@ -13506,6 +13646,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Role"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Update organization role
         group: administration
@@ -13558,6 +13700,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RoleDeletedResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Delete organization role
         group: administration
@@ -13951,6 +14095,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UsageResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Audio speeches
         group: usage-audio-speeches
@@ -14087,6 +14233,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UsageResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Audio transcriptions
         group: usage-audio-transcriptions
@@ -14195,6 +14343,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UsageResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Code interpreter sessions
         group: usage-code-interpreter-sessions
@@ -14337,6 +14487,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UsageResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Completions
         group: usage-completions
@@ -14488,6 +14640,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UsageResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Embeddings
         group: usage-embeddings
@@ -14624,6 +14778,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UsageResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: File search calls
         group: usage-file-search-calls
@@ -14791,6 +14947,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UsageResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Images
         group: usage-images
@@ -14929,6 +15087,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UsageResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Moderations
         group: usage-moderations
@@ -15037,6 +15197,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UsageResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Vector stores
         group: usage-vector-stores
@@ -15182,6 +15344,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UsageResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Web search calls
         group: usage-web-search-calls
@@ -15458,6 +15622,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RoleListResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: List user organization role assignments
         group: administration
@@ -15524,6 +15690,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserRoleAssignment"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Assign organization role to user
         group: administration
@@ -15589,6 +15757,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AssignedRoleDetails"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Retrieve user organization role
         group: administration
@@ -15643,6 +15813,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/DeletedRoleAssignmentResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Unassign organization role from user
         group: administration
@@ -15709,6 +15881,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RoleListResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: List project group role assignments
         group: administration
@@ -15780,6 +15954,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/GroupRoleAssignment"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Assign project role to group
         group: administration
@@ -15849,6 +16025,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AssignedRoleDetails"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Retrieve project group role
         group: administration
@@ -15909,6 +16087,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/DeletedRoleAssignmentResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Unassign project role from group
         group: administration
@@ -15971,6 +16151,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/PublicRoleListResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: List project roles
         group: administration
@@ -16029,6 +16211,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Role"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Create project role
         group: administration
@@ -16088,6 +16272,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Role"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Retrieve project role
         group: administration
@@ -16144,6 +16330,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Role"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Update project role
         group: administration
@@ -16201,6 +16389,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RoleDeletedResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Delete project role
         group: administration
@@ -16268,6 +16458,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RoleListResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: List project user role assignments
         group: administration
@@ -16339,6 +16531,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserRoleAssignment"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Assign project role to user
         group: administration
@@ -16409,6 +16603,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AssignedRoleDetails"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Retrieve project user role
         group: administration
@@ -16469,6 +16665,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/DeletedRoleAssignmentResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Unassign project role from user
         group: administration
@@ -17122,6 +17320,8 @@ paths:
             text/event-stream:
               schema:
                 $ref: "#/components/schemas/ResponseStreamEvent"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Create a model response
         group: responses
@@ -18458,6 +18658,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Response"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Get a model response
         group: responses
@@ -18561,6 +18763,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Delete a model response
         group: responses
@@ -18618,6 +18822,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Cancel a response
         group: responses
@@ -18745,6 +18951,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseItemList"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: List input items
         group: responses
@@ -18808,6 +19016,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ThreadObject"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Create thread
         group: threads
@@ -18934,6 +19144,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RunObject"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Create thread and run
         group: threads
@@ -19318,6 +19530,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ThreadObject"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Retrieve thread
         group: threads
@@ -19386,6 +19600,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ThreadObject"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Modify thread
         group: threads
@@ -19462,6 +19678,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/DeleteThreadResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Delete thread
         group: threads
@@ -19566,6 +19784,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ListMessagesResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: List messages
         group: threads
@@ -19676,6 +19896,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/MessageObject"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Create message
         group: threads
@@ -19767,6 +19989,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/MessageObject"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Retrieve message
         group: threads
@@ -19854,6 +20078,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/MessageObject"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Modify message
         group: threads
@@ -19949,6 +20175,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/DeleteMessageResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Delete message
         group: threads
@@ -20049,6 +20277,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ListRunsResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: List runs
         group: threads
@@ -20223,6 +20453,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RunObject"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Create run
         group: threads
@@ -20571,6 +20803,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RunObject"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Retrieve run
         group: threads
@@ -20678,6 +20912,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RunObject"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Modify run
         group: threads
@@ -20802,6 +21038,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RunObject"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Cancel a run
         group: threads
@@ -20949,6 +21187,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ListRunStepsResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: List run steps
         group: threads
@@ -21062,6 +21302,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RunStepObject"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Retrieve run step
         group: threads
@@ -21161,6 +21403,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RunObject"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Submit tool outputs to run
         group: threads
@@ -21699,6 +21943,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ListVectorStoresResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: List vector stores
         group: vector_stores
@@ -21782,6 +22028,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/VectorStoreObject"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Create vector store
         group: vector_stores
@@ -21851,6 +22099,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/VectorStoreObject"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Retrieve vector store
         group: vector_stores
@@ -21912,6 +22162,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/VectorStoreObject"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Modify vector store
         group: vector_stores
@@ -21984,6 +22236,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/DeleteVectorStoreResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Delete vector store
         group: vector_stores
@@ -22058,6 +22312,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/VectorStoreFileBatchObject"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Create vector store file batch
         group: vector_stores
@@ -22190,6 +22446,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/VectorStoreFileBatchObject"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Retrieve vector store file batch
         group: vector_stores
@@ -22271,6 +22529,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/VectorStoreFileBatchObject"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Cancel vector store file batch
         group: vector_stores
@@ -22402,6 +22662,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ListVectorStoreFilesResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: List vector store files in a batch
         group: vector_stores
@@ -22528,6 +22790,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ListVectorStoreFilesResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: List vector store files
         group: vector_stores
@@ -22615,6 +22879,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/VectorStoreFileObject"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Create vector store file
         group: vector_stores
@@ -22698,6 +22964,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/VectorStoreFileObject"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Retrieve vector store file
         group: vector_stores
@@ -22769,6 +23037,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/DeleteVectorStoreFileResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Delete vector store file
         group: vector_stores
@@ -22844,6 +23114,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/VectorStoreFileObject"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Update vector store file attributes
         group: vector_stores
@@ -22894,6 +23166,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/VectorStoreFileContentResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Retrieve vector store file content
         group: vector_stores
@@ -22941,6 +23215,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/VectorStoreSearchResultsPage"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Search vector store
         group: vector_stores
@@ -23010,6 +23286,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ConversationResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Create a conversation
         group: conversations
@@ -23107,6 +23385,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ConversationResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Retrieve a conversation
         group: conversations
@@ -23169,6 +23449,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/DeletedConversationResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Delete a conversation
         group: conversations
@@ -23236,6 +23518,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ConversationResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Update a conversation
         group: conversations
@@ -23608,6 +23892,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProvenanceResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Create content provenance check
         group: content_provenance_checks
@@ -24409,6 +24695,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/TokenCountsResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Get input token counts
         group: responses
@@ -24538,6 +24826,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CompactResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Compact a response
         group: responses
@@ -24702,6 +24992,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/SkillResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
     get:
       tags:
         - Skills
@@ -24737,6 +25029,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/SkillListResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
   /skills/{skill_id}:
     delete:
       tags:
@@ -24758,6 +25052,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/DeletedSkillResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
     get:
       tags:
         - Skills
@@ -24778,6 +25074,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/SkillResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
     post:
       tags:
         - Skills
@@ -24803,6 +25101,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/SkillResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
   /skills/{skill_id}/content:
     get:
       tags:
@@ -24828,6 +25128,8 @@ paths:
             application/json:
               schema:
                 type: string
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
   /skills/{skill_id}/versions:
     post:
       tags:
@@ -24857,6 +25159,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/SkillVersionResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
     get:
       tags:
         - Skills
@@ -24898,6 +25202,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/SkillVersionListResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
   /skills/{skill_id}/versions/{version}:
     get:
       tags:
@@ -24926,6 +25232,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/SkillVersionResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
     delete:
       tags:
         - Skills
@@ -24953,6 +25261,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/DeletedSkillVersionResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
   /skills/{skill_id}/versions/{version}/content:
     get:
       tags:
@@ -24985,6 +25295,8 @@ paths:
             application/json:
               schema:
                 type: string
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
   /chatkit/sessions/{session_id}/cancel:
     post:
       summary: |-
@@ -25853,6 +26165,8 @@ paths:
             text/event-stream:
               schema:
                 $ref: "#/components/schemas/BetaResponseStreamEvent"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Create a model response
         group: responses
@@ -27216,6 +27530,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BetaResponse"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Get a model response
         group: responses
@@ -27332,6 +27648,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BetaError"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Delete a model response
         group: responses
@@ -27402,6 +27720,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BetaError"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Cancel a response
         group: responses
@@ -27510,6 +27830,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BetaCompactResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Compact a response
         group: responses
@@ -27722,6 +28044,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BetaResponseItemList"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: List input items
         group: responses
@@ -27802,6 +28126,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BetaTokenCountsResource"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
         name: Get input token counts
         group: responses
@@ -30000,6 +30326,7 @@ components:
         - tenant.resource_role_assignment.deleted
         - tenant.resource_access.updated
         - tenant.resource_access.deleted
+        - tenant.ads_account.onboarding.redemption
         - tenant.session_policy.created
         - tenant.session_policy.updated
         - tenant.session_policy.deleted
@@ -33239,6 +33566,8 @@ components:
         model:
           type: string
           description: The model used for the chat completion.
+        metadata:
+          $ref: "#/components/schemas/Metadata"
         service_tier:
           $ref: "#/components/schemas/ServiceTier"
         system_fingerprint:
@@ -43210,10 +43539,8 @@ components:
                 The output from the tool call.
             - type: "null"
         error:
+          description: The error from the tool call, if any.
           anyOf:
-            - type: string
-              description: |
-                The error from the tool call, if any.
             - $ref: "#/components/schemas/MCPToolCallError"
             - type: "null"
         status:
@@ -44001,6 +44328,12 @@ components:
         owned_by:
           type: string
           description: The organization that owns the model.
+        shutdown_date:
+          anyOf:
+            - type: string
+              format: date
+            - type: "null"
+          description: The date when the model will shut down, or null if not announced.
       required:
         - id
         - object
@@ -44013,7 +44346,8 @@ components:
             "id": "VAR_chat_model_id",
             "object": "model",
             "created": 1686935002,
-            "owned_by": "openai"
+            "owned_by": "openai",
+            "shutdown_date": "2026-10-23"
           }
     ModelIds:
       anyOf:
@@ -58398,6 +58732,18 @@ components:
           type: string
           description: Base64-encoded partial image data, suitable for rendering as an
             image.
+        size:
+          type: string
+          description: The image size that was used.
+        quality:
+          type: string
+          description: The image quality that was used.
+        background:
+          type: string
+          description: The background setting that was used.
+        output_format:
+          type: string
+          description: The output format that was used.
       required:
         - type
         - output_index
@@ -59700,6 +60046,13 @@ components:
         - $ref: "#/components/schemas/ResponseFileSearchCallSearchingEvent"
         - $ref: "#/components/schemas/ResponseFunctionCallArgumentsDeltaEvent"
         - $ref: "#/components/schemas/ResponseFunctionCallArgumentsDoneEvent"
+        - $ref: "#/components/schemas/ResponseShellCallCommandAddedStreamingEvent"
+        - $ref: "#/components/schemas/ResponseShellCallCommandDeltaStreamingEvent"
+        - $ref: "#/components/schemas/ResponseShellCallCommandDoneStreamingEvent"
+        - $ref: "#/components/schemas/ResponseShellCallOutputContentDeltaStreamingEvent"
+          x-stainless-skip:
+            - go
+        - $ref: "#/components/schemas/ResponseShellCallOutputContentDoneStreamingEvent"
         - $ref: "#/components/schemas/ResponseInProgressEvent"
         - $ref: "#/components/schemas/ResponseFailedEvent"
         - $ref: "#/components/schemas/ResponseIncompleteEvent"
@@ -60050,6 +60403,52 @@ components:
             "item_id": "ws_123",
             "sequence_number": 0
           }
+    ResponseWsError:
+      type: object
+      title: ResponseWsError
+      description: Emitted when an error occurs while processing a Responses WebSocket
+        request.
+      properties:
+        type:
+          type: string
+          description: The type of the event. Always `error`.
+          enum:
+            - error
+          x-stainless-const: true
+        status:
+          type: integer
+          description: The HTTP status code associated with a WebSocket protocol error.
+        sequence_number:
+          type: integer
+          description: The sequence number of an error emitted by the response stream.
+        error:
+          $ref: "#/components/schemas/ErrorPayload"
+          description: Details about the error.
+        stream_id:
+          type: string
+          description: >
+            The WebSocket lane that emitted this event. This field is present
+            when the
+
+            originating `response.create` event supplied a `stream_id`.
+      required:
+        - type
+        - error
+      x-oaiMeta:
+        name: error
+        group: responses
+        example: >
+          {
+            "type": "error",
+            "status": 400,
+            "stream_id": "agent_1",
+            "error": {
+              "type": "invalid_request_error",
+              "code": "websocket_stream_limit_reached",
+              "message": "This WebSocket connection has reached its stream limit.",
+              "param": "stream_id"
+            }
+          }
     ResponsesClientEvent:
       discriminator:
         propertyName: type
@@ -60320,21 +60719,6 @@ components:
                     when the originating `response.create` event supplied a
 
                     `stream_id`.
-        - title: ResponseWsError
-          description: Emitted when an error occurs.
-          allOf:
-            - $ref: "#/components/schemas/ResponseErrorEvent"
-            - type: object
-              properties:
-                stream_id:
-                  type: string
-                  description: >
-                    The WebSocket lane that emitted this event. This field is
-                    present
-
-                    when the originating `response.create` event supplied a
-
-                    `stream_id`.
         - title: ResponseFileSearchCallWsCompleted
           description: Emitted when a file search call is completed (results found).
           allOf:
@@ -60399,6 +60783,86 @@ components:
           description: Emitted when function-call arguments are finalized.
           allOf:
             - $ref: "#/components/schemas/ResponseFunctionCallArgumentsDoneEvent"
+            - type: object
+              properties:
+                stream_id:
+                  type: string
+                  description: >
+                    The WebSocket lane that emitted this event. This field is
+                    present
+
+                    when the originating `response.create` event supplied a
+
+                    `stream_id`.
+        - title: ResponseShellCallCommandWsAdded
+          description: A streaming event that indicated a shell command was added to a
+            tool call.
+          allOf:
+            - $ref: "#/components/schemas/ResponseShellCallCommandAddedStreamingEvent"
+            - type: object
+              properties:
+                stream_id:
+                  type: string
+                  description: >
+                    The WebSocket lane that emitted this event. This field is
+                    present
+
+                    when the originating `response.create` event supplied a
+
+                    `stream_id`.
+        - title: ResponseShellCallCommandWsDelta
+          description: A streaming event that indicated a shell command was incrementally
+            updated.
+          allOf:
+            - $ref: "#/components/schemas/ResponseShellCallCommandDeltaStreamingEvent"
+            - type: object
+              properties:
+                stream_id:
+                  type: string
+                  description: >
+                    The WebSocket lane that emitted this event. This field is
+                    present
+
+                    when the originating `response.create` event supplied a
+
+                    `stream_id`.
+        - title: ResponseShellCallCommandWsDone
+          description: A streaming event that indicated a shell command was completed.
+          allOf:
+            - $ref: "#/components/schemas/ResponseShellCallCommandDoneStreamingEvent"
+            - type: object
+              properties:
+                stream_id:
+                  type: string
+                  description: >
+                    The WebSocket lane that emitted this event. This field is
+                    present
+
+                    when the originating `response.create` event supplied a
+
+                    `stream_id`.
+        - title: ResponseShellCallOutputContentWsDelta
+          description: A streaming event that indicated shell call output was
+            incrementally added.
+          allOf:
+            - $ref: "#/components/schemas/ResponseShellCallOutputContentDeltaStreamingEvent"
+              x-stainless-skip:
+                - go
+            - type: object
+              properties:
+                stream_id:
+                  type: string
+                  description: >
+                    The WebSocket lane that emitted this event. This field is
+                    present
+
+                    when the originating `response.create` event supplied a
+
+                    `stream_id`.
+        - title: ResponseShellCallOutputContentWsDone
+          description: A streaming event that indicated shell call output was completed.
+          allOf:
+            - $ref: "#/components/schemas/ResponseShellCallOutputContentDoneStreamingEvent"
             - type: object
               properties:
                 stream_id:
@@ -60945,9 +61409,69 @@ components:
                     when the originating `response.create` event supplied a
 
                     `stream_id`.
+        - $ref: "#/components/schemas/ResponseWsError"
     ResponsesWebSocketStreamEvent:
       allOf:
-        - $ref: "#/components/schemas/ResponseStreamEvent"
+        - anyOf:
+            - $ref: "#/components/schemas/ResponseAudioDeltaEvent"
+            - $ref: "#/components/schemas/ResponseAudioDoneEvent"
+            - $ref: "#/components/schemas/ResponseAudioTranscriptDeltaEvent"
+            - $ref: "#/components/schemas/ResponseAudioTranscriptDoneEvent"
+            - $ref: "#/components/schemas/ResponseCodeInterpreterCallCodeDeltaEvent"
+            - $ref: "#/components/schemas/ResponseCodeInterpreterCallCodeDoneEvent"
+            - $ref: "#/components/schemas/ResponseCodeInterpreterCallCompletedEvent"
+            - $ref: "#/components/schemas/ResponseCodeInterpreterCallInProgressEvent"
+            - $ref: "#/components/schemas/ResponseCodeInterpreterCallInterpretingEvent"
+            - $ref: "#/components/schemas/ResponseCompletedEvent"
+            - $ref: "#/components/schemas/ResponseContentPartAddedEvent"
+            - $ref: "#/components/schemas/ResponseContentPartDoneEvent"
+            - $ref: "#/components/schemas/ResponseCreatedEvent"
+            - $ref: "#/components/schemas/ResponseFileSearchCallCompletedEvent"
+            - $ref: "#/components/schemas/ResponseFileSearchCallInProgressEvent"
+            - $ref: "#/components/schemas/ResponseFileSearchCallSearchingEvent"
+            - $ref: "#/components/schemas/ResponseFunctionCallArgumentsDeltaEvent"
+            - $ref: "#/components/schemas/ResponseFunctionCallArgumentsDoneEvent"
+            - $ref: "#/components/schemas/ResponseShellCallCommandAddedStreamingEvent"
+            - $ref: "#/components/schemas/ResponseShellCallCommandDeltaStreamingEvent"
+            - $ref: "#/components/schemas/ResponseShellCallCommandDoneStreamingEvent"
+            - $ref: "#/components/schemas/ResponseShellCallOutputContentDeltaStreamingEvent"
+              x-stainless-skip:
+                - go
+            - $ref: "#/components/schemas/ResponseShellCallOutputContentDoneStreamingEvent"
+            - $ref: "#/components/schemas/ResponseInProgressEvent"
+            - $ref: "#/components/schemas/ResponseFailedEvent"
+            - $ref: "#/components/schemas/ResponseIncompleteEvent"
+            - $ref: "#/components/schemas/ResponseOutputItemAddedEvent"
+            - $ref: "#/components/schemas/ResponseOutputItemDoneEvent"
+            - $ref: "#/components/schemas/ResponseReasoningSummaryPartAddedEvent"
+            - $ref: "#/components/schemas/ResponseReasoningSummaryPartDoneEvent"
+            - $ref: "#/components/schemas/ResponseReasoningSummaryTextDeltaEvent"
+            - $ref: "#/components/schemas/ResponseReasoningSummaryTextDoneEvent"
+            - $ref: "#/components/schemas/ResponseReasoningTextDeltaEvent"
+            - $ref: "#/components/schemas/ResponseReasoningTextDoneEvent"
+            - $ref: "#/components/schemas/ResponseRefusalDeltaEvent"
+            - $ref: "#/components/schemas/ResponseRefusalDoneEvent"
+            - $ref: "#/components/schemas/ResponseTextDeltaEvent"
+            - $ref: "#/components/schemas/ResponseTextDoneEvent"
+            - $ref: "#/components/schemas/ResponseWebSearchCallCompletedEvent"
+            - $ref: "#/components/schemas/ResponseWebSearchCallInProgressEvent"
+            - $ref: "#/components/schemas/ResponseWebSearchCallSearchingEvent"
+            - $ref: "#/components/schemas/ResponseImageGenCallCompletedEvent"
+            - $ref: "#/components/schemas/ResponseImageGenCallGeneratingEvent"
+            - $ref: "#/components/schemas/ResponseImageGenCallInProgressEvent"
+            - $ref: "#/components/schemas/ResponseImageGenCallPartialImageEvent"
+            - $ref: "#/components/schemas/ResponseMCPCallArgumentsDeltaEvent"
+            - $ref: "#/components/schemas/ResponseMCPCallArgumentsDoneEvent"
+            - $ref: "#/components/schemas/ResponseMCPCallCompletedEvent"
+            - $ref: "#/components/schemas/ResponseMCPCallFailedEvent"
+            - $ref: "#/components/schemas/ResponseMCPCallInProgressEvent"
+            - $ref: "#/components/schemas/ResponseMCPListToolsCompletedEvent"
+            - $ref: "#/components/schemas/ResponseMCPListToolsFailedEvent"
+            - $ref: "#/components/schemas/ResponseMCPListToolsInProgressEvent"
+            - $ref: "#/components/schemas/ResponseOutputTextAnnotationAddedEvent"
+            - $ref: "#/components/schemas/ResponseQueuedEvent"
+            - $ref: "#/components/schemas/ResponseCustomToolCallInputDeltaEvent"
+            - $ref: "#/components/schemas/ResponseCustomToolCallInputDoneEvent"
         - type: object
           properties:
             stream_id:
@@ -70527,6 +71051,186 @@ components:
       description: The conversation that this response belonged to. Input items and
         output items from this response were automatically added to this
         conversation.
+    ResponseShellCallCommandAddedStreamingEvent:
+      properties:
+        type:
+          type: string
+          enum:
+            - response.shell_call_command.added
+          description: The type of the event, always `response.shell_call_command.added`.
+          default: response.shell_call_command.added
+          x-stainless-const: true
+        sequence_number:
+          type: integer
+          description: The sequence number of the event that was emitted.
+        output_index:
+          type: integer
+          description: The index of the output item that was updated.
+        command_index:
+          type: integer
+          description: The index of the shell command that was added.
+        command:
+          type: string
+          description: The shell command that was added.
+      type: object
+      required:
+        - type
+        - sequence_number
+        - output_index
+        - command_index
+        - command
+      title: Response shell command added event
+      description: A streaming event that indicated a shell command was added to a
+        tool call.
+    ResponseShellCallCommandDeltaStreamingEvent:
+      properties:
+        type:
+          type: string
+          enum:
+            - response.shell_call_command.delta
+          description: The type of the event, always `response.shell_call_command.delta`.
+          default: response.shell_call_command.delta
+          x-stainless-const: true
+        sequence_number:
+          type: integer
+          description: The sequence number of the event that was emitted.
+        output_index:
+          type: integer
+          description: The index of the output item that was updated.
+        command_index:
+          type: integer
+          description: The index of the shell command that was updated.
+        delta:
+          type: string
+          description: The shell command delta that was appended.
+        obfuscation:
+          type: string
+          description: An obfuscation string that was added to pad the event payload.
+      type: object
+      required:
+        - type
+        - sequence_number
+        - output_index
+        - command_index
+        - delta
+      title: Response shell command delta event
+      description: A streaming event that indicated a shell command was incrementally
+        updated.
+    ResponseShellCallCommandDoneStreamingEvent:
+      properties:
+        type:
+          type: string
+          enum:
+            - response.shell_call_command.done
+          description: The type of the event, always `response.shell_call_command.done`.
+          default: response.shell_call_command.done
+          x-stainless-const: true
+        sequence_number:
+          type: integer
+          description: The sequence number of the event that was emitted.
+        output_index:
+          type: integer
+          description: The index of the output item that was updated.
+        command_index:
+          type: integer
+          description: The index of the shell command that was completed.
+        command:
+          type: string
+          description: The final shell command that was emitted.
+      type: object
+      required:
+        - type
+        - sequence_number
+        - output_index
+        - command_index
+        - command
+      title: Response shell command done event
+      description: A streaming event that indicated a shell command was completed.
+    ShellCallOutputDelta:
+      properties:
+        stdout:
+          type: string
+          description: The stdout delta that was emitted.
+        stderr:
+          type: string
+          description: The stderr delta that was emitted.
+      type: object
+      required: []
+      title: Shell call output delta
+      description: A delta of stdout/stderr emitted while a shell call was running.
+    ResponseShellCallOutputContentDeltaStreamingEvent:
+      properties:
+        type:
+          type: string
+          enum:
+            - response.shell_call_output_content.delta
+          description: The type of the event, always
+            `response.shell_call_output_content.delta`.
+          default: response.shell_call_output_content.delta
+          x-stainless-const: true
+        sequence_number:
+          type: integer
+          description: The sequence number of the event that was emitted.
+        item_id:
+          type: string
+          description: The ID of the output item that was updated.
+        output_index:
+          type: integer
+          description: The index of the output item that was updated.
+        command_index:
+          type: integer
+          description: The index of the shell command that produced output.
+        delta:
+          $ref: "#/components/schemas/ShellCallOutputDelta"
+          description: The stdout/stderr delta that was emitted.
+      type: object
+      required:
+        - type
+        - sequence_number
+        - item_id
+        - output_index
+        - command_index
+        - delta
+      title: Response shell call output content delta event
+      description: A streaming event that indicated shell call output was
+        incrementally added.
+    ResponseShellCallOutputContentDoneStreamingEvent:
+      properties:
+        type:
+          type: string
+          enum:
+            - response.shell_call_output_content.done
+          description: The type of the event, always
+            `response.shell_call_output_content.done`.
+          default: response.shell_call_output_content.done
+          x-stainless-const: true
+        sequence_number:
+          type: integer
+          description: The sequence number of the event that was emitted.
+        item_id:
+          type: string
+          description: The ID of the output item that was updated.
+        output_index:
+          type: integer
+          description: The index of the output item that was updated.
+        command_index:
+          type: integer
+          description: The index of the shell command that produced output.
+        output:
+          items:
+            $ref: "#/components/schemas/FunctionShellCallOutputContent"
+          type: array
+          description: The output contents emitted for the shell command.
+      type: object
+      required:
+        - type
+        - sequence_number
+        - item_id
+        - output_index
+        - command_index
+        - output
+      title: Response shell call output content done event
+      description: A streaming event that indicated shell call output was completed.
     CreateConversationBody:
       properties:
         metadata:
@@ -72999,6 +73703,39 @@ components:
         - y
       title: Coordinate
       description: "An x/y coordinate pair, e.g. `{ x: 100, y: 200 }`."
+    ErrorPayload:
+      properties:
+        type:
+          type: string
+          description: The error type that was emitted.
+        code:
+          anyOf:
+            - type: string
+              description: The error code that was emitted, if any.
+            - type: "null"
+        message:
+          type: string
+          description: The human-readable error message that was emitted.
+        param:
+          anyOf:
+            - type: string
+              description: The parameter name that was associated with the error, if any.
+            - type: "null"
+        headers:
+          additionalProperties:
+            type: string
+            description: The header value that was emitted.
+          type: object
+          description: The response headers that were emitted with the error, if any.
+          x-oaiTypeLabel: map
+      type: object
+      required:
+        - type
+        - code
+        - message
+        - param
+      title: Error payload
+      description: An error payload that was emitted for a streaming error event.
     BetaTokenCountsResource:
       properties:
         object:
@@ -75573,10 +76310,8 @@ components:
                 The output from the tool call.
             - type: "null"
         error:
+          description: The error from the tool call, if any.
           anyOf:
-            - type: string
-              description: |
-                The error from the tool call, if any.
             - $ref: "#/components/schemas/BetaMCPToolCallError"
             - type: "null"
         status:
@@ -81410,6 +82145,18 @@ components:
           type: string
           description: Base64-encoded partial image data, suitable for rendering as an
             image.
+        size:
+          type: string
+          description: The image size that was used.
+        quality:
+          type: string
+          description: The image quality that was used.
+        background:
+          type: string
+          description: The background setting that was used.
+        output_format:
+          type: string
+          description: The output format that was used.
       required:
         - type
         - output_index
@@ -82380,6 +83127,201 @@ components:
             },
             "sequence_number": 1
           }
+    BetaResponseShellCallOutputContentDoneStreamingEvent:
+      properties:
+        type:
+          type: string
+          enum:
+            - response.shell_call_output_content.done
+          description: The type of the event, always
+            `response.shell_call_output_content.done`.
+          default: response.shell_call_output_content.done
+          x-stainless-const: true
+        sequence_number:
+          type: integer
+          description: The sequence number of the event that was emitted.
+        agent:
+          $ref: "#/components/schemas/BetaAgentTag"
+          description: The agent that owns this multi-agent streaming event.
+        item_id:
+          type: string
+          description: The ID of the output item that was updated.
+        output_index:
+          type: integer
+          description: The index of the output item that was updated.
+        command_index:
+          type: integer
+          description: The index of the shell command that produced output.
+        output:
+          items:
+            $ref: "#/components/schemas/BetaFunctionShellCallOutputContent"
+          type: array
+          description: The output contents emitted for the shell command.
+      type: object
+      required:
+        - type
+        - sequence_number
+        - item_id
+        - output_index
+        - command_index
+        - output
+      title: Response shell call output content done event
+      description: A streaming event that indicated shell call output was completed.
+    BetaResponseShellCallOutputContentDeltaStreamingEvent:
+      properties:
+        type:
+          type: string
+          enum:
+            - response.shell_call_output_content.delta
+          description: The type of the event, always
+            `response.shell_call_output_content.delta`.
+          default: response.shell_call_output_content.delta
+          x-stainless-const: true
+        sequence_number:
+          type: integer
+          description: The sequence number of the event that was emitted.
+        agent:
+          $ref: "#/components/schemas/BetaAgentTag"
+          description: The agent that owns this multi-agent streaming event.
+        item_id:
+          type: string
+          description: The ID of the output item that was updated.
+        output_index:
+          type: integer
+          description: The index of the output item that was updated.
+        command_index:
+          type: integer
+          description: The index of the shell command that produced output.
+        delta:
+          $ref: "#/components/schemas/BetaShellCallOutputDelta"
+          description: The stdout/stderr delta that was emitted.
+      type: object
+      required:
+        - type
+        - sequence_number
+        - item_id
+        - output_index
+        - command_index
+        - delta
+      title: Response shell call output content delta event
+      description: A streaming event that indicated shell call output was
+        incrementally added.
+    BetaShellCallOutputDelta:
+      properties:
+        stdout:
+          type: string
+          description: The stdout delta that was emitted.
+        stderr:
+          type: string
+          description: The stderr delta that was emitted.
+      type: object
+      required: []
+      title: Shell call output delta
+      description: A delta of stdout/stderr emitted while a shell call was running.
+    BetaResponseShellCallCommandDoneStreamingEvent:
+      properties:
+        type:
+          type: string
+          enum:
+            - response.shell_call_command.done
+          description: The type of the event, always `response.shell_call_command.done`.
+          default: response.shell_call_command.done
+          x-stainless-const: true
+        sequence_number:
+          type: integer
+          description: The sequence number of the event that was emitted.
+        agent:
+          $ref: "#/components/schemas/BetaAgentTag"
+          description: The agent that owns this multi-agent streaming event.
+        output_index:
+          type: integer
+          description: The index of the output item that was updated.
+        command_index:
+          type: integer
+          description: The index of the shell command that was completed.
+        command:
+          type: string
+          description: The final shell command that was emitted.
+      type: object
+      required:
+        - type
+        - sequence_number
+        - output_index
+        - command_index
+        - command
+      title: Response shell command done event
+      description: A streaming event that indicated a shell command was completed.
+    BetaResponseShellCallCommandDeltaStreamingEvent:
+      properties:
+        type:
+          type: string
+          enum:
+            - response.shell_call_command.delta
+          description: The type of the event, always `response.shell_call_command.delta`.
+          default: response.shell_call_command.delta
+          x-stainless-const: true
+        sequence_number:
+          type: integer
+          description: The sequence number of the event that was emitted.
+        agent:
+          $ref: "#/components/schemas/BetaAgentTag"
+          description: The agent that owns this multi-agent streaming event.
+        output_index:
+          type: integer
+          description: The index of the output item that was updated.
+        command_index:
+          type: integer
+          description: The index of the shell command that was updated.
+        delta:
+          type: string
+          description: The shell command delta that was appended.
+        obfuscation:
+          type: string
+          description: An obfuscation string that was added to pad the event payload.
+      type: object
+      required:
+        - type
+        - sequence_number
+        - output_index
+        - command_index
+        - delta
+      title: Response shell command delta event
+      description: A streaming event that indicated a shell command was incrementally
+        updated.
+    BetaResponseShellCallCommandAddedStreamingEvent:
+      properties:
+        type:
+          type: string
+          enum:
+            - response.shell_call_command.added
+          description: The type of the event, always `response.shell_call_command.added`.
+          default: response.shell_call_command.added
+          x-stainless-const: true
+        sequence_number:
+          type: integer
+          description: The sequence number of the event that was emitted.
+        agent:
+          $ref: "#/components/schemas/BetaAgentTag"
+          description: The agent that owns this multi-agent streaming event.
+        output_index:
+          type: integer
+          description: The index of the output item that was updated.
+        command_index:
+          type: integer
+          description: The index of the shell command that was added.
+        command:
+          type: string
+          description: The shell command that was added.
+      type: object
+      required:
+        - type
+        - sequence_number
+        - output_index
+        - command_index
+        - command
+      title: Response shell command added event
+      description: A streaming event that indicated a shell command was added to a
+        tool call.
     BetaResponseFunctionCallArgumentsDoneEvent:
       type: object
       description: Emitted when function-call arguments are finalized.
@@ -83892,21 +84834,6 @@ components:
                     when the originating `response.create` event supplied a
 
                     `stream_id`.
-        - title: BetaResponseWsError
-          description: Emitted when an error occurs.
-          allOf:
-            - $ref: "#/components/schemas/BetaResponseErrorEvent"
-            - type: object
-              properties:
-                stream_id:
-                  type: string
-                  description: >
-                    The WebSocket lane that emitted this event. This field is
-                    present
-
-                    when the originating `response.create` event supplied a
-
-                    `stream_id`.
         - title: BetaResponseFileSearchCallWsCompleted
           description: Emitted when a file search call is completed (results found).
           allOf:
@@ -83971,6 +84898,88 @@ components:
           description: Emitted when function-call arguments are finalized.
           allOf:
             - $ref: "#/components/schemas/BetaResponseFunctionCallArgumentsDoneEvent"
+            - type: object
+              properties:
+                stream_id:
+                  type: string
+                  description: >
+                    The WebSocket lane that emitted this event. This field is
+                    present
+
+                    when the originating `response.create` event supplied a
+
+                    `stream_id`.
+        - title: BetaResponseShellCallCommandWsAdded
+          description: A streaming event that indicated a shell command was added to a
+            tool call.
+          allOf:
+            - $ref: "#/components/schemas/BetaResponseShellCallCommandAddedStreamingEvent"
+            - type: object
+              properties:
+                stream_id:
+                  type: string
+                  description: >
+                    The WebSocket lane that emitted this event. This field is
+                    present
+
+                    when the originating `response.create` event supplied a
+
+                    `stream_id`.
+        - title: BetaResponseShellCallCommandWsDelta
+          description: A streaming event that indicated a shell command was incrementally
+            updated.
+          allOf:
+            - $ref: "#/components/schemas/BetaResponseShellCallCommandDeltaStreamingEvent"
+            - type: object
+              properties:
+                stream_id:
+                  type: string
+                  description: >
+                    The WebSocket lane that emitted this event. This field is
+                    present
+
+                    when the originating `response.create` event supplied a
+
+                    `stream_id`.
+        - title: BetaResponseShellCallCommandWsDone
+          description: A streaming event that indicated a shell command was completed.
+          allOf:
+            - $ref: "#/components/schemas/BetaResponseShellCallCommandDoneStreamingEvent"
+            - type: object
+              properties:
+                stream_id:
+                  type: string
+                  description: >
+                    The WebSocket lane that emitted this event. This field is
+                    present
+
+                    when the originating `response.create` event supplied a
+
+                    `stream_id`.
+        - title: BetaResponseShellCallOutputContentWsDelta
+          description: A streaming event that indicated shell call output was
+            incrementally added.
+          allOf:
+            - $ref: "#/components/schemas/BetaResponseShellCallOutputContentDeltaStreamingEve\
+                nt"
+              x-stainless-skip:
+                - go
+            - type: object
+              properties:
+                stream_id:
+                  type: string
+                  description: >
+                    The WebSocket lane that emitted this event. This field is
+                    present
+
+                    when the originating `response.create` event supplied a
+
+                    `stream_id`.
+        - title: BetaResponseShellCallOutputContentWsDone
+          description: A streaming event that indicated shell call output was completed.
+          allOf:
+            - $ref: "#/components/schemas/BetaResponseShellCallOutputContentDoneStreamingEven\
+                t"
             - type: object
               properties:
                 stream_id:
@@ -84517,6 +85526,7 @@ components:
                     when the originating `response.create` event supplied a
 
                     `stream_id`.
+        - $ref: "#/components/schemas/BetaResponseWsError"
         - $ref: "#/components/schemas/BetaResponseInjectCreatedEvent"
         - $ref: "#/components/schemas/BetaResponseInjectFailedEvent"
     BetaResponseInjectFailedEvent:
@@ -84635,9 +85645,154 @@ components:
             "response_id": "resp_123",
             "sequence_number": 8
           }
+    BetaResponseWsError:
+      type: object
+      title: ResponseWsError
+      description: Emitted when an error occurs while processing a Responses WebSocket
+        request.
+      properties:
+        agent:
+          anyOf:
+            - $ref: "#/components/schemas/BetaAgentTag"
+            - type: "null"
+          description: The agent that owns this multi-agent streaming event.
+        type:
+          type: string
+          description: The type of the event. Always `error`.
+          enum:
+            - error
+          x-stainless-const: true
+        status:
+          type: integer
+          description: The HTTP status code associated with a WebSocket protocol error.
+        sequence_number:
+          type: integer
+          description: The sequence number of an error emitted by the response stream.
+        error:
+          $ref: "#/components/schemas/BetaErrorPayload"
+          description: Details about the error.
+        stream_id:
+          type: string
+          description: >
+            The WebSocket lane that emitted this event. This field is present
+            when the
+
+            originating `response.create` event supplied a `stream_id`.
+      required:
+        - type
+        - error
+      x-oaiMeta:
+        name: error
+        group: responses
+        example: >
+          {
+            "type": "error",
+            "status": 400,
+            "stream_id": "agent_1",
+            "error": {
+              "type": "invalid_request_error",
+              "code": "websocket_stream_limit_reached",
+              "message": "This WebSocket connection has reached its stream limit.",
+              "param": "stream_id"
+            }
+          }
+    BetaErrorPayload:
+      properties:
+        type:
+          type: string
+          description: The error type that was emitted.
+        code:
+          anyOf:
+            - type: string
+              description: The error code that was emitted, if any.
+            - type: "null"
+        message:
+          type: string
+          description: The human-readable error message that was emitted.
+        param:
+          anyOf:
+            - type: string
+              description: The parameter name that was associated with the error, if any.
+            - type: "null"
+        headers:
+          additionalProperties:
+            type: string
+            description: The header value that was emitted.
+          type: object
+          description: The response headers that were emitted with the error, if any.
+          x-oaiTypeLabel: map
+      type: object
+      required:
+        - type
+        - code
+        - message
+        - param
+      title: Error payload
+      description: An error payload that was emitted for a streaming error event.
     BetaResponsesWebSocketStreamEvent:
       allOf:
-        - $ref: "#/components/schemas/BetaResponseStreamEvent"
+        - anyOf:
+            - $ref: "#/components/schemas/BetaResponseAudioDeltaEvent"
+            - $ref: "#/components/schemas/BetaResponseAudioDoneEvent"
+            - $ref: "#/components/schemas/BetaResponseAudioTranscriptDeltaEvent"
+            - $ref: "#/components/schemas/BetaResponseAudioTranscriptDoneEvent"
+            - $ref: "#/components/schemas/BetaResponseCodeInterpreterCallCodeDeltaEvent"
+            - $ref: "#/components/schemas/BetaResponseCodeInterpreterCallCodeDoneEvent"
+            - $ref: "#/components/schemas/BetaResponseCodeInterpreterCallCompletedEvent"
+            - $ref: "#/components/schemas/BetaResponseCodeInterpreterCallInProgressEvent"
+            - $ref: "#/components/schemas/BetaResponseCodeInterpreterCallInterpretingEvent"
+            - $ref: "#/components/schemas/BetaResponseCompletedEvent"
+            - $ref: "#/components/schemas/BetaResponseContentPartAddedEvent"
+            - $ref: "#/components/schemas/BetaResponseContentPartDoneEvent"
+            - $ref: "#/components/schemas/BetaResponseCreatedEvent"
+            - $ref: "#/components/schemas/BetaResponseFileSearchCallCompletedEvent"
+            - $ref: "#/components/schemas/BetaResponseFileSearchCallInProgressEvent"
+            - $ref: "#/components/schemas/BetaResponseFileSearchCallSearchingEvent"
+            - $ref: "#/components/schemas/BetaResponseFunctionCallArgumentsDeltaEvent"
+            - $ref: "#/components/schemas/BetaResponseFunctionCallArgumentsDoneEvent"
+            - $ref: "#/components/schemas/BetaResponseShellCallCommandAddedStreamingEvent"
+            - $ref: "#/components/schemas/BetaResponseShellCallCommandDeltaStreamingEvent"
+            - $ref: "#/components/schemas/BetaResponseShellCallCommandDoneStreamingEvent"
+            - $ref: "#/components/schemas/BetaResponseShellCallOutputContentDeltaStreamingEve\
+                nt"
+              x-stainless-skip:
+                - go
+            - $ref: "#/components/schemas/BetaResponseShellCallOutputContentDoneStreamingEven\
+                t"
+            - $ref: "#/components/schemas/BetaResponseInProgressEvent"
+            - $ref: "#/components/schemas/BetaResponseFailedEvent"
+            - $ref: "#/components/schemas/BetaResponseIncompleteEvent"
+            - $ref: "#/components/schemas/BetaResponseOutputItemAddedEvent"
+            - $ref: "#/components/schemas/BetaResponseOutputItemDoneEvent"
+            - $ref: "#/components/schemas/BetaResponseReasoningSummaryPartAddedEvent"
+            - $ref: "#/components/schemas/BetaResponseReasoningSummaryPartDoneEvent"
+            - $ref: "#/components/schemas/BetaResponseReasoningSummaryTextDeltaEvent"
+            - $ref: "#/components/schemas/BetaResponseReasoningSummaryTextDoneEvent"
+            - $ref: "#/components/schemas/BetaResponseReasoningTextDeltaEvent"
+            - $ref: "#/components/schemas/BetaResponseReasoningTextDoneEvent"
+            - $ref: "#/components/schemas/BetaResponseRefusalDeltaEvent"
+            - $ref: "#/components/schemas/BetaResponseRefusalDoneEvent"
+            - $ref: "#/components/schemas/BetaResponseTextDeltaEvent"
+            - $ref: "#/components/schemas/BetaResponseTextDoneEvent"
+            - $ref: "#/components/schemas/BetaResponseWebSearchCallCompletedEvent"
+            - $ref: "#/components/schemas/BetaResponseWebSearchCallInProgressEvent"
+            - $ref: "#/components/schemas/BetaResponseWebSearchCallSearchingEvent"
+            - $ref: "#/components/schemas/BetaResponseImageGenCallCompletedEvent"
+            - $ref: "#/components/schemas/BetaResponseImageGenCallGeneratingEvent"
+            - $ref: "#/components/schemas/BetaResponseImageGenCallInProgressEvent"
+            - $ref: "#/components/schemas/BetaResponseImageGenCallPartialImageEvent"
+            - $ref: "#/components/schemas/BetaResponseMCPCallArgumentsDeltaEvent"
+            - $ref: "#/components/schemas/BetaResponseMCPCallArgumentsDoneEvent"
+            - $ref: "#/components/schemas/BetaResponseMCPCallCompletedEvent"
+            - $ref: "#/components/schemas/BetaResponseMCPCallFailedEvent"
+            - $ref: "#/components/schemas/BetaResponseMCPCallInProgressEvent"
+            - $ref: "#/components/schemas/BetaResponseMCPListToolsCompletedEvent"
+            - $ref: "#/components/schemas/BetaResponseMCPListToolsFailedEvent"
+            - $ref: "#/components/schemas/BetaResponseMCPListToolsInProgressEvent"
+            - $ref: "#/components/schemas/BetaResponseOutputTextAnnotationAddedEvent"
+            - $ref: "#/components/schemas/BetaResponseQueuedEvent"
+            - $ref: "#/components/schemas/BetaResponseCustomToolCallInputDeltaEvent"
+            - $ref: "#/components/schemas/BetaResponseCustomToolCallInputDoneEvent"
         - type: object
           properties:
             stream_id:
@@ -84649,64 +85804,6 @@ components:
                 when the originating `response.create` event supplied a
 
                 `stream_id`.
-    BetaResponseStreamEvent:
-      description: Event emitted while a response is streamed.
-      anyOf:
-        - $ref: "#/components/schemas/BetaResponseAudioDeltaEvent"
-        - $ref: "#/components/schemas/BetaResponseAudioDoneEvent"
-        - $ref: "#/components/schemas/BetaResponseAudioTranscriptDeltaEvent"
-        - $ref: "#/components/schemas/BetaResponseAudioTranscriptDoneEvent"
-        - $ref: "#/components/schemas/BetaResponseCodeInterpreterCallCodeDeltaEvent"
-        - $ref: "#/components/schemas/BetaResponseCodeInterpreterCallCodeDoneEvent"
-        - $ref: "#/components/schemas/BetaResponseCodeInterpreterCallCompletedEvent"
-        - $ref: "#/components/schemas/BetaResponseCodeInterpreterCallInProgressEvent"
-        - $ref: "#/components/schemas/BetaResponseCodeInterpreterCallInterpretingEvent"
-        - $ref: "#/components/schemas/BetaResponseCompletedEvent"
-        - $ref: "#/components/schemas/BetaResponseContentPartAddedEvent"
-        - $ref: "#/components/schemas/BetaResponseContentPartDoneEvent"
-        - $ref: "#/components/schemas/BetaResponseCreatedEvent"
-        - $ref: "#/components/schemas/BetaResponseErrorEvent"
-        - $ref: "#/components/schemas/BetaResponseFileSearchCallCompletedEvent"
-        - $ref: "#/components/schemas/BetaResponseFileSearchCallInProgressEvent"
-        - $ref: "#/components/schemas/BetaResponseFileSearchCallSearchingEvent"
-        - $ref: "#/components/schemas/BetaResponseFunctionCallArgumentsDeltaEvent"
-        - $ref: "#/components/schemas/BetaResponseFunctionCallArgumentsDoneEvent"
-        - $ref: "#/components/schemas/BetaResponseInProgressEvent"
-        - $ref: "#/components/schemas/BetaResponseFailedEvent"
-        - $ref: "#/components/schemas/BetaResponseIncompleteEvent"
-        - $ref: "#/components/schemas/BetaResponseOutputItemAddedEvent"
-        - $ref: "#/components/schemas/BetaResponseOutputItemDoneEvent"
-        - $ref: "#/components/schemas/BetaResponseReasoningSummaryPartAddedEvent"
-        - $ref: "#/components/schemas/BetaResponseReasoningSummaryPartDoneEvent"
-        - $ref: "#/components/schemas/BetaResponseReasoningSummaryTextDeltaEvent"
-        - $ref: "#/components/schemas/BetaResponseReasoningSummaryTextDoneEvent"
-        - $ref: "#/components/schemas/BetaResponseReasoningTextDeltaEvent"
-        - $ref: "#/components/schemas/BetaResponseReasoningTextDoneEvent"
-        - $ref: "#/components/schemas/BetaResponseRefusalDeltaEvent"
-        - $ref: "#/components/schemas/BetaResponseRefusalDoneEvent"
-        - $ref: "#/components/schemas/BetaResponseTextDeltaEvent"
-        - $ref: "#/components/schemas/BetaResponseTextDoneEvent"
-        - $ref: "#/components/schemas/BetaResponseWebSearchCallCompletedEvent"
-        - $ref: "#/components/schemas/BetaResponseWebSearchCallInProgressEvent"
-        - $ref: "#/components/schemas/BetaResponseWebSearchCallSearchingEvent"
-        - $ref: "#/components/schemas/BetaResponseImageGenCallCompletedEvent"
-        - $ref: "#/components/schemas/BetaResponseImageGenCallGeneratingEvent"
-        - $ref: "#/components/schemas/BetaResponseImageGenCallInProgressEvent"
-        - $ref: "#/components/schemas/BetaResponseImageGenCallPartialImageEvent"
-        - $ref: "#/components/schemas/BetaResponseMCPCallArgumentsDeltaEvent"
-        - $ref: "#/components/schemas/BetaResponseMCPCallArgumentsDoneEvent"
-        - $ref: "#/components/schemas/BetaResponseMCPCallCompletedEvent"
-        - $ref: "#/components/schemas/BetaResponseMCPCallFailedEvent"
-        - $ref: "#/components/schemas/BetaResponseMCPCallInProgressEvent"
-        - $ref: "#/components/schemas/BetaResponseMCPListToolsCompletedEvent"
-        - $ref: "#/components/schemas/BetaResponseMCPListToolsFailedEvent"
-        - $ref: "#/components/schemas/BetaResponseMCPListToolsInProgressEvent"
-        - $ref: "#/components/schemas/BetaResponseOutputTextAnnotationAddedEvent"
-        - $ref: "#/components/schemas/BetaResponseQueuedEvent"
-        - $ref: "#/components/schemas/BetaResponseCustomToolCallInputDeltaEvent"
-        - $ref: "#/components/schemas/BetaResponseCustomToolCallInputDoneEvent"
-      discriminator:
-        propertyName: type
     BetaResponsesClientEvent:
       discriminator:
         propertyName: type
@@ -85098,6 +86195,88 @@ components:
               type: integer
               minimum: 0
               maximum: 20
+    BetaResponseStreamEvent:
+      description: Event emitted while a response is streamed.
+      anyOf:
+        - $ref: "#/components/schemas/BetaResponseAudioDeltaEvent"
+        - $ref: "#/components/schemas/BetaResponseAudioDoneEvent"
+        - $ref: "#/components/schemas/BetaResponseAudioTranscriptDeltaEvent"
+        - $ref: "#/components/schemas/BetaResponseAudioTranscriptDoneEvent"
+        - $ref: "#/components/schemas/BetaResponseCodeInterpreterCallCodeDeltaEvent"
+        - $ref: "#/components/schemas/BetaResponseCodeInterpreterCallCodeDoneEvent"
+        - $ref: "#/components/schemas/BetaResponseCodeInterpreterCallCompletedEvent"
+        - $ref: "#/components/schemas/BetaResponseCodeInterpreterCallInProgressEvent"
+        - $ref: "#/components/schemas/BetaResponseCodeInterpreterCallInterpretingEvent"
+        - $ref: "#/components/schemas/BetaResponseCompletedEvent"
+        - $ref: "#/components/schemas/BetaResponseContentPartAddedEvent"
+        - $ref: "#/components/schemas/BetaResponseContentPartDoneEvent"
+        - $ref: "#/components/schemas/BetaResponseCreatedEvent"
+        - $ref: "#/components/schemas/BetaResponseErrorEvent"
+        - $ref: "#/components/schemas/BetaResponseFileSearchCallCompletedEvent"
+        - $ref: "#/components/schemas/BetaResponseFileSearchCallInProgressEvent"
+        - $ref: "#/components/schemas/BetaResponseFileSearchCallSearchingEvent"
+        - $ref: "#/components/schemas/BetaResponseFunctionCallArgumentsDeltaEvent"
+        - $ref: "#/components/schemas/BetaResponseFunctionCallArgumentsDoneEvent"
+        - $ref: "#/components/schemas/BetaResponseShellCallCommandAddedStreamingEvent"
+        - $ref: "#/components/schemas/BetaResponseShellCallCommandDeltaStreamingEvent"
+        - $ref: "#/components/schemas/BetaResponseShellCallCommandDoneStreamingEvent"
+        - $ref: "#/components/schemas/BetaResponseShellCallOutputContentDeltaStreamingEve\
+            nt"
+          x-stainless-skip:
+            - go
+        - $ref: "#/components/schemas/BetaResponseShellCallOutputContentDoneStreamingEven\
+            t"
+        - $ref: "#/components/schemas/BetaResponseInProgressEvent"
+        - $ref: "#/components/schemas/BetaResponseFailedEvent"
+        - $ref: "#/components/schemas/BetaResponseIncompleteEvent"
+        - $ref: "#/components/schemas/BetaResponseOutputItemAddedEvent"
+        - $ref: "#/components/schemas/BetaResponseOutputItemDoneEvent"
+        - $ref: "#/components/schemas/BetaResponseReasoningSummaryPartAddedEvent"
+        - $ref: "#/components/schemas/BetaResponseReasoningSummaryPartDoneEvent"
+        - $ref: "#/components/schemas/BetaResponseReasoningSummaryTextDeltaEvent"
+        - $ref: "#/components/schemas/BetaResponseReasoningSummaryTextDoneEvent"
+        - $ref: "#/components/schemas/BetaResponseReasoningTextDeltaEvent"
+        - $ref: "#/components/schemas/BetaResponseReasoningTextDoneEvent"
+        - $ref: "#/components/schemas/BetaResponseRefusalDeltaEvent"
+        - $ref: "#/components/schemas/BetaResponseRefusalDoneEvent"
+        - $ref: "#/components/schemas/BetaResponseTextDeltaEvent"
+        - $ref: "#/components/schemas/BetaResponseTextDoneEvent"
+        - $ref: "#/components/schemas/BetaResponseWebSearchCallCompletedEvent"
+        - $ref: "#/components/schemas/BetaResponseWebSearchCallInProgressEvent"
+        - $ref: "#/components/schemas/BetaResponseWebSearchCallSearchingEvent"
+        - $ref: "#/components/schemas/BetaResponseImageGenCallCompletedEvent"
+        - $ref: "#/components/schemas/BetaResponseImageGenCallGeneratingEvent"
+        - $ref: "#/components/schemas/BetaResponseImageGenCallInProgressEvent"
+        - $ref: "#/components/schemas/BetaResponseImageGenCallPartialImageEvent"
+        - $ref: "#/components/schemas/BetaResponseMCPCallArgumentsDeltaEvent"
+        - $ref: "#/components/schemas/BetaResponseMCPCallArgumentsDoneEvent"
+        - $ref: "#/components/schemas/BetaResponseMCPCallCompletedEvent"
+        - $ref: "#/components/schemas/BetaResponseMCPCallFailedEvent"
+        - $ref: "#/components/schemas/BetaResponseMCPCallInProgressEvent"
+        - $ref: "#/components/schemas/BetaResponseMCPListToolsCompletedEvent"
+        - $ref: "#/components/schemas/BetaResponseMCPListToolsFailedEvent"
+        - $ref: "#/components/schemas/BetaResponseMCPListToolsInProgressEvent"
+        - $ref: "#/components/schemas/BetaResponseOutputTextAnnotationAddedEvent"
+        - $ref: "#/components/schemas/BetaResponseQueuedEvent"
+        - $ref: "#/components/schemas/BetaResponseCustomToolCallInputDeltaEvent"
+        - $ref: "#/components/schemas/BetaResponseCustomToolCallInputDoneEvent"
+      discriminator:
+        propertyName: type
+  responses:
+    TooManyRequests:
+      description: The request was rejected because a rate limit was exceeded.
+      headers:
+        Retry-After:
+          description: The minimum number of seconds to wait before retrying. This header
+            is returned when the server has computed a retry delay and may be
+            omitted for 429 responses that require user action.
+          schema:
+            type: integer
+            minimum: 1
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
   securitySchemes:
     ApiKeyAuth:
       type: http
