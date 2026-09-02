@@ -32262,13 +32262,6 @@ components:
           type: integer
           default: 0
           description: Total number of tokens used in the request (prompt + completion).
-        compute_units:
-          anyOf:
-            - type: integer
-              minimum: 0
-            - type: "null"
-          description: |
-            Compute units for the request. Currently null when available.
         completion_tokens_details:
           type: object
           description: Breakdown of tokens used in a completion.
@@ -57418,6 +57411,7 @@ components:
                       description: The reason why the response is incomplete.
                       enum:
                         - max_output_tokens
+                        - max_messages
                         - content_filter
                 - type: "null"
             output:
@@ -60404,13 +60398,6 @@ components:
         total_tokens:
           type: integer
           description: The total number of tokens used.
-        compute_units:
-          anyOf:
-            - type: integer
-              minimum: 0
-            - type: "null"
-          description: |
-            Compute units for the request. Currently null when available.
       required:
         - input_tokens
         - input_tokens_details
@@ -80989,13 +80976,6 @@ components:
         total_tokens:
           type: integer
           description: The total number of tokens used.
-        compute_units:
-          anyOf:
-            - type: integer
-              minimum: 0
-            - type: "null"
-          description: |
-            Compute units for the request. Currently null when available.
       required:
         - input_tokens
         - input_tokens_details
@@ -81322,6 +81302,7 @@ components:
                       description: The reason why the response is incomplete.
                       enum:
                         - max_output_tokens
+                        - max_messages
                         - content_filter
                 - type: "null"
             output:
