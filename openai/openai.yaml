@@ -36476,6 +36476,12 @@ components:
                     retrieval via
 
                     API.
+
+                    Defaults to true when omitted.
+
+                    If set to true, response data will be stored for at least 30
+                    days, subject to the [data retention
+                    exceptions](/api/docs/guides/your-data#v1responses).
                   default: true
                 - type: "null"
             instructions:
@@ -58853,9 +58859,6 @@ components:
         item_id:
           type: string
           description: The ID of the item.
-        name:
-          type: string
-          description: The name of the function that was called.
         output_index:
           type: integer
           description: The index of the output item.
@@ -58868,7 +58871,6 @@ components:
       required:
         - type
         - item_id
-        - name
         - output_index
         - arguments
         - sequence_number
@@ -58879,7 +58881,6 @@ components:
           {
             "type": "response.function_call_arguments.done",
             "item_id": "item-abc",
-            "name": "get_weather",
             "output_index": 1,
             "arguments": "{ \"arg\": 123 }",
             "sequence_number": 1
@@ -72759,6 +72760,13 @@ components:
             description: API key scope.
           type: array
           description: API key scopes.
+        expires_in_seconds:
+          anyOf:
+            - type: integer
+              maximum: 31536000
+              minimum: 1
+              description: Number of seconds until the API key expires.
+            - type: "null"
       type: object
       required: []
       description: The service account API key create request payload.
@@ -72782,6 +72790,13 @@ components:
           type: integer
           format: unixtime
           description: The Unix timestamp (in seconds) when the API key was created.
+        expires_at:
+          anyOf:
+            - type: integer
+              format: unixtime
+              description: The Unix timestamp (in seconds) when the API key expires, or null
+                if it does not expire.
+            - type: "null"
         id:
           type: string
           description: The identifier of the API key.
@@ -84928,9 +84943,6 @@ components:
         item_id:
           type: string
           description: The ID of the item.
-        name:
-          type: string
-          description: The name of the function that was called.
         output_index:
           type: integer
           description: The index of the output item.
@@ -84943,7 +84955,6 @@ components:
       required:
         - type
         - item_id
-        - name
         - output_index
         - arguments
         - sequence_number
@@ -84954,7 +84965,6 @@ components:
           {
             "type": "response.function_call_arguments.done",
             "item_id": "item-abc",
-            "name": "get_weather",
             "output_index": 1,
             "arguments": "{ \"arg\": 123 }",
             "sequence_number": 1
@@ -88298,6 +88308,12 @@ components:
                     retrieval via
 
                     API.
+
+                    Defaults to true when omitted.
+
+                    If set to true, response data will be stored for at least 30
+                    days, subject to the [data retention
+                    exceptions](/api/docs/guides/your-data#v1responses).
                   default: true
                 - type: "null"
             instructions:
