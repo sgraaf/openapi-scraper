@@ -26641,7 +26641,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "403":
-          description: The API key lacks the required Responses permission.
+          description: The API key lacks the required permission.
           content:
             application/json:
               schema:
@@ -26715,7 +26715,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "403":
-          description: The API key lacks the required Responses permission.
+          description: The API key lacks the required permission.
           content:
             application/json:
               schema:
@@ -26816,7 +26816,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "403":
-          description: The API key lacks the required Responses permission.
+          description: The API key lacks the required permission.
           content:
             application/json:
               schema:
@@ -26918,7 +26918,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "403":
-          description: The API key lacks the required Responses permission.
+          description: The API key lacks the required permission.
           content:
             application/json:
               schema:
@@ -27000,7 +27000,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "403":
-          description: The API key lacks the required Responses permission.
+          description: The API key lacks the required permission.
           content:
             application/json:
               schema:
@@ -27108,7 +27108,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "403":
-          description: The API key lacks the required Responses permission.
+          description: The API key lacks the required permission.
           content:
             application/json:
               schema:
@@ -27853,7 +27853,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "403":
-          description: The API key lacks the required Responses permission.
+          description: The API key lacks the required permission.
           content:
             application/json:
               schema:
@@ -27919,7 +27919,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "403":
-          description: The API key lacks the required Responses permission.
+          description: The API key lacks the required permission.
           content:
             application/json:
               schema:
@@ -27989,7 +27989,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "403":
-          description: The API key lacks the required Responses permission.
+          description: The API key lacks the required permission.
           content:
             application/json:
               schema:
@@ -28021,8 +28021,9 @@ paths:
     post:
       operationId: updateAgentSession
       summary: Update an agent session
-      description: Updates session metadata. Omitted fields are unchanged. See
-        [managing
+      description: Updates session metadata, model, reasoning effort, or service tier.
+        Model settings apply to subsequent turns. Omitted fields are unchanged.
+        See [managing
         sessions](https://developers.openai.com/api/docs/guides/agents-api/sessions/manage).
       tags:
         - Agents
@@ -28060,7 +28061,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "403":
-          description: The API key lacks the required Responses permission.
+          description: The API key lacks the required permission.
           content:
             application/json:
               schema:
@@ -28127,7 +28128,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "403":
-          description: The API key lacks the required Responses permission.
+          description: The API key lacks the required permission.
           content:
             application/json:
               schema:
@@ -28232,7 +28233,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "403":
-          description: The API key lacks the required Responses permission.
+          description: The API key lacks the required permission.
           content:
             application/json:
               schema:
@@ -28307,7 +28308,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "403":
-          description: The API key lacks the required Responses permission.
+          description: The API key lacks the required permission.
           content:
             application/json:
               schema:
@@ -28381,7 +28382,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "403":
-          description: The API key lacks the required Responses permission.
+          description: The API key lacks the required permission.
           content:
             application/json:
               schema:
@@ -28457,7 +28458,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "403":
-          description: The API key lacks the required Responses permission.
+          description: The API key lacks the required permission.
           content:
             application/json:
               schema:
@@ -28523,7 +28524,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "403":
-          description: The API key lacks the required Responses permission.
+          description: The API key lacks the required permission.
           content:
             application/json:
               schema:
@@ -28602,7 +28603,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "403":
-          description: The API key lacks the required Responses permission.
+          description: The API key lacks the required permission.
           content:
             application/json:
               schema:
@@ -28696,7 +28697,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "403":
-          description: The API key lacks the required Responses permission.
+          description: The API key lacks the required permission.
           content:
             application/json:
               schema:
@@ -61628,6 +61629,19 @@ components:
             "item_id": "ci_12345",
             "sequence_number": 1
           }
+    ResponseCompactionCompactingEvent:
+      allOf:
+        - $ref: "#/components/schemas/ResponseCompactionCompactingStreamingEvent"
+      x-oaiMeta:
+        name: response.compaction.compacting
+        group: responses
+        example: |
+          {
+            "type": "response.compaction.compacting",
+            "sequence_number": 3,
+            "item_id": "cmp_123",
+            "output_index": 0
+          }
     ResponseCompletedEvent:
       type: object
       description: Emitted when the model response is complete.
@@ -64596,6 +64610,7 @@ components:
         - $ref: "#/components/schemas/ResponseCodeInterpreterCallCompletedEvent"
         - $ref: "#/components/schemas/ResponseCodeInterpreterCallInProgressEvent"
         - $ref: "#/components/schemas/ResponseCodeInterpreterCallInterpretingEvent"
+        - $ref: "#/components/schemas/ResponseCompactionCompactingStreamingEvent"
         - $ref: "#/components/schemas/ResponseCompletedEvent"
         - $ref: "#/components/schemas/ResponseContentPartAddedEvent"
         - $ref: "#/components/schemas/ResponseContentPartDoneEvent"
@@ -65208,6 +65223,22 @@ components:
             snippet.
           allOf:
             - $ref: "#/components/schemas/ResponseCodeInterpreterCallInterpretingEvent"
+            - type: object
+              properties:
+                stream_id:
+                  type: string
+                  description: >
+                    The WebSocket lane that emitted this event. This field is
+                    present
+
+                    when the originating `response.create` event supplied a
+
+                    `stream_id`.
+        - title: ResponseCompactionWsCompacting
+          description: Emitted when new summary content is sampled for a compaction
+            trigger. Contains no summary content.
+          allOf:
+            - $ref: "#/components/schemas/ResponseCompactionCompactingStreamingEvent"
             - type: object
               properties:
                 stream_id:
@@ -65995,6 +66026,7 @@ components:
             - $ref: "#/components/schemas/ResponseCodeInterpreterCallCompletedEvent"
             - $ref: "#/components/schemas/ResponseCodeInterpreterCallInProgressEvent"
             - $ref: "#/components/schemas/ResponseCodeInterpreterCallInterpretingEvent"
+            - $ref: "#/components/schemas/ResponseCompactionCompactingStreamingEvent"
             - $ref: "#/components/schemas/ResponseCompletedEvent"
             - $ref: "#/components/schemas/ResponseContentPartAddedEvent"
             - $ref: "#/components/schemas/ResponseContentPartDoneEvent"
@@ -75321,7 +75353,7 @@ components:
           x-stainless-const: true
         encrypted_content:
           type: string
-          maxLength: 20971520
+          maxLength: 104857600
           description: The encrypted content of the compaction summary.
       type: object
       required:
@@ -76908,6 +76940,33 @@ components:
       description: The conversation that this response belonged to. Input items and
         output items from this response were automatically added to this
         conversation.
+    ResponseCompactionCompactingStreamingEvent:
+      properties:
+        type:
+          type: string
+          enum:
+            - response.compaction.compacting
+          description: The type of the event, always `response.compaction.compacting`.
+          default: response.compaction.compacting
+          x-stainless-const: true
+        sequence_number:
+          type: integer
+          description: The sequence number of the event that was emitted.
+        output_index:
+          type: integer
+          description: The index of the compaction output item.
+        item_id:
+          type: string
+          description: The ID of the compaction output item.
+      type: object
+      required:
+        - type
+        - sequence_number
+        - output_index
+        - item_id
+      title: Response compaction compacting event
+      description: Emitted when new summary content is sampled for a compaction
+        trigger. Contains no summary content.
     ResponseShellCallCommandAddedStreamingEvent:
       properties:
         type:
@@ -86274,9 +86333,42 @@ components:
         - agent.session.turn.reasoning_summary_text.delta
         - agent.session.turn.reasoning_summary_text.done
       description: An event emitted by a Managed Agents session.
+    UpdateSessionReasoningParam:
+      type: object
+      properties:
+        effort:
+          anyOf:
+            - $ref: "#/components/schemas/ReasoningEffortParam"
+            - type: "null"
+          description: Omit to keep the current effort. Null selects the model's default
+            effort.
+      additionalProperties: false
+      description: Reasoning effort for subsequent turns. The reasoning summary stays
+        unchanged.
+    UpdateSessionAgentParam:
+      type: object
+      properties:
+        model:
+          type: string
+          minLength: 0
+          maxLength: 1048576
+          description: The model for subsequent turns. Omit to keep the current model.
+        reasoning:
+          $ref: "#/components/schemas/UpdateSessionReasoningParam"
+          description: Reasoning settings to update. Omit to keep the current effort.
+        service_tier:
+          anyOf:
+            - $ref: "#/components/schemas/ServiceTierParam"
+            - type: "null"
+          description: Omit to keep the current tier. Null resets it to auto.
+      additionalProperties: false
+      description: Model settings that can change after session creation.
     UpdateAgentSessionParams:
       type: object
       properties:
+        agent:
+          $ref: "#/components/schemas/UpdateSessionAgentParam"
+          description: Model settings for subsequent turns. Omitted fields stay unchanged.
         metadata:
           type:
             - object
@@ -93004,7 +93096,7 @@ components:
           x-stainless-const: true
         encrypted_content:
           type: string
-          maxLength: 20971520
+          maxLength: 104857600
           description: The encrypted content of the compaction summary.
       type: object
       required:
@@ -99812,6 +99904,36 @@ components:
             },
             "sequence_number": 1
           }
+    BetaResponseCompactionCompactingStreamingEvent:
+      properties:
+        type:
+          type: string
+          enum:
+            - response.compaction.compacting
+          description: The type of the event, always `response.compaction.compacting`.
+          default: response.compaction.compacting
+          x-stainless-const: true
+        sequence_number:
+          type: integer
+          description: The sequence number of the event that was emitted.
+        agent:
+          $ref: "#/components/schemas/BetaAgentTag"
+          description: The agent that owns this multi-agent streaming event.
+        output_index:
+          type: integer
+          description: The index of the compaction output item.
+        item_id:
+          type: string
+          description: The ID of the compaction output item.
+      type: object
+      required:
+        - type
+        - sequence_number
+        - output_index
+        - item_id
+      title: Response compaction compacting event
+      description: Emitted when new summary content is sampled for a compaction
+        trigger. Contains no summary content.
     BetaResponseCodeInterpreterCallInterpretingEvent:
       type: object
       description: Emitted when the code interpreter is actively interpreting the code
@@ -101417,6 +101539,22 @@ components:
                     when the originating `response.create` event supplied a
 
                     `stream_id`.
+        - title: BetaResponseCompactionWsCompacting
+          description: Emitted when new summary content is sampled for a compaction
+            trigger. Contains no summary content.
+          allOf:
+            - $ref: "#/components/schemas/BetaResponseCompactionCompactingStreamingEvent"
+            - type: object
+              properties:
+                stream_id:
+                  type: string
+                  description: >
+                    The WebSocket lane that emitted this event. This field is
+                    present
+
+                    when the originating `response.create` event supplied a
+
+                    `stream_id`.
         - title: BetaResponseWsCompleted
           description: Emitted when the model response is complete.
           allOf:
@@ -102399,6 +102537,7 @@ components:
             - $ref: "#/components/schemas/BetaResponseCodeInterpreterCallCompletedEvent"
             - $ref: "#/components/schemas/BetaResponseCodeInterpreterCallInProgressEvent"
             - $ref: "#/components/schemas/BetaResponseCodeInterpreterCallInterpretingEvent"
+            - $ref: "#/components/schemas/BetaResponseCompactionCompactingStreamingEvent"
             - $ref: "#/components/schemas/BetaResponseCompletedEvent"
             - $ref: "#/components/schemas/BetaResponseContentPartAddedEvent"
             - $ref: "#/components/schemas/BetaResponseContentPartDoneEvent"
@@ -102905,6 +103044,7 @@ components:
         - $ref: "#/components/schemas/BetaResponseCodeInterpreterCallCompletedEvent"
         - $ref: "#/components/schemas/BetaResponseCodeInterpreterCallInProgressEvent"
         - $ref: "#/components/schemas/BetaResponseCodeInterpreterCallInterpretingEvent"
+        - $ref: "#/components/schemas/BetaResponseCompactionCompactingStreamingEvent"
         - $ref: "#/components/schemas/BetaResponseCompletedEvent"
         - $ref: "#/components/schemas/BetaResponseContentPartAddedEvent"
         - $ref: "#/components/schemas/BetaResponseContentPartDoneEvent"
@@ -103071,6 +103211,14 @@ x-oaiMeta:
         client as the Response is generated. This section contains the events that
         are emitted by the server.
 
+        When processing a `compaction_trigger`, `response.compaction.compacting`
+        reports newly sampled summary output at most once every 30 seconds. It
+        carries no summary content and does not modify the compaction output item.
+        The existing `response.output_item.added` and `response.output_item.done`
+        events mark that item's lifecycle; `response.output_item.done` carries its
+        final encrypted content. A short compaction may finish without emitting a
+        progress event.
+
         [Learn more about streaming responses](https://developers.openai.com/api/docs/guides/streaming-responses).
       navigationGroup: responses
       sections:
@@ -103094,6 +103242,9 @@ x-oaiMeta:
           path: <auto>
         - type: object
           key: ResponseOutputItemDoneEvent
+          path: <auto>
+        - type: object
+          key: ResponseCompactionCompactingEvent
           path: <auto>
         - type: object
           key: ResponseContentPartAddedEvent
@@ -103253,6 +103404,8 @@ x-oaiMeta:
       description: |
         These events use the same payloads over WebSocket and
         [HTTP streaming](https://developers.openai.com/api/reference/resources/responses/streaming-events).
+        Compaction progress follows the same cadence and output-item lifecycle
+        described in HTTP streaming.
       navigationGroup: responses
       sections:
         - type: object
@@ -103275,6 +103428,9 @@ x-oaiMeta:
           path: <auto>
         - type: object
           key: ResponseOutputItemDoneEvent
+          path: <auto>
+        - type: object
+          key: ResponseCompactionCompactingEvent
           path: <auto>
         - type: object
           key: ResponseContentPartAddedEvent
