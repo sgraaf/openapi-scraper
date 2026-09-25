@@ -1637,6 +1637,31 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Batch"
+        "400":
+          description: The request is invalid or the account cannot create a batch.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "429":
+          description: The request was rejected because a rate limit was exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: An internal error prevented the batch from being created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "503":
+          description: The batch could not be created because the service is temporarily
+            unavailable.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
       x-oaiMeta:
         group: batch
         examples:
@@ -1738,6 +1763,24 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ListBatchesResponse"
+        "400":
+          description: Invalid pagination parameters.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: No batch was found with the specified pagination cursor.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "429":
+          description: The request was rejected because a rate limit was exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
       x-oaiMeta:
         group: batch
         examples:
@@ -1825,6 +1868,24 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Batch"
+        "400":
+          description: Invalid batch ID.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: No batch was found with the specified ID.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "429":
+          description: The request was rejected because a rate limit was exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
       x-oaiMeta:
         group: batch
         examples:
@@ -1903,6 +1964,30 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Batch"
+        "400":
+          description: Invalid batch ID.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: No batch was found with the specified ID.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: The batch's current status does not allow cancellation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "429":
+          description: The request was rejected because a rate limit was exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
       x-oaiMeta:
         group: batch
         examples:
@@ -6351,6 +6436,24 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ListFilesResponse"
+        "400":
+          description: The file listing parameters are invalid.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: The file specified by the after cursor was not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "429":
+          description: Too many file requests. Reduce the request rate and try again later.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
       x-oaiMeta:
         group: files
         examples:
@@ -6458,6 +6561,25 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/OpenAIFile"
+        "400":
+          description: The file upload request is invalid or exceeds a file size or
+            storage quota limit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "429":
+          description: Too many file requests. Reduce the request rate and try again later.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: The file could not be uploaded because of a server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
       x-oaiMeta:
         group: files
         examples:
@@ -6532,6 +6654,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/DeleteFileResponse"
+        "404":
+          description: The file was not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "429":
+          description: Too many file requests. Reduce the request rate and try again later.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
       x-oaiMeta:
         group: files
         examples:
@@ -6583,6 +6717,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/OpenAIFile"
+        "404":
+          description: The file was not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "429":
+          description: Too many file requests. Reduce the request rate and try again later.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
       x-oaiMeta:
         group: files
         examples:
@@ -6638,6 +6784,31 @@ paths:
             application/json:
               schema:
                 type: string
+        "400":
+          description: The file cannot be downloaded for its purpose or the account does
+            not have permission to download it.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: The file was not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "429":
+          description: Too many file requests. Reduce the request rate and try again later.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: The file could not be downloaded because of a server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
       x-oaiMeta:
         group: files
         examples:
@@ -18970,6 +19141,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Response"
+        "404":
+          description: The response was not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "429":
           $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
@@ -19075,7 +19252,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/ErrorResponse"
         "429":
           $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
@@ -19134,7 +19311,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/ErrorResponse"
         "429":
           $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
@@ -19265,6 +19442,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseItemList"
+        "404":
+          description: The response or the item specified by `after` was not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "429":
           $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
@@ -21989,6 +22172,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Upload"
+        "400":
+          description: The upload request is invalid or exceeds a file size or storage
+            quota limit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "429":
+          description: Too many upload requests. Reduce the request rate and try again
+            later.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
       x-oaiMeta:
         group: uploads
         examples:
@@ -22043,6 +22240,33 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Upload"
+        "400":
+          description: The upload is no longer pending or is already being completed and
+            cannot be cancelled.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: The upload was not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "410":
+          description: The upload has expired. Create a new upload before adding parts or
+            completing it.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "429":
+          description: Too many upload requests. Reduce the request rate and try again
+            later.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
       x-oaiMeta:
         group: uploads
         examples:
@@ -22108,6 +22332,40 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Upload"
+        "400":
+          description: The upload cannot be completed in its current state, the parts are
+            invalid, or the uploaded size does not match the specified size.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: The upload was not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "410":
+          description: The upload has expired. Create a new upload before adding parts or
+            completing it.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "429":
+          description: Too many upload requests. Reduce the request rate and try again
+            later.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: The upload could not be completed. Retry the same request,
+            preserving the part order and MD5 value.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
       x-oaiMeta:
         group: uploads
         examples:
@@ -22171,6 +22429,39 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UploadPart"
+        "400":
+          description: The upload cannot accept more parts, or the part exceeds an upload
+            size limit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: The upload was not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "410":
+          description: The upload has expired. Create a new upload before adding parts or
+            completing it.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "429":
+          description: Too many upload requests. Reduce the request rate and try again
+            later.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: The part could not be uploaded. Try the request again.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
       x-oaiMeta:
         group: uploads
         examples:
@@ -24047,10 +24338,27 @@ paths:
                   "geography": "US",
                   "status": "validated",
                   "created_at": 1711471500
+                },
+                {
+                  "object": "organization.external_storage",
+                  "id": "extstorage_gcp123",
+                  "project_id": "proj_gcp123",
+                  "provider": {
+                    "type": "gcp",
+                    "bucket": "customer-gcp-retention",
+                    "workload_identity_project_number": "123456789012",
+                    "workload_identity_pool_id": "customer-pool",
+                    "workload_identity_provider_id": "customer-provider",
+                    "region": "us-central1",
+                    "audience": "proj_gcp123"
+                  },
+                  "geography": "US",
+                  "status": "validated",
+                  "created_at": 1711471400
                 }
               ],
               "first_id": "extstorage_abc123",
-              "last_id": "extstorage_azure123",
+              "last_id": "extstorage_gcp123",
               "has_more": false
             }
       security:
@@ -24143,6 +24451,41 @@ paths:
                 "geography": "US",
                 "status": "pending",
                 "created_at": 1711471533
+              }
+          - title: Google Cloud Storage
+            request:
+              curl: >
+                curl -X POST
+                https://api.openai.com/v1/organization/external_storage \
+                  -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+                  -H "Content-Type: application/json" \
+                  -d '{
+                    "project_id": "proj_gcp123",
+                    "provider": {
+                      "type": "gcp",
+                      "bucket": "customer-gcp-retention",
+                      "workload_identity_project_number": "123456789012",
+                      "workload_identity_pool_id": "customer-pool",
+                      "workload_identity_provider_id": "customer-provider"
+                    }
+                  }'
+            response: |
+              {
+                "object": "organization.external_storage",
+                "id": "extstorage_gcp123",
+                "project_id": "proj_gcp123",
+                "provider": {
+                  "type": "gcp",
+                  "bucket": "customer-gcp-retention",
+                  "workload_identity_project_number": "123456789012",
+                  "workload_identity_pool_id": "customer-pool",
+                  "workload_identity_provider_id": "customer-provider",
+                  "region": "us-central1",
+                  "audience": "proj_gcp123"
+                },
+                "geography": "US",
+                "status": "pending",
+                "created_at": 1711471400
               }
       security:
         - AdminApiKeyAuth: []
@@ -31725,6 +32068,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BetaResponse"
+        "404":
+          description: The response was not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BetaErrorResponse"
         "429":
           $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
@@ -31843,7 +32192,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/BetaError"
+                $ref: "#/components/schemas/BetaErrorResponse"
         "429":
           $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
@@ -31915,7 +32264,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/BetaError"
+                $ref: "#/components/schemas/BetaErrorResponse"
         "429":
           $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
@@ -32240,6 +32589,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BetaResponseItemList"
+        "404":
+          description: The response or the item specified by `after` was not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BetaErrorResponse"
         "429":
           $ref: "#/components/responses/TooManyRequests"
       x-oaiMeta:
@@ -40801,7 +41156,25 @@ components:
             `{ "id": "voice_1234" }`. Previews of the voices are available in
             the [Text to speech
             guide](https://developers.openai.com/api/docs/guides/text-to-speech#voice-options).'
-          $ref: "#/components/schemas/VoiceIdsOrCustomVoice"
+          title: Voice
+          anyOf:
+            - anyOf:
+                - $ref: "#/components/schemas/VoiceIdsShared"
+                - type: string
+                  enum:
+                    - fable
+                    - onyx
+                    - nova
+            - type: object
+              description: Custom voice reference.
+              additionalProperties: false
+              required:
+                - id
+              properties:
+                id:
+                  type: string
+                  description: The custom voice ID, e.g. `voice_1234`.
+                  example: voice_1234
         response_format:
           description: The format to audio in. Supported formats are `mp3`, `opus`, `aac`,
             `flac`, `wav`, and `pcm`.
@@ -65516,7 +65889,6 @@ components:
             Options for streaming responses. Only set this when you set `stream:
             true`.
           type: object
-          default: null
           properties:
             include_obfuscation:
               type: boolean
@@ -69412,8 +69784,6 @@ components:
         - type: string
           enum:
             - auto
-          default:
-            - auto
           description: >
             Automatically set chunking parameters based on the audio. Must be
             set to `"auto"`.
@@ -73199,6 +73569,36 @@ components:
             "type": "safety.warning_issued",
             "data": {"id": "C-abc123"}
           }
+    _MisalignmentErrorType:
+      anyOf:
+        - type: string
+        - type: string
+          enum:
+            - potentially_unintended_data_transfer
+            - potentially_unintended_data_access
+            - potentially_unintended_destructive_activity
+            - other
+    _MisalignmentSteer:
+      properties:
+        message:
+          type: string
+          description: The public continuation instruction.
+      type: object
+      required:
+        - message
+    MisalignmentErrorDetailsResource:
+      properties:
+        error_type:
+          $ref: "#/components/schemas/_MisalignmentErrorType"
+          description: An optional classification; clients must accept additional values.
+        detailed_explanation:
+          type: string
+          description: The public explanation for this block.
+        steer:
+          $ref: "#/components/schemas/_MisalignmentSteer"
+          description: An optional public continuation instruction.
+      type: object
+      required: []
     ModerationInputType:
       type: string
       enum:
@@ -76886,36 +77286,6 @@ components:
         - object
         - metadata
         - created_at
-    _MisalignmentErrorType:
-      anyOf:
-        - type: string
-        - type: string
-          enum:
-            - potentially_unintended_data_transfer
-            - potentially_unintended_data_access
-            - potentially_unintended_destructive_activity
-            - other
-    _MisalignmentSteer:
-      properties:
-        message:
-          type: string
-          description: The public continuation instruction.
-      type: object
-      required:
-        - message
-    MisalignmentErrorDetailsResource:
-      properties:
-        error_type:
-          $ref: "#/components/schemas/_MisalignmentErrorType"
-          description: An optional classification; clients must accept additional values.
-        detailed_explanation:
-          type: string
-          description: The public explanation for this block.
-        steer:
-          $ref: "#/components/schemas/_MisalignmentSteer"
-          description: An optional public continuation instruction.
-      type: object
-      required: []
     ImageGenOutputTokensDetails:
       properties:
         image_tokens:
@@ -82659,6 +83029,7 @@ components:
         - rate_limit_exceeded
         - server_overloaded
         - cyber_policy
+        - misalignment_policy_violation
         - connection_failed
         - server_error
         - authentication_error
@@ -82677,6 +83048,7 @@ components:
         - The request exceeds the available rate limit.
         - The model service is temporarily overloaded.
         - The request was rejected by a safety policy.
+        - The request was blocked by the safety systems.
         - The request could not connect to the model service.
         - The model service encountered an unexpected error.
         - The API credentials are invalid or lack the required access.
@@ -82991,6 +83363,7 @@ components:
         - flex
         - priority
         - fast
+        - ultrafast
       description: The service-tier policy configured for an agent.
     PersistedAgentToolResourceFunction:
       type: object
@@ -83595,12 +83968,14 @@ components:
         - flex
         - priority
         - fast
+        - ultrafast
       x-enumDescriptions:
         - Selects the service tier automatically.
         - Uses the default service tier.
         - Uses the flex service tier.
         - Uses the priority service tier.
         - Uses the fast service tier.
+        - Uses the ultrafast service tier.
       description: The service tier used for model requests.
     PersistedAgentToolConfigParamFunction:
       type: object
@@ -97284,6 +97659,13 @@ components:
             - gpt-3.5-turbo-1106
             - gpt-3.5-turbo-0125
             - gpt-3.5-turbo-16k-0613
+    BetaErrorResponse:
+      type: object
+      properties:
+        error:
+          $ref: "#/components/schemas/BetaError"
+      required:
+        - error
     BetaError:
       type: object
       properties:
@@ -104918,7 +105300,6 @@ components:
             Options for streaming responses. Only set this when you set `stream:
             true`.
           type: object
-          default: null
           properties:
             include_obfuscation:
               type: boolean
