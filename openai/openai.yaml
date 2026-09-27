@@ -7397,9 +7397,10 @@ paths:
         "200":
           description: OK
           content:
-            application/json:
+            application/octet-stream:
               schema:
                 type: string
+                format: binary
         "400":
           description: The file cannot be downloaded for its purpose or the account does
             not have permission to download it.
@@ -87615,6 +87616,7 @@ components:
         - usage_limit_exceeded
         - credit_balance_exhausted
         - rate_limit_exceeded
+        - flex_unavailable
         - server_overloaded
         - cyber_policy
         - misalignment_policy_violation
@@ -87634,6 +87636,7 @@ components:
         - The organization has reached a usage, plan, or billing limit.
         - The organization has no API credits remaining.
         - The request exceeds the available rate limit.
+        - Flex processing is temporarily unavailable.
         - The model service is temporarily overloaded.
         - The request was rejected by a safety policy.
         - The request was blocked by the safety systems.
@@ -89695,7 +89698,7 @@ components:
             - $ref: "#/components/schemas/NetworkPolicyParam"
             - type: "null"
           description: Network access policy for the environment. Defaults to disabled for
-            GA requests and enabled for alpha/beta requests.
+            GA requests and enabled for beta requests.
         env:
           type:
             - object
@@ -89793,7 +89796,7 @@ components:
             - type: "null"
           description: Network access available after setup completes. Omit to preserve
             the current policy, or pass `null` to reset to disabled for GA
-            requests or enabled for alpha/beta requests.
+            requests or enabled for beta requests.
         env:
           type:
             - object
@@ -90939,7 +90942,7 @@ components:
             - $ref: "#/components/schemas/NetworkPolicyParam"
             - type: "null"
           description: Network access policy for the environment. Defaults to disabled for
-            GA requests and enabled for alpha/beta requests.
+            GA requests and enabled for beta requests.
         env:
           type:
             - object
