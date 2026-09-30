@@ -1,0 +1,5258 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Open Library API",
+    "description": "The Open Library API provides comprehensive access to library catalog data including books, authors, works, lists, and user data. Supports both public and authenticated endpoints with full data validation and type safety.",
+    "contact": {
+      "name": "Open Library Team",
+      "url": "https://openlibrary.org/",
+      "email": "openlibrary@archive.org"
+    },
+    "license": {
+      "name": "AGPL-3.0",
+      "url": "https://github.com/internetarchive/openlibrary/blob/master/LICENSE"
+    },
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object",
+                  "title": "Response Health Health Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/account/loans.json": {
+      "get": {
+        "summary": "Account Loans Json",
+        "operationId": "account_loans_json_account_loans_json_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountLoansResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "APIKeyCookie": []
+          }
+        ]
+      }
+    },
+    "/account/loan-history.json": {
+      "get": {
+        "summary": "Account Loan History Json",
+        "operationId": "account_loan_history_json_account_loan_history_json_get",
+        "security": [
+          {
+            "APIKeyCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountLoanHistoryResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/account/login": {
+      "post": {
+        "summary": "Login",
+        "description": "Login endpoint - works identically to web.py version.\n\nThis endpoint:\n1. Validates email/password against Internet Archive\n2. Creates/links OpenLibrary account if needed\n3. Sets session cookie and other cookies\n4. Redirects to target page\n\nThis reuses all existing authentication logic from the legacy system.",
+        "operationId": "login_account_login_post",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/account/logout": {
+      "post": {
+        "summary": "Logout",
+        "description": "Logout endpoint - clears authentication cookies.\n\nThis mirrors the web.py logout functionality.",
+        "operationId": "logout_account_logout_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/books.json": {
+      "get": {
+        "summary": "Get Books",
+        "description": "Get book metadata by bibliography keys.\n\nThis endpoint provides basic information about books, including URLs,\nthumbnail links, and preview availability. Supports ISBNs, LCCNs,\nOCLC numbers, and Open Library IDs.\n\n- `bibkeys` is expected a comma separated string of ISBNs, LCCNs, etc.\n- `'high_priority=true'` will attempt to import an edition from a supplied ISBN\n  if no matching edition is found. If not `high_priority`, then missed bib_keys\n  are queued for lookup on the affiliate-server, and any responses are `staged`\n  in `import_item`.\n\nExample call:\n    http://localhost:8080/api/books.json?bibkeys=059035342X,0312368615&high_priority=true\n\nReturns a JSONified dictionary of the form:\n    {\"059035342X\": {\n        \"bib_key\": \"059035342X\",\n        \"info_url\": \"http://localhost:8080/books/OL43M/Harry_Potter_and_the_Sorcerer's_Stone\",\n        \"preview\": \"noview\",\n        \"preview_url\": \"https://archive.org/details/lccn_078073006991\",\n        \"thumbnail_url\": \"https://covers.openlibrary.org/b/id/21-S.jpg\"\n        }\n    \"0312368615\": {...}\n    }",
+        "operationId": "get_books_api_books_json_get",
+        "parameters": [
+          {
+            "name": "bibkeys",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Comma-separated list of bibliography keys (ISBN, LCCN, OCLC, etc.)",
+              "title": "Bibkeys"
+            },
+            "description": "Comma-separated list of bibliography keys (ISBN, LCCN, OCLC, etc.)"
+          },
+          {
+            "name": "details",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "true",
+                "false"
+              ],
+              "type": "string",
+              "description": "Include detailed book information",
+              "default": "false",
+              "title": "Details"
+            },
+            "description": "Include detailed book information"
+          },
+          {
+            "name": "jscmd",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "details",
+                    "data",
+                    "viewapi"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Format of returned data",
+              "title": "Jscmd"
+            },
+            "description": "Format of returned data"
+          },
+          {
+            "name": "callback",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "JSONP callback function name",
+              "title": "Callback"
+            },
+            "description": "JSONP callback function name"
+          },
+          {
+            "name": "high_priority",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "Attempt import immediately for missing ISBNs",
+              "default": false,
+              "title": "High Priority"
+            },
+            "description": "Attempt import immediately for missing ISBNs"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "json",
+                    "js"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Explicitly set response format (overrides path-based detection)",
+              "title": "Format"
+            },
+            "description": "Explicitly set response format (overrides path-based detection)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Books Api Books Json Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/volumes/{brief_or_full}/json/{req}.json": {
+      "get": {
+        "summary": "Get Volumes Multiget",
+        "description": "Get volume information for multiple identifiers.\n\nThis endpoint handles multi-lookup form of Hathi-style API,\nallowing multiple identifiers in a single request.\n\nExample:\n    GET /api/volumes/brief/json/isbn:059035342X|oclc:123456.json",
+        "operationId": "get_volumes_multiget_api_volumes__brief_or_full__json__req__json_get",
+        "parameters": [
+          {
+            "name": "brief_or_full",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "enum": [
+                "brief",
+                "full"
+              ],
+              "type": "string",
+              "title": "Brief Or Full"
+            }
+          },
+          {
+            "name": "req",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Req"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Volumes Multiget Api Volumes  Brief Or Full  Json  Req  Json Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/volumes/{brief_or_full}/{idtype}/{idval}.json": {
+      "get": {
+        "summary": "Get Volume",
+        "description": "Get volume information by identifier type and value.\n\nThis endpoint provides detailed information about a specific volume,\nmodeled after HathiTrust Bibliographic API. Includes information\nabout loans and other editions of same work.\n\nExample:\n    GET /api/volumes/brief/isbn/059035342X.json",
+        "operationId": "get_volume_api_volumes__brief_or_full___idtype___idval__json_get",
+        "parameters": [
+          {
+            "name": "brief_or_full",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "enum": [
+                "brief",
+                "full"
+              ],
+              "type": "string",
+              "title": "Brief Or Full"
+            }
+          },
+          {
+            "name": "idtype",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "enum": [
+                "oclc",
+                "lccn",
+                "issn",
+                "isbn",
+                "htid",
+                "olid",
+                "recordnumber"
+              ],
+              "type": "string",
+              "title": "Idtype"
+            }
+          },
+          {
+            "name": "idval",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Idval"
+            }
+          },
+          {
+            "name": "show_all_items",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "Show all items including restricted ones",
+              "default": false,
+              "title": "Show All Items"
+            },
+            "description": "Show all items including restricted ones"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Volume Api Volumes  Brief Or Full   Idtype   Idval  Json Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/books/{olid}/{slug}/borrow": {
+      "post": {
+        "summary": "Borrow",
+        "description": "Called when the user wants to borrow the edition. Mirrors the legacy\nweb.py borrow.GET/POST handler, passing fastapi=True so the interstitial\nrender branch knows to render itself for a standalone page (no site\nstylesheet/JS bundle loaded) rather than for the web.py request cycle.",
+        "operationId": "borrow_books__olid___slug__borrow_post",
+        "parameters": [
+          {
+            "name": "olid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Olid"
+            }
+          },
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Borrow",
+        "description": "Called when the user wants to borrow the edition. Mirrors the legacy\nweb.py borrow.GET/POST handler, passing fastapi=True so the interstitial\nrender branch knows to render itself for a standalone page (no site\nstylesheet/JS bundle loaded) rather than for the web.py request cycle.",
+        "operationId": "borrow_books__olid___slug__borrow_get",
+        "parameters": [
+          {
+            "name": "olid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Olid"
+            }
+          },
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/borrow/ia/{ocaid}": {
+      "get": {
+        "summary": "Checkout With Ocaid Get",
+        "description": "Redirect shim: translates an IA identifier into the canonical OL\n/borrow URL. Mirrors the legacy web.py checkout_with_ocaid.GET, which\nredirects rather than forwarding in-process -- unlike POST below, this\nis browser-navigable, so it should land on (and become bookmarkable at)\nthe canonical URL rather than staying on this one.",
+        "operationId": "checkout_with_ocaid_get_borrow_ia__ocaid__get",
+        "parameters": [
+          {
+            "name": "ocaid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ocaid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Checkout With Ocaid Post",
+        "description": "Forwards a borrow request to the canonical /borrow route above.\nMirrors the legacy web.py checkout_with_ocaid.POST, which does the same\nin-process (calling borrow().POST(...) directly) rather than\nredirecting -- a POST isn't bookmarked, so there's nothing to gain by\nround-tripping through the browser first.",
+        "operationId": "checkout_with_ocaid_post_borrow_ia__ocaid__post",
+        "parameters": [
+          {
+            "name": "ocaid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ocaid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cdn/archive.org/{filename}": {
+      "get": {
+        "summary": "Ia Js Cdn",
+        "description": "Proxy Internet Archive JS files.",
+        "operationId": "ia_js_cdn_cdn_archive_org__filename__get",
+        "parameters": [
+          {
+            "name": "filename",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Filename"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/works/OL{work_id}W/check-ins.json": {
+      "post": {
+        "summary": "Create Or Update Patron Check In",
+        "description": "Create or update a check-in event.\n\nIf event_id is provided, updates existing event. Otherwise creates a new one.",
+        "operationId": "create_or_update_patron_check_in_works_OL_work_id_W_check_ins_json_post",
+        "security": [
+          {
+            "APIKeyCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "work_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "title": "Work Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckInRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckInResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/works/OL{work_id}W/check-ins": {
+      "post": {
+        "summary": "Create Or Update Patron Check In",
+        "description": "Create or update a check-in event.\n\nIf event_id is provided, updates existing event. Otherwise creates a new one.",
+        "operationId": "create_or_update_patron_check_in_works_OL_work_id_W_check_ins_post",
+        "security": [
+          {
+            "APIKeyCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "work_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "title": "Work Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckInRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckInResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/check-ins/{check_in_id}": {
+      "delete": {
+        "summary": "Delete Patron Check In",
+        "description": "Delete a check-in event by ID.\n\nThe user can only delete their own check-in events.\nReturns 200 OK with empty body on success (matching web.py behavior).",
+        "operationId": "delete_patron_check_in_check_ins__check_in_id__delete",
+        "security": [
+          {
+            "APIKeyCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "check_in_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "title": "Check In Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/import/preview.json": {
+      "get": {
+        "tags": [
+          "import"
+        ],
+        "summary": "Import Preview Json Get",
+        "description": "Preview import metadata without saving.\n\nRequires admin, librarian, or super-librarian role.",
+        "operationId": "import_preview_json_get_import_preview_json_get",
+        "security": [
+          {
+            "APIKeyCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "source",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Source in format 'provider:identifier' (e.g. 'amazon:ASIN')",
+              "title": "Source"
+            },
+            "description": "Source in format 'provider:identifier' (e.g. 'amazon:ASIN')"
+          },
+          {
+            "name": "provider",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Metadata provider: amazon, ia, or marc",
+              "title": "Provider"
+            },
+            "description": "Metadata provider: amazon, ia, or marc"
+          },
+          {
+            "name": "identifier",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Identifier for the given provider",
+              "title": "Identifier"
+            },
+            "description": "Identifier for the given provider"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Import Preview Json Get Import Preview Json Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "import"
+        ],
+        "summary": "Import Preview Json Post",
+        "description": "Import metadata, optionally saving it.\n\nRequires admin, librarian, or super-librarian role.",
+        "operationId": "import_preview_json_post_import_preview_json_post",
+        "security": [
+          {
+            "APIKeyCookie": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_import_preview_json_post_import_preview_json_post"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Import Preview Json Post Import Preview Json Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/languages.json": {
+      "get": {
+        "summary": "List Languages",
+        "description": "Get a list of the top languages, sorted by the specified criteria.",
+        "operationId": "list_languages_languages_json_get",
+        "parameters": [
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "count",
+                "name",
+                "ebook_edition_count"
+              ],
+              "type": "string",
+              "description": "The field to sort by.",
+              "default": "count",
+              "title": "Sort"
+            },
+            "description": "The field to sort by."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "description": "The max number of results to return.",
+              "default": 15,
+              "title": "Limit"
+            },
+            "description": "The max number of results to return."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Language"
+                  },
+                  "title": "Response List Languages Languages Json Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/people/{username}/lists/{list_id}.json": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "List View Json User Lists",
+        "description": "Returns JSON metadata for a user-owned list.\n\nExample:\n/people/mekBot/lists/OL123L.json",
+        "operationId": "list_view_json_user_lists_people__username__lists__list_id__json_get",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The patron's username",
+              "title": "Username"
+            },
+            "description": "The patron's username"
+          },
+          {
+            "name": "list_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "OL\\d+L",
+              "description": "The OLID, e.g. OL123L",
+              "title": "List Id"
+            },
+            "description": "The OLID, e.g. OL123L"
+          },
+          {
+            "name": "_raw",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "Return raw database record",
+              "default": false,
+              "title": " Raw"
+            },
+            "description": "Return raw database record"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response List View Json User Lists People  Username  Lists  List Id  Json Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/series/{list_id}.json": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "List View Json Public",
+        "description": "Returns JSON metadata for a public list or series.\n\nExamples:\n/lists/OL456L.json\n/series/OL789L.json",
+        "operationId": "list_view_json_public_series__list_id__json_get",
+        "parameters": [
+          {
+            "name": "list_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "OL\\d+L",
+              "description": "The OLID, e.g. OL123L",
+              "title": "List Id"
+            },
+            "description": "The OLID, e.g. OL123L"
+          },
+          {
+            "name": "_raw",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "Return raw database record",
+              "default": false,
+              "title": " Raw"
+            },
+            "description": "Return raw database record"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response List View Json Public Series  List Id  Json Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lists/{list_id}.json": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "List View Json Public",
+        "description": "Returns JSON metadata for a public list or series.\n\nExamples:\n/lists/OL456L.json\n/series/OL789L.json",
+        "operationId": "list_view_json_public_lists__list_id__json_get",
+        "parameters": [
+          {
+            "name": "list_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "OL\\d+L",
+              "description": "The OLID, e.g. OL123L",
+              "title": "List Id"
+            },
+            "description": "The OLID, e.g. OL123L"
+          },
+          {
+            "name": "_raw",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "Return raw database record",
+              "default": false,
+              "title": " Raw"
+            },
+            "description": "Return raw database record"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response List View Json Public Lists  List Id  Json Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/people/{username}/lists/{list_id}/delete.json": {
+      "post": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "Lists Delete",
+        "description": "Delete a list owned by the given user.",
+        "operationId": "lists_delete_people__username__lists__list_id__delete_json_post",
+        "security": [
+          {
+            "APIKeyCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The patron's username",
+              "title": "Username"
+            },
+            "description": "The patron's username"
+          },
+          {
+            "name": "list_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "OL\\d+L",
+              "description": "The OLID, e.g. OL123L",
+              "title": "List Id"
+            },
+            "description": "The OLID, e.g. OL123L"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Lists Delete People  Username  Lists  List Id  Delete Json Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lists/{list_id}/delete.json": {
+      "post": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "Lists Delete No Prefix",
+        "description": "Delete a list (legacy path without username prefix).",
+        "operationId": "lists_delete_no_prefix_lists__list_id__delete_json_post",
+        "security": [
+          {
+            "APIKeyCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "list_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "OL\\d+L",
+              "description": "The OLID, e.g. OL123L",
+              "title": "List Id"
+            },
+            "description": "The OLID, e.g. OL123L"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Lists Delete No Prefix Lists  List Id  Delete Json Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/people/{username}/lists.json": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "Lists Json People",
+        "operationId": "lists_json_people_people__username__lists_json_get",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Username"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Pagination offset",
+              "default": 0,
+              "title": "Offset"
+            },
+            "description": "Pagination offset"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 0,
+              "description": "Number of items to return (max 100)",
+              "default": 50,
+              "title": "Limit"
+            },
+            "description": "Number of items to return (max 100)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListsJsonResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "Lists Json Post",
+        "operationId": "lists_json_post_people__username__lists_json_post",
+        "security": [
+          {
+            "APIKeyCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Username"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateListBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateListResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/books/OL{edition_id}M/lists.json": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "Lists Json Books",
+        "operationId": "lists_json_books_books_OL_edition_id_M_lists_json_get",
+        "parameters": [
+          {
+            "name": "edition_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Edition Id"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Pagination offset",
+              "default": 0,
+              "title": "Offset"
+            },
+            "description": "Pagination offset"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 0,
+              "description": "Number of items to return (max 100)",
+              "default": 50,
+              "title": "Limit"
+            },
+            "description": "Number of items to return (max 100)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListsJsonResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/works/OL{work_id}W/lists.json": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "Lists Json Works",
+        "operationId": "lists_json_works_works_OL_work_id_W_lists_json_get",
+        "parameters": [
+          {
+            "name": "work_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Work Id"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Pagination offset",
+              "default": 0,
+              "title": "Offset"
+            },
+            "description": "Pagination offset"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 0,
+              "description": "Number of items to return (max 100)",
+              "default": 50,
+              "title": "Limit"
+            },
+            "description": "Number of items to return (max 100)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListsJsonResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/authors/OL{author_id}A/lists.json": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "Lists Json Authors",
+        "operationId": "lists_json_authors_authors_OL_author_id_A_lists_json_get",
+        "parameters": [
+          {
+            "name": "author_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Author Id"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Pagination offset",
+              "default": 0,
+              "title": "Offset"
+            },
+            "description": "Pagination offset"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 0,
+              "description": "Number of items to return (max 100)",
+              "default": 50,
+              "title": "Limit"
+            },
+            "description": "Number of items to return (max 100)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListsJsonResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subjects/{subject_key}/lists.json": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "Lists Json Subjects",
+        "operationId": "lists_json_subjects_subjects__subject_key__lists_json_get",
+        "parameters": [
+          {
+            "name": "subject_key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Subject Key"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Pagination offset",
+              "default": 0,
+              "title": "Offset"
+            },
+            "description": "Pagination offset"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 0,
+              "description": "Number of items to return (max 100)",
+              "default": 50,
+              "title": "Limit"
+            },
+            "description": "Number of items to return (max 100)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListsJsonResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/people/{username}/lists/{olid}/seeds.json": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "List Seeds Json User",
+        "operationId": "list_seeds_json_user_people__username__lists__olid__seeds_json_get",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The patron's username",
+              "title": "Username"
+            },
+            "description": "The patron's username"
+          },
+          {
+            "name": "olid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "OL\\d+L",
+              "description": "The OLID, e.g. OL123L",
+              "title": "Olid"
+            },
+            "description": "The OLID, e.g. OL123L"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response List Seeds Json User People  Username  Lists  Olid  Seeds Json Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "Update List Seeds Json User",
+        "operationId": "update_list_seeds_json_user_people__username__lists__olid__seeds_json_post",
+        "security": [
+          {
+            "APIKeyCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The patron's username",
+              "title": "Username"
+            },
+            "description": "The patron's username"
+          },
+          {
+            "name": "olid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "OL\\d+L",
+              "description": "The OLID, e.g. OL123L",
+              "title": "Olid"
+            },
+            "description": "The OLID, e.g. OL123L"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true,
+                "title": "Payload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Update List Seeds Json User People  Username  Lists  Olid  Seeds Json Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/people/{username}/series/{olid}/seeds.json": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "Series Seeds Json User",
+        "operationId": "series_seeds_json_user_people__username__series__olid__seeds_json_get",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The patron's username",
+              "title": "Username"
+            },
+            "description": "The patron's username"
+          },
+          {
+            "name": "olid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "OL\\d+L",
+              "description": "The OLID, e.g. OL123L",
+              "title": "Olid"
+            },
+            "description": "The OLID, e.g. OL123L"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Series Seeds Json User People  Username  Series  Olid  Seeds Json Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "Update Series Seeds Json User",
+        "operationId": "update_series_seeds_json_user_people__username__series__olid__seeds_json_post",
+        "security": [
+          {
+            "APIKeyCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The patron's username",
+              "title": "Username"
+            },
+            "description": "The patron's username"
+          },
+          {
+            "name": "olid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "OL\\d+L",
+              "description": "The OLID, e.g. OL123L",
+              "title": "Olid"
+            },
+            "description": "The OLID, e.g. OL123L"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true,
+                "title": "Payload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Update Series Seeds Json User People  Username  Series  Olid  Seeds Json Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lists/{olid}/seeds.json": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "List Seeds Json Public",
+        "operationId": "list_seeds_json_public_lists__olid__seeds_json_get",
+        "parameters": [
+          {
+            "name": "olid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "OL\\d+L",
+              "description": "The OLID, e.g. OL123L",
+              "title": "Olid"
+            },
+            "description": "The OLID, e.g. OL123L"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response List Seeds Json Public Lists  Olid  Seeds Json Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "Update List Seeds Json Public",
+        "operationId": "update_list_seeds_json_public_lists__olid__seeds_json_post",
+        "security": [
+          {
+            "APIKeyCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "olid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "OL\\d+L",
+              "description": "The OLID, e.g. OL123L",
+              "title": "Olid"
+            },
+            "description": "The OLID, e.g. OL123L"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true,
+                "title": "Payload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Update List Seeds Json Public Lists  Olid  Seeds Json Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/series/{olid}/seeds.json": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "Series Seeds Json Public",
+        "operationId": "series_seeds_json_public_series__olid__seeds_json_get",
+        "parameters": [
+          {
+            "name": "olid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "OL\\d+L",
+              "description": "The OLID, e.g. OL123L",
+              "title": "Olid"
+            },
+            "description": "The OLID, e.g. OL123L"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Series Seeds Json Public Series  Olid  Seeds Json Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "Update Series Seeds Json Public",
+        "operationId": "update_series_seeds_json_public_series__olid__seeds_json_post",
+        "security": [
+          {
+            "APIKeyCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "olid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "OL\\d+L",
+              "description": "The OLID, e.g. OL123L",
+              "title": "Olid"
+            },
+            "description": "The OLID, e.g. OL123L"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true,
+                "title": "Payload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Update Series Seeds Json Public Series  Olid  Seeds Json Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lists/{olid}/editions.json": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "List Editions Json",
+        "description": "Get paginated editions for a public list.",
+        "operationId": "list_editions_json_lists__olid__editions_json_get",
+        "parameters": [
+          {
+            "name": "olid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "OL\\d+L",
+              "description": "The OLID, e.g. OL123L",
+              "title": "Olid"
+            },
+            "description": "The OLID, e.g. OL123L"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Number of items to return",
+              "default": 50,
+              "title": "Limit"
+            },
+            "description": "Number of items to return"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Pagination offset",
+              "default": 0,
+              "title": "Offset"
+            },
+            "description": "Pagination offset"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListEditionsModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/people/{username}/lists/{olid}/editions.json": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "List Editions Json People",
+        "description": "Get paginated editions for a specific user's list.",
+        "operationId": "list_editions_json_people_people__username__lists__olid__editions_json_get",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The patron's username",
+              "title": "Username"
+            },
+            "description": "The patron's username"
+          },
+          {
+            "name": "olid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "OL\\d+L",
+              "description": "The OLID, e.g. OL123L",
+              "title": "Olid"
+            },
+            "description": "The OLID, e.g. OL123L"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Number of items to return",
+              "default": 50,
+              "title": "Limit"
+            },
+            "description": "Number of items to return"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Pagination offset",
+              "default": 0,
+              "title": "Offset"
+            },
+            "description": "Pagination offset"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListEditionsModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/series/{olid}/editions.json": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "Series Editions Json",
+        "description": "Get paginated editions for a specific series.",
+        "operationId": "series_editions_json_series__olid__editions_json_get",
+        "parameters": [
+          {
+            "name": "olid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "OL\\d+L",
+              "description": "The OLID, e.g. OL123L",
+              "title": "Olid"
+            },
+            "description": "The OLID, e.g. OL123L"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Number of items to return",
+              "default": 50,
+              "title": "Limit"
+            },
+            "description": "Number of items to return"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Pagination offset",
+              "default": 0,
+              "title": "Offset"
+            },
+            "description": "Pagination offset"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListEditionsModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/people/{username}/lists/{olid}/subjects.json": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "List Subjects Json User",
+        "operationId": "list_subjects_json_user_people__username__lists__olid__subjects_json_get",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The patron's username",
+              "title": "Username"
+            },
+            "description": "The patron's username"
+          },
+          {
+            "name": "olid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "OL\\d+L",
+              "description": "The OLID, e.g. OL123L",
+              "title": "Olid"
+            },
+            "description": "The OLID, e.g. OL123L"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Number of subjects to return",
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "Number of subjects to return"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListSubjectsModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lists/{olid}/subjects.json": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "List Subjects Json Public",
+        "operationId": "list_subjects_json_public_lists__olid__subjects_json_get",
+        "parameters": [
+          {
+            "name": "olid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "OL\\d+L",
+              "description": "The OLID, e.g. OL123L",
+              "title": "Olid"
+            },
+            "description": "The OLID, e.g. OL123L"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Number of subjects to return",
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "Number of subjects to return"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListSubjectsModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/series/{olid}/subjects.json": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "List Subjects Json Series",
+        "operationId": "list_subjects_json_series_series__olid__subjects_json_get",
+        "parameters": [
+          {
+            "name": "olid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "OL\\d+L",
+              "description": "The OLID, e.g. OL123L",
+              "title": "Olid"
+            },
+            "description": "The OLID, e.g. OL123L"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Number of subjects to return",
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "Number of subjects to return"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListSubjectsModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/authors/merge.json": {
+      "post": {
+        "tags": [
+          "merge-authors"
+        ],
+        "summary": "Merge Authors Json",
+        "operationId": "merge_authors_json_authors_merge_json_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MergeAuthorsBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Merge Authors Json Authors Merge Json Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "APIKeyCookie": []
+          }
+        ]
+      }
+    },
+    "/people/{username}/books/{key}.json": {
+      "get": {
+        "summary": "Get Public My Books Json",
+        "description": "Get public reading log for a user.\n\nReturns the user's reading log if:\n1. The user's readlog is public (preferences.public_readlog == 'yes')\n2. The requesting user is the same as the requested username\n\nOtherwise returns an error.",
+        "operationId": "get_public_my_books_json_people__username__books__key__json_get",
+        "security": [
+          {
+            "APIKeyCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Username"
+            }
+          },
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "enum": [
+                "want-to-read",
+                "currently-reading",
+                "already-read",
+                "stopped-reading"
+              ],
+              "type": "string",
+              "title": "Key"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 0,
+              "maxLength": 100,
+              "default": "",
+              "title": "Q"
+            }
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "everything",
+              "title": "Mode"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 100,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Page"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadingLogResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/publishers/{key}.json": {
+      "get": {
+        "summary": "Publisher Json",
+        "operationId": "publisher_json_publishers__key__json_get",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Key"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 0,
+              "default": 12,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Page"
+            }
+          },
+          {
+            "name": "details",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Details"
+            }
+          },
+          {
+            "name": "has_fulltext",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Has Fulltext"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "editions",
+              "title": "Sort"
+            }
+          },
+          {
+            "name": "published_in",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Published In"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Publisher Json Publishers  Key  Json Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search.json": {
+      "get": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Search Json",
+        "description": "Performs a search for documents based on the provided query.",
+        "operationId": "search_json_search_json_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Maximum number of results to return.",
+              "default": 100,
+              "title": "Limit"
+            },
+            "description": "Maximum number of results to return."
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Number of results to skip.",
+              "title": "Offset"
+            },
+            "description": "Number of results to skip."
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Page number (1-indexed).",
+              "title": "Page"
+            },
+            "description": "Page number (1-indexed)."
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "The search query string.",
+              "default": "",
+              "title": "Q"
+            },
+            "description": "The search query string."
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Title"
+            }
+          },
+          {
+            "name": "publisher",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Publisher"
+            }
+          },
+          {
+            "name": "oclc",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Oclc"
+            }
+          },
+          {
+            "name": "lccn",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Lccn"
+            }
+          },
+          {
+            "name": "contributor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Contributor"
+            }
+          },
+          {
+            "name": "subject",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Subject"
+            }
+          },
+          {
+            "name": "place",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Place"
+            }
+          },
+          {
+            "name": "person",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Person"
+            }
+          },
+          {
+            "name": "time",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Time"
+            }
+          },
+          {
+            "name": "has_fulltext",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "true",
+                    "false"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Has Fulltext"
+            }
+          },
+          {
+            "name": "public_scan_b",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "true",
+                  "false"
+                ],
+                "type": "string"
+              },
+              "default": [],
+              "title": "Public Scan B"
+            }
+          },
+          {
+            "name": "public_scan",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "true",
+                    "false"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Public Scan"
+            }
+          },
+          {
+            "name": "print_disabled",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "true",
+                    "false"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Print Disabled"
+            }
+          },
+          {
+            "name": "author_key",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Filter by author key.",
+              "examples": [
+                "OL1394244A"
+              ],
+              "default": [],
+              "title": "Author Key"
+            },
+            "description": "Filter by author key."
+          },
+          {
+            "name": "subject_facet",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Filter by subject.",
+              "examples": [
+                "Fiction",
+                "City planning"
+              ],
+              "default": [],
+              "title": "Subject Facet"
+            },
+            "description": "Filter by subject."
+          },
+          {
+            "name": "person_facet",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Filter by person. Not the author but the person who is the subject of the work.",
+              "examples": [
+                "Jane Jacobs (1916-2006)",
+                "Cory Doctorow"
+              ],
+              "default": [],
+              "title": "Person Facet"
+            },
+            "description": "Filter by person. Not the author but the person who is the subject of the work."
+          },
+          {
+            "name": "place_facet",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Filter by place.",
+              "examples": [
+                "New York",
+                "Xiamen Shi"
+              ],
+              "default": [],
+              "title": "Place Facet"
+            },
+            "description": "Filter by place."
+          },
+          {
+            "name": "time_facet",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Filter by time. It can be formatted many ways.",
+              "examples": [
+                "20th century",
+                "To 70 A.D."
+              ],
+              "default": [],
+              "title": "Time Facet"
+            },
+            "description": "Filter by time. It can be formatted many ways."
+          },
+          {
+            "name": "first_publish_year",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Filter by first publish year.",
+              "examples": [
+                "2020"
+              ],
+              "default": [],
+              "title": "First Publish Year"
+            },
+            "description": "Filter by first publish year."
+          },
+          {
+            "name": "publisher_facet",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Filter by publisher.",
+              "examples": [
+                "Urban Land Institute"
+              ],
+              "default": [],
+              "title": "Publisher Facet"
+            },
+            "description": "Filter by publisher."
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Filter by language using three-letter language codes.",
+              "examples": [
+                [
+                  "eng"
+                ],
+                [
+                  "spa"
+                ],
+                [
+                  "eng",
+                  "spa"
+                ]
+              ],
+              "default": [],
+              "title": "Language"
+            },
+            "description": "Filter by language using three-letter language codes."
+          },
+          {
+            "name": "author_facet",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "(alias for author_key) Filter by author key.",
+              "examples": [
+                "OL1394244A"
+              ],
+              "default": [],
+              "title": "Author Facet"
+            },
+            "description": "(alias for author_key) Filter by author key."
+          },
+          {
+            "name": "isbn",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Isbn"
+            }
+          },
+          {
+            "name": "author",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Author"
+            }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "The fields to return.",
+              "default": [
+                "author_key",
+                "author_name",
+                "cover_edition_key",
+                "cover_height",
+                "cover_i",
+                "cover_width",
+                "ebook_access",
+                "edition_count",
+                "first_publish_year",
+                "has_fulltext",
+                "ia",
+                "ia_collection",
+                "id_cita_press",
+                "id_librivox",
+                "id_openstax",
+                "id_project_gutenberg",
+                "id_project_runeberg",
+                "id_standard_ebooks",
+                "id_wikisource",
+                "key",
+                "language",
+                "lending_edition_s",
+                "lending_identifier_s",
+                "public_scan_b",
+                "series_key",
+                "series_name",
+                "series_position",
+                "subtitle",
+                "title"
+              ],
+              "title": "Fields"
+            },
+            "description": "The fields to return."
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": true
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "A full JSON encoded solr query.",
+              "examples": [
+                "{\"q\": \"mark\"}"
+              ],
+              "title": "Query"
+            },
+            "description": "A full JSON encoded solr query."
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "The sort order of results.",
+              "title": "Sort"
+            },
+            "description": "The sort order of results."
+          },
+          {
+            "name": "spellcheck_count",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "The number of spellcheck suggestions.",
+              "default": 3,
+              "title": "Spellcheck Count"
+            },
+            "description": "The number of spellcheck suggestions."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search/inside.json": {
+      "get": {
+        "summary": "Search Inside Json",
+        "operationId": "search_inside_json_search_inside_json_get",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Search query"
+            }
+          },
+          {
+            "name": "facets",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "Include facet aggregations in the response.",
+              "default": true,
+              "title": "Facets"
+            },
+            "description": "Include facet aggregations in the response."
+          },
+          {
+            "name": "readable",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "Drop matches that aren't readable (public or borrowable) scans. hits.total still counts them.",
+              "default": false,
+              "title": "Readable"
+            },
+            "description": "Drop matches that aren't readable (public or borrowable) scans. hits.total still counts them."
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by language — a MARC code (e.g. fre) or language name. The FTS backend takes one language; extra values are ignored.",
+              "title": "Language"
+            },
+            "description": "Filter by language — a MARC code (e.g. fre) or language name. The FTS backend takes one language; extra values are ignored."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 20,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Page"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search/subjects.json": {
+      "get": {
+        "summary": "Search Subjects Json",
+        "operationId": "search_subjects_json_search_subjects_json_get",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "The search query",
+              "default": "",
+              "title": "Q"
+            },
+            "description": "The search query"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 100,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Page"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search/lists.json": {
+      "get": {
+        "summary": "Search Lists Json",
+        "operationId": "search_lists_json_search_lists_json_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 20,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Page"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "Q"
+            }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "Fields"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "name asc",
+                "last_modified",
+                "last_modified asc",
+                "last_modified desc",
+                "seed_count",
+                "seed_count asc",
+                "seed_count desc",
+                "random",
+                "random asc",
+                "random desc",
+                "random.hourly",
+                "random.daily",
+                ""
+              ],
+              "default": "",
+              "title": "Sort"
+            }
+          },
+          {
+            "name": "api",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "next",
+                ""
+              ],
+              "type": "string",
+              "default": "",
+              "title": "Api"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search/authors.json": {
+      "get": {
+        "summary": "Search Authors Json",
+        "operationId": "search_authors_json_search_authors_json_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 100,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Page"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "Q"
+            }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "*",
+              "title": "Fields"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "work_count desc",
+                "name",
+                "birth_date asc",
+                "birth_date desc",
+                "random",
+                "random asc",
+                "random desc",
+                "random.hourly",
+                "random.daily",
+                ""
+              ],
+              "default": "",
+              "title": "Sort"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subjects/{key}.json": {
+      "get": {
+        "summary": "Subject Json",
+        "operationId": "subject_json_subjects__key__json_get",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Key"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 0,
+              "default": 12,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Page"
+            }
+          },
+          {
+            "name": "details",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Details"
+            }
+          },
+          {
+            "name": "has_fulltext",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Has Fulltext"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "editions",
+              "title": "Sort"
+            }
+          },
+          {
+            "name": "published_in",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Published In"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reading-goal.json": {
+      "get": {
+        "summary": "Get Reading Goals Endpoint",
+        "description": "Get reading goals for the authenticated user.",
+        "operationId": "get_reading_goals_endpoint_reading_goal_json_get",
+        "security": [
+          {
+            "APIKeyCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "year",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "maximum": 9999,
+                  "exclusiveMinimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "The year to filter goals by",
+              "title": "Year"
+            },
+            "description": "The year to filter goals by"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadingGoalsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Update Reading Goal Endpoint",
+        "description": "Create or update a reading goal for the authenticated user.",
+        "operationId": "update_reading_goal_endpoint_reading_goal_json_post",
+        "security": [
+          {
+            "APIKeyCookie": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/ReadingGoalForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadingGoalUpdateResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AccountLoanHistoryResponse": {
+        "properties": {
+          "loans_history": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Loans History",
+            "description": "Loan history data containing 'docs' (list of loan records), 'show_next' (bool), 'limit' (int), and 'page' (int)."
+          }
+        },
+        "type": "object",
+        "required": [
+          "loans_history"
+        ],
+        "title": "AccountLoanHistoryResponse",
+        "description": "Response model for /account/loan-history.json."
+      },
+      "AccountLoansResponse": {
+        "properties": {
+          "loans": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Loans",
+            "description": "List of the user's current loans, each containing ocaid, book, resource_type, expiry, etc."
+          }
+        },
+        "type": "object",
+        "required": [
+          "loans"
+        ],
+        "title": "AccountLoansResponse",
+        "description": "Response model for /account/loans.json."
+      },
+      "Body_import_preview_json_post_import_preview_json_post": {
+        "properties": {
+          "source": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source"
+          },
+          "provider": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Provider"
+          },
+          "identifier": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Identifier"
+          },
+          "save": {
+            "type": "boolean",
+            "title": "Save",
+            "default": false
+          }
+        },
+        "type": "object",
+        "title": "Body_import_preview_json_post_import_preview_json_post"
+      },
+      "CheckInRequest": {
+        "properties": {
+          "event_type": {
+            "type": "integer",
+            "title": "Event Type",
+            "description": "Event type enum value (1=start, 2=update, 3=finish)"
+          },
+          "year": {
+            "type": "integer",
+            "maximum": 9999.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Year",
+            "description": "Four-digit year (1-9999)"
+          },
+          "month": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 12.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Month",
+            "description": "Month (1-12)"
+          },
+          "day": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 31.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Day",
+            "description": "Day (1-31)"
+          },
+          "edition_key": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "(?i)^(?:/books/)?OL\\d+M$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Edition Key",
+            "description": "Edition OLID (e.g. OL123M)"
+          },
+          "event_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Event Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "event_type",
+          "year"
+        ],
+        "title": "CheckInRequest",
+        "description": "Request model for creating/updating check-in events."
+      },
+      "CheckInResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "id"
+        ],
+        "title": "CheckInResponse",
+        "description": "Response model for check-in operations."
+      },
+      "CreateListBody": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "default": ""
+          },
+          "description": {
+            "type": "string",
+            "title": "Description",
+            "default": ""
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tags",
+            "default": []
+          },
+          "seeds": {
+            "items": {
+              "anyOf": [
+                {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Seeds",
+            "default": []
+          }
+        },
+        "type": "object",
+        "title": "CreateListBody",
+        "description": "Request body for creating a new list."
+      },
+      "CreateListResponse": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "revision": {
+            "type": "integer",
+            "title": "Revision"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "key",
+          "revision"
+        ],
+        "title": "CreateListResponse",
+        "description": "Response model for POST /people/{username}/lists.json.\n\nUses `extra=\"allow\"` to preserve any additional fields returned\nby the underlying `site.save()` call (e.g. ``type``, ``created``,\n``last_modified``) for backward compatibility."
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "Language": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "marc_code": {
+            "type": "string",
+            "title": "Marc Code"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "ebook_edition_count": {
+            "type": "integer",
+            "title": "Ebook Edition Count"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "key",
+          "marc_code",
+          "count",
+          "ebook_edition_count"
+        ],
+        "title": "Language"
+      },
+      "ListEditionsLinks": {
+        "properties": {
+          "self": {
+            "type": "string",
+            "title": "Self"
+          },
+          "next": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next"
+          },
+          "prev": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Prev"
+          },
+          "list": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "List"
+          }
+        },
+        "type": "object",
+        "required": [
+          "self"
+        ],
+        "title": "ListEditionsLinks"
+      },
+      "ListEditionsModel": {
+        "properties": {
+          "size": {
+            "type": "integer",
+            "title": "Size"
+          },
+          "start": {
+            "type": "integer",
+            "title": "Start"
+          },
+          "end": {
+            "type": "integer",
+            "title": "End"
+          },
+          "entries": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Entries"
+          },
+          "links": {
+            "$ref": "#/components/schemas/ListEditionsLinks"
+          }
+        },
+        "type": "object",
+        "required": [
+          "size",
+          "start",
+          "end",
+          "entries",
+          "links"
+        ],
+        "title": "ListEditionsModel"
+      },
+      "ListPreviewEntry": {
+        "properties": {
+          "url": {
+            "type": "string",
+            "title": "Url"
+          },
+          "full_url": {
+            "type": "string",
+            "title": "Full Url"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "seed_count": {
+            "type": "integer",
+            "title": "Seed Count"
+          },
+          "last_update": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Update"
+          }
+        },
+        "type": "object",
+        "required": [
+          "url",
+          "full_url",
+          "name",
+          "seed_count"
+        ],
+        "title": "ListPreviewEntry",
+        "description": "A single list entry in a lists.json response."
+      },
+      "ListSubjectEntry": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "url": {
+            "type": "string",
+            "title": "Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "count",
+          "url"
+        ],
+        "title": "ListSubjectEntry"
+      },
+      "ListSubjectsLinks": {
+        "properties": {
+          "self": {
+            "type": "string",
+            "title": "Self"
+          },
+          "list": {
+            "type": "string",
+            "title": "List"
+          }
+        },
+        "type": "object",
+        "required": [
+          "self",
+          "list"
+        ],
+        "title": "ListSubjectsLinks"
+      },
+      "ListSubjectsModel": {
+        "properties": {
+          "subjects": {
+            "items": {
+              "$ref": "#/components/schemas/ListSubjectEntry"
+            },
+            "type": "array",
+            "title": "Subjects"
+          },
+          "places": {
+            "items": {
+              "$ref": "#/components/schemas/ListSubjectEntry"
+            },
+            "type": "array",
+            "title": "Places"
+          },
+          "people": {
+            "items": {
+              "$ref": "#/components/schemas/ListSubjectEntry"
+            },
+            "type": "array",
+            "title": "People"
+          },
+          "times": {
+            "items": {
+              "$ref": "#/components/schemas/ListSubjectEntry"
+            },
+            "type": "array",
+            "title": "Times"
+          },
+          "links": {
+            "$ref": "#/components/schemas/ListSubjectsLinks"
+          }
+        },
+        "type": "object",
+        "required": [
+          "subjects",
+          "places",
+          "people",
+          "times",
+          "links"
+        ],
+        "title": "ListSubjectsModel"
+      },
+      "ListsJsonLinks": {
+        "properties": {
+          "self": {
+            "type": "string",
+            "title": "Self"
+          },
+          "next": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next"
+          },
+          "prev": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Prev"
+          }
+        },
+        "type": "object",
+        "required": [
+          "self"
+        ],
+        "title": "ListsJsonLinks",
+        "description": "Pagination links for a lists.json response."
+      },
+      "ListsJsonResponse": {
+        "properties": {
+          "links": {
+            "$ref": "#/components/schemas/ListsJsonLinks"
+          },
+          "size": {
+            "type": "integer",
+            "title": "Size"
+          },
+          "entries": {
+            "items": {
+              "$ref": "#/components/schemas/ListPreviewEntry"
+            },
+            "type": "array",
+            "title": "Entries"
+          }
+        },
+        "type": "object",
+        "required": [
+          "links",
+          "size",
+          "entries"
+        ],
+        "title": "ListsJsonResponse",
+        "description": "Response model for GET /<entity>/lists.json endpoints."
+      },
+      "LoginForm": {
+        "properties": {
+          "username": {
+            "type": "string",
+            "title": "Username",
+            "default": ""
+          },
+          "password": {
+            "type": "string",
+            "title": "Password",
+            "default": ""
+          },
+          "remember": {
+            "type": "boolean",
+            "title": "Remember",
+            "default": false
+          },
+          "redirect": {
+            "type": "string",
+            "title": "Redirect",
+            "default": ""
+          },
+          "action": {
+            "type": "string",
+            "title": "Action",
+            "default": ""
+          },
+          "access": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Access"
+          },
+          "secret": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Secret"
+          },
+          "test": {
+            "type": "boolean",
+            "title": "Test",
+            "default": false
+          }
+        },
+        "type": "object",
+        "title": "LoginForm",
+        "description": "Login form data - matches web.py's web.input defaults.\n\nAll fields default like web.py's `web.input(username=\"\", password=\"\",\nredirect=None, ...)`: in particular username/password are optional so an\nS3-key login (access/secret) can be posted without them, and an empty\nredirect means \"no redirect\", which falls back to /account/books."
+      },
+      "MergeAuthorsBody": {
+        "properties": {
+          "master": {
+            "type": "string",
+            "title": "Master"
+          },
+          "duplicates": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Duplicates"
+          },
+          "mrid": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mrid"
+          },
+          "comment": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Comment"
+          },
+          "olids": {
+            "type": "string",
+            "title": "Olids",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "required": [
+          "master",
+          "duplicates"
+        ],
+        "title": "MergeAuthorsBody"
+      },
+      "ReadingGoalForm": {
+        "properties": {
+          "goal": {
+            "type": "integer",
+            "maximum": 10000.0,
+            "minimum": 0.0,
+            "title": "Goal",
+            "description": "Target number of books to read (0-10000). Use 0 with is_update to delete.",
+            "default": 0
+          },
+          "year": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 9999.0,
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Year",
+            "description": "Year for this reading goal. Defaults to current year for creates, required for updates."
+          },
+          "is_update": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Update",
+            "description": "Set to any value to indicate this is an update operation (not create)."
+          }
+        },
+        "type": "object",
+        "title": "ReadingGoalForm",
+        "description": "Form data for creating or updating a reading goal.\n\nUses Pydantic model_validator to handle complex conditional validation\nthat depends on multiple fields (is_update flag affects goal validation)."
+      },
+      "ReadingGoalItem": {
+        "properties": {
+          "year": {
+            "type": "integer",
+            "maximum": 9999.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Year",
+            "description": "The year for this reading goal (1-9999)"
+          },
+          "goal": {
+            "type": "integer",
+            "title": "Goal",
+            "description": "The target number of books to read"
+          }
+        },
+        "type": "object",
+        "required": [
+          "year",
+          "goal"
+        ],
+        "title": "ReadingGoalItem",
+        "description": "A single reading goal entry."
+      },
+      "ReadingGoalUpdateResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Response status",
+            "default": "ok"
+          }
+        },
+        "type": "object",
+        "title": "ReadingGoalUpdateResponse",
+        "description": "Response model for reading goals POST endpoint."
+      },
+      "ReadingGoalsResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Response status",
+            "default": "ok"
+          },
+          "goal": {
+            "items": {
+              "$ref": "#/components/schemas/ReadingGoalItem"
+            },
+            "type": "array",
+            "title": "Goal",
+            "description": "List of reading goals"
+          }
+        },
+        "type": "object",
+        "title": "ReadingGoalsResponse",
+        "description": "Response model for reading goals GET endpoint."
+      },
+      "ReadingLogEntry": {
+        "properties": {
+          "work": {
+            "$ref": "#/components/schemas/WorkData"
+          },
+          "logged_edition": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Logged Edition"
+          },
+          "logged_date": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Logged Date"
+          }
+        },
+        "type": "object",
+        "required": [
+          "work",
+          "logged_edition",
+          "logged_date"
+        ],
+        "title": "ReadingLogEntry",
+        "description": "Single reading log entry."
+      },
+      "ReadingLogResponse": {
+        "properties": {
+          "page": {
+            "type": "integer",
+            "title": "Page"
+          },
+          "numFound": {
+            "type": "integer",
+            "title": "Numfound"
+          },
+          "reading_log_entries": {
+            "items": {
+              "$ref": "#/components/schemas/ReadingLogEntry"
+            },
+            "type": "array",
+            "title": "Reading Log Entries"
+          }
+        },
+        "type": "object",
+        "required": [
+          "page",
+          "numFound",
+          "reading_log_entries"
+        ],
+        "title": "ReadingLogResponse",
+        "description": "Response model for reading log."
+      },
+      "SearchResponse": {
+        "properties": {
+          "numFound": {
+            "type": "integer",
+            "title": "Numfound"
+          },
+          "start": {
+            "type": "integer",
+            "title": "Start"
+          },
+          "numFoundExact": {
+            "type": "boolean",
+            "title": "Numfoundexact"
+          },
+          "num_found": {
+            "type": "integer",
+            "title": "Num Found"
+          },
+          "documentation_url": {
+            "type": "string",
+            "title": "Documentation Url",
+            "default": "https://openlibrary.org/dev/docs/api/search"
+          },
+          "q": {
+            "type": "string",
+            "title": "Q"
+          },
+          "offset": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Offset"
+          },
+          "docs": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Docs",
+            "default": []
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "numFound",
+          "start",
+          "numFoundExact",
+          "num_found",
+          "q",
+          "offset"
+        ],
+        "title": "SearchResponse",
+        "description": "The response from a (books) search query."
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "WorkData": {
+        "properties": {
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          },
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "author_keys": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Author Keys"
+          },
+          "author_names": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Author Names"
+          },
+          "first_publish_year": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "First Publish Year"
+          },
+          "lending_edition_s": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lending Edition S"
+          },
+          "edition_key": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Edition Key"
+          },
+          "cover_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cover Id"
+          },
+          "cover_edition_key": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cover Edition Key"
+          }
+        },
+        "type": "object",
+        "required": [
+          "title",
+          "key",
+          "author_keys",
+          "author_names",
+          "first_publish_year",
+          "lending_edition_s",
+          "edition_key",
+          "cover_id",
+          "cover_edition_key"
+        ],
+        "title": "WorkData",
+        "description": "Work data in reading log."
+      }
+    },
+    "securitySchemes": {
+      "APIKeyCookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "session"
+      }
+    }
+  }
+}

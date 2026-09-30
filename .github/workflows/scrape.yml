@@ -51,3 +51,16 @@ jobs:
         timestamp=$(date -u)
         git commit -m "OpenAI: ${timestamp}" -m "See ${LATEST_COMMIT_URL} for the latest commit before this change." || exit 0
         git push
+    - name: OpenLibrary
+      run: |-
+        mkdir -p $name
+        curl -sSfL $url | jq . > $name/$name.json
+      env:
+        name: openlibrary
+        url: https://openlibrary.org/openapi.json
+    - name: Commit and push if it changed
+      run: |-
+        git add -A
+        timestamp=$(date -u)
+        git commit -m "OpenLibrary: ${timestamp}" || exit 0
+        git push
