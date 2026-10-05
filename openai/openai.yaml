@@ -44358,7 +44358,6 @@ components:
             sees during training, so if a prompt is not specified the model will
             generate as if from the beginning of a new document.
           default: <|endoftext|>
-          nullable: true
           oneOf:
             - type: string
               default: ""
@@ -44381,6 +44380,7 @@ components:
                 items:
                   type: integer
               example: "[[1212, 318, 257, 1332, 13]]"
+            - type: "null"
         best_of:
           type:
             - integer
@@ -46217,10 +46217,10 @@ components:
               enum:
                 - dall-e-2
               x-stainless-const: true
+            - type: "null"
           x-oaiTypeLabel: string
           default: dall-e-2
           example: dall-e-2
-          nullable: true
           description: The legacy model used by the retired image variations endpoint.
             This endpoint no longer accepts requests.
         n:
@@ -62021,27 +62021,25 @@ components:
           }
     RealtimeClientEventSessionUpdate:
       type: object
-      description: >
+      description: |
         Send this event to update the session’s configuration.
-
         The client may send this event at any time to update any field
-
-        except for `voice` and `model`. `voice` can be updated only if there
-        have been no other audio outputs yet.
-
+        except for `voice` and `model`. `voice` can be updated only if there have been no other audio outputs yet.
 
         When the server receives a `session.update`, it will respond
-
-        with a `session.updated` event showing the full, effective
-        configuration.
-
-        Only the fields that are present in the `session.update` are updated. To
-        clear a field like
-
-        `instructions`, pass an empty string. To clear a field like `tools`,
-        pass an empty array.
-
+        with a `session.updated` event showing the full, effective configuration.
+        Only the fields that are present in the `session.update` are updated. To clear a field like
+        `instructions`, pass an empty string. To clear a field like `tools`, pass an empty array.
         To clear a field like `turn_detection`, pass `null`.
+
+        To turn off input audio noise reduction, send this Realtime event:
+
+        ```json
+        {"type":"session.update","session":{"type":"realtime","audio":{"input":{"noise_reduction":null}}}}
+        ```
+
+        For a transcription session, use `"type":"transcription"` inside `session`.
+        Omitting `audio.input.noise_reduction` from an update leaves its current setting unchanged.
       properties:
         event_id:
           type: string
