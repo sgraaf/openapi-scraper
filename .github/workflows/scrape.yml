@@ -83,3 +83,26 @@ jobs:
         timestamp=$(date -u)
         git commit -m "Rocket.Chat: ${timestamp}" -m "See ${LATEST_COMMIT_URL} for the latest commit before this change." || exit 0
         git push
+    - name: Set up uv
+      uses: astral-sh/setup-uv@v6
+      with:
+        enable-cache: true
+        cache-dependency-glob: .github/workflows/scrape.yml
+    - name: Open WebUI
+      run: |-
+        mkdir -p $name
+        uv venv --python 3.12
+        uv pip install open-webui --extra-index-url https://download.pytorch.org/whl/cpu
+        # PYTHONHASHSEED keeps the generated operationIds of the catch-all proxy routes stable
+        # The spec is written from within Python as Open WebUI logs to stdout on import
+        PYTHONHASHSEED=0 DATA_DIR=$(mktemp -d) WEBUI_SECRET_KEY=dummy \
+          .venv/bin/python -c "import json, sys; from open_webui.main import app; json.dump(app.openapi(), open(sys.argv[1], 'w'), indent=2)" $name/$name.json
+        echo 'OPEN_WEBUI_VERSION='$(uv pip freeze | sed -n 's/^open-webui==//p') >> $GITHUB_ENV
+      env:
+        name: openwebui
+    - name: Commit and push if it changed
+      run: |-
+        git add -A
+        timestamp=$(date -u)
+        git commit -m "Open WebUI: ${timestamp}" -m "Generated from open-webui ${OPEN_WEBUI_VERSION} on PyPI." || exit 0
+        git push
