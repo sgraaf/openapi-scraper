@@ -106,3 +106,21 @@ jobs:
         timestamp=$(date -u)
         git commit -m "Open WebUI: ${timestamp}" -m "Generated from open-webui ${OPEN_WEBUI_VERSION} on PyPI." || exit 0
         git push
+    - name: Jellyfin
+      run: |-
+        mkdir -p $name
+        # openapi.json is stored in Git LFS, which raw.githubusercontent.com only serves as a pointer file
+        curl -sSfL https://media.githubusercontent.com/media/$owner/$repo/$branch/$path | jq . > $name/$name.${path##*.}
+        echo 'LATEST_COMMIT_URL='$(curl https://api.github.com/repos/$owner/$repo/commits?path=$path | jq .[0].html_url | tr -d \") >> $GITHUB_ENV
+      env:
+        name: jellyfin
+        owner: jellyfin
+        repo: jellyfin-sdk-kotlin
+        branch: master
+        path: openapi.json
+    - name: Commit and push if it changed
+      run: |-
+        git add -A
+        timestamp=$(date -u)
+        git commit -m "Jellyfin: ${timestamp}" -m "See ${LATEST_COMMIT_URL} for the latest commit before this change." || exit 0
+        git push
