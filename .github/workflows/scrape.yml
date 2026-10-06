@@ -64,3 +64,22 @@ jobs:
         timestamp=$(date -u)
         git commit -m "OpenLibrary: ${timestamp}" || exit 0
         git push
+    - name: Rocket.Chat
+      run: |-
+        mkdir -p $name
+        for file in $files; do
+          curl -sSfL https://raw.githubusercontent.com/$owner/$repo/$branch/$file.yaml > $name/$file.yaml
+        done
+        echo 'LATEST_COMMIT_URL='$(curl https://api.github.com/repos/$owner/$repo/commits?sha=$branch | jq .[0].html_url | tr -d \") >> $GITHUB_ENV
+      env:
+        name: rocketchat
+        owner: RocketChat
+        repo: Rocket.Chat-Open-API
+        branch: main
+        files: authentication content-management integrations marketplace-apps messaging miscellaneous notifications omnichannel rooms settings statistics user-management
+    - name: Commit and push if it changed
+      run: |-
+        git add -A
+        timestamp=$(date -u)
+        git commit -m "Rocket.Chat: ${timestamp}" -m "See ${LATEST_COMMIT_URL} for the latest commit before this change." || exit 0
+        git push
