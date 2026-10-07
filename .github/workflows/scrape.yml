@@ -92,7 +92,8 @@ jobs:
       run: |-
         mkdir -p $name
         uv venv --python 3.12
-        uv pip install open-webui --extra-index-url https://download.pytorch.org/whl/cpu
+        # The PyTorch index also mirrors (a subset of) common packages like requests, so let uv pick across both indexes
+        uv pip install open-webui --extra-index-url https://download.pytorch.org/whl/cpu --index-strategy unsafe-best-match
         # PYTHONHASHSEED keeps the generated operationIds of the catch-all proxy routes stable
         # The spec is written from within Python as Open WebUI logs to stdout on import
         PYTHONHASHSEED=0 DATA_DIR=$(mktemp -d) WEBUI_SECRET_KEY=dummy \
