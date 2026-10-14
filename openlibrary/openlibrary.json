@@ -598,6 +598,44 @@
         }
       }
     },
+    "/cdn/graphite/{name}": {
+      "get": {
+        "summary": "Graphite Graph",
+        "description": "Proxy and cache a Graphite chart for the /stats page.",
+        "operationId": "graphite_graph_cdn_graphite__name__get",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Name"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/cdn/archive.org/{filename}": {
       "get": {
         "summary": "Ia Js Cdn",
@@ -3976,6 +4014,190 @@
             "content": {
               "application/json": {
                 "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search/editions.json": {
+      "get": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Search Editions Json",
+        "description": "Search for edition documents in the Solr index.\n\nSupports full-text search across edition fields (title, ISBN, publisher, etc.)\nand optional filtering by work key.",
+        "operationId": "search_editions_json_search_editions_json_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Maximum number of results to return.",
+              "default": 100,
+              "title": "Limit"
+            },
+            "description": "Maximum number of results to return."
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Number of results to skip.",
+              "title": "Offset"
+            },
+            "description": "Number of results to skip."
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Page number (1-indexed).",
+              "title": "Page"
+            },
+            "description": "Page number (1-indexed)."
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "The search query",
+              "default": "",
+              "title": "Q"
+            },
+            "description": "The search query"
+          },
+          {
+            "name": "work_key",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter results to editions of a specific work.",
+              "examples": [
+                "/works/OL82536W"
+              ],
+              "title": "Work Key"
+            },
+            "description": "Filter results to editions of a specific work."
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "The fields to return.",
+              "default": [
+                "cover_i",
+                "ebook_access",
+                "isbn",
+                "key",
+                "language",
+                "publish_date",
+                "publisher",
+                "subtitle",
+                "title",
+                "work_key"
+              ],
+              "title": "Fields"
+            },
+            "description": "The fields to return."
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "old",
+                "new",
+                "title",
+                "ebook_access",
+                "ebook_access asc",
+                "ebook_access desc",
+                "key",
+                "key asc",
+                "key desc",
+                "access_score",
+                "access_score asc",
+                "access_score desc",
+                "discovery_score",
+                "discovery_score asc",
+                "discovery_score desc",
+                "evaluation_score",
+                "evaluation_score asc",
+                "evaluation_score desc",
+                "usefulness_score",
+                "usefulness_score asc",
+                "usefulness_score desc",
+                "random",
+                "random asc",
+                "random desc",
+                "random.hourly",
+                "random.daily",
+                ""
+              ],
+              "default": "",
+              "title": "Sort"
+            },
+            "description": "Sort order"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Search Editions Json Search Editions Json Get"
+                }
               }
             }
           },
