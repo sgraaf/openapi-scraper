@@ -8997,6 +8997,385 @@
         }
       }
     },
+    "/api/v1/apps": {
+      "get": {
+        "tags": [
+          "apps"
+        ],
+        "summary": "Get Apps",
+        "operationId": "get_apps_api_v1_apps_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/AppResponse"
+                  },
+                  "type": "array",
+                  "title": "Response Get Apps Api V1 Apps Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "apps"
+        ],
+        "summary": "Create New App",
+        "operationId": "create_new_app_api_v1_apps_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/apps/manifest/preview": {
+      "post": {
+        "tags": [
+          "apps"
+        ],
+        "summary": "Preview App Manifest",
+        "operationId": "preview_app_manifest_api_v1_apps_manifest_preview_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppManifestForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Manifest"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/apps/{app_id}": {
+      "get": {
+        "tags": [
+          "apps"
+        ],
+        "summary": "Get App Details By Id",
+        "operationId": "get_app_details_by_id_api_v1_apps__app_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "app_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "App Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppAccessResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "apps"
+        ],
+        "summary": "Update App By Id",
+        "operationId": "update_app_by_id_api_v1_apps__app_id__patch",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "app_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "App Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppUpdateForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "apps"
+        ],
+        "summary": "Uninstall App By Id",
+        "operationId": "uninstall_app_by_id_api_v1_apps__app_id__delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "app_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "App Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/apps/{app_id}/connect": {
+      "post": {
+        "tags": [
+          "apps"
+        ],
+        "summary": "Connect App By Id",
+        "operationId": "connect_app_by_id_api_v1_apps__app_id__connect_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "app_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "App Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppConnectionForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/apps/{app_id}/interactions": {
+      "post": {
+        "tags": [
+          "apps"
+        ],
+        "summary": "Create App Interaction",
+        "operationId": "create_app_interaction_api_v1_apps__app_id__interactions_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "app_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "App Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppInteractionForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/channels/": {
       "get": {
         "tags": [
@@ -9333,6 +9712,63 @@
         }
       }
     },
+    "/api/v1/channels/{id}/members/mute": {
+      "post": {
+        "tags": [
+          "channels"
+        ],
+        "summary": "Update Member Mute Status",
+        "operationId": "update_member_mute_status_api_v1_channels__id__members_mute_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMutedMemberForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateMutedMemberForm"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/channels/{id}/members/active": {
       "post": {
         "tags": [
@@ -9598,6 +10034,158 @@
                   "type": "boolean",
                   "title": "Response Delete Channel By Id Api V1 Channels  Id  Delete Delete"
                 }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/channels/{channel_id}/apps": {
+      "get": {
+        "tags": [
+          "channels"
+        ],
+        "summary": "Get Channel Apps",
+        "operationId": "get_channel_apps_api_v1_channels__channel_id__apps_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "channel_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Channel Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "channels"
+        ],
+        "summary": "Invite App",
+        "operationId": "invite_app_api_v1_channels__channel_id__apps_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "channel_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Channel Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppInvitation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/channels/{channel_id}/apps/{app_id}": {
+      "delete": {
+        "tags": [
+          "channels"
+        ],
+        "summary": "Remove App",
+        "operationId": "remove_app_api_v1_channels__channel_id__apps__app_id__delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "channel_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Channel Id"
+            }
+          },
+          {
+            "name": "app_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "App Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
               }
             }
           },
@@ -21427,7 +22015,7 @@
           "memories"
         ],
         "summary": "Reset Memory From Vector Db",
-        "description": "Reset user's memory vector embeddings.\n\nCRITICAL: We intentionally do NOT use Depends(get_async_session) here.\nThis endpoint generates embeddings for ALL user memories in parallel using\nasyncio.gather(). A user with 100 memories would trigger 100 embedding API\ncalls simultaneously. With a session held, this could block a connection\nfor MINUTES, completely exhausting the connection pool.",
+        "description": "Reset user's memory vector embeddings.\n\nCRITICAL: We intentionally do NOT use Depends(get_async_session) here.\nThis endpoint generates embeddings for ALL user memories. With a session\nheld, this could block a connection for MINUTES, completely exhausting the\nconnection pool.",
         "operationId": "reset_memory_from_vector_db_api_v1_memories_reset_post",
         "responses": {
           "200": {
@@ -30112,6 +30700,11 @@
             "type": "boolean",
             "title": "Enable Channels"
           },
+          "ENABLE_APPS": {
+            "type": "boolean",
+            "title": "Enable Apps",
+            "default": false
+          },
           "CHANNEL_MODEL_RESPONSE_MODE": {
             "type": "string",
             "title": "Channel Model Response Mode",
@@ -30275,6 +30868,374 @@
         },
         "type": "object",
         "title": "ApiKey"
+      },
+      "AppAccessResponse": {
+        "properties": {
+          "connection_status": {
+            "type": "string",
+            "enum": [
+              "connecting",
+              "connected",
+              "disconnected"
+            ],
+            "title": "Connection Status",
+            "default": "disconnected"
+          },
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active"
+          },
+          "configured": {
+            "type": "boolean",
+            "title": "Configured"
+          },
+          "data": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Data"
+          },
+          "created_at": {
+            "type": "integer",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "integer",
+            "title": "Updated At"
+          },
+          "access_grants": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Access Grants"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "slug",
+          "name",
+          "is_active",
+          "configured",
+          "data",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "AppAccessResponse"
+      },
+      "AppConnectionForm": {
+        "properties": {
+          "api_key": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 4096,
+                "minLength": 1,
+                "format": "password",
+                "writeOnly": true
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Api Key"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "AppConnectionForm"
+      },
+      "AppForm": {
+        "properties": {
+          "manifest": {
+            "$ref": "#/components/schemas/Manifest"
+          },
+          "url": {
+            "type": "string",
+            "maxLength": 2048,
+            "title": "Url"
+          },
+          "api_key": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "format": "password",
+            "title": "Api Key",
+            "writeOnly": true
+          },
+          "slug": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]{0,39}$",
+            "title": "Slug"
+          },
+          "granted_scopes": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "channels:mentions:read",
+                "channels:messages:read",
+                "channels:messages:write",
+                "channels:read"
+              ]
+            },
+            "type": "array",
+            "title": "Granted Scopes"
+          },
+          "access_grants": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Access Grants"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "manifest",
+          "url",
+          "api_key",
+          "slug",
+          "granted_scopes"
+        ],
+        "title": "AppForm"
+      },
+      "AppInteractionForm": {
+        "properties": {
+          "message_id": {
+            "type": "string",
+            "title": "Message Id"
+          },
+          "action_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Action Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "message_id",
+          "action_id"
+        ],
+        "title": "AppInteractionForm"
+      },
+      "AppInvitation": {
+        "properties": {
+          "app_id": {
+            "type": "string",
+            "title": "App Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "app_id"
+        ],
+        "title": "AppInvitation"
+      },
+      "AppManifestForm": {
+        "properties": {
+          "url": {
+            "type": "string",
+            "maxLength": 2048,
+            "title": "Url"
+          },
+          "api_key": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 4096,
+                "minLength": 1,
+                "format": "password",
+                "writeOnly": true
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Api Key"
+          },
+          "app_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "App Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "title": "AppManifestForm"
+      },
+      "AppResponse": {
+        "properties": {
+          "connection_status": {
+            "type": "string",
+            "enum": [
+              "connecting",
+              "connected",
+              "disconnected"
+            ],
+            "title": "Connection Status",
+            "default": "disconnected"
+          },
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active"
+          },
+          "configured": {
+            "type": "boolean",
+            "title": "Configured"
+          },
+          "data": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Data"
+          },
+          "created_at": {
+            "type": "integer",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "integer",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "slug",
+          "name",
+          "is_active",
+          "configured",
+          "data",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "AppResponse"
+      },
+      "AppUpdateForm": {
+        "properties": {
+          "is_active": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Active"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "settings": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Settings"
+          },
+          "manifest": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Manifest"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "granted_scopes": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "channels:mentions:read",
+                    "channels:messages:read",
+                    "channels:messages:write",
+                    "channels:read"
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Granted Scopes"
+          },
+          "access_grants": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Access Grants"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "AppUpdateForm"
       },
       "AudioConfigUpdateForm": {
         "properties": {
@@ -32039,6 +33000,11 @@
             ],
             "title": "User Count"
           },
+          "is_channel_muted": {
+            "type": "boolean",
+            "title": "Is Channel Muted",
+            "default": false
+          },
           "user_ids": {
             "anyOf": [
               {
@@ -32234,6 +33200,11 @@
               }
             ],
             "title": "Deleted By"
+          },
+          "is_channel_muted": {
+            "type": "boolean",
+            "title": "Is Channel Muted",
+            "default": false
           },
           "user_ids": {
             "anyOf": [
@@ -38906,6 +39877,67 @@
         ],
         "title": "LoadUrlForm"
       },
+      "Manifest": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 2000,
+            "title": "Description",
+            "default": ""
+          },
+          "profile_image_url": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 196608
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Profile Image Url"
+          },
+          "public_key": {
+            "type": "string",
+            "maxLength": 2000,
+            "title": "Public Key"
+          },
+          "requested_scopes": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "channels:mentions:read",
+                "channels:messages:read",
+                "channels:messages:write",
+                "channels:read"
+              ]
+            },
+            "type": "array",
+            "title": "Requested Scopes"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "public_key",
+          "requested_scopes"
+        ],
+        "title": "Manifest"
+      },
       "MemoryModel": {
         "properties": {
           "id": {
@@ -39089,8 +40121,26 @@
             "title": "Id"
           },
           "user_id": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "User Id"
+          },
+          "app_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "App Id"
           },
           "channel_id": {
             "anyOf": [
@@ -39187,15 +40237,20 @@
           "updated_at": {
             "type": "integer",
             "title": "Updated At"
+          },
+          "etag": {
+            "type": "string",
+            "title": "Etag",
+            "readOnly": true
           }
         },
         "type": "object",
         "required": [
           "id",
-          "user_id",
           "content",
           "created_at",
-          "updated_at"
+          "updated_at",
+          "etag"
         ],
         "title": "MessageModel"
       },
@@ -39206,8 +40261,26 @@
             "title": "Id"
           },
           "user_id": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "User Id"
+          },
+          "app_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "App Id"
           },
           "channel_id": {
             "anyOf": [
@@ -39346,18 +40419,23 @@
             },
             "type": "array",
             "title": "Reactions"
+          },
+          "etag": {
+            "type": "string",
+            "title": "Etag",
+            "readOnly": true
           }
         },
         "type": "object",
         "required": [
           "id",
-          "user_id",
           "content",
           "created_at",
           "updated_at",
           "latest_reply_at",
           "reply_count",
-          "reactions"
+          "reactions",
+          "etag"
         ],
         "title": "MessageResponse"
       },
@@ -39449,8 +40527,26 @@
             "title": "Id"
           },
           "user_id": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "User Id"
+          },
+          "app_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "App Id"
           },
           "channel_id": {
             "anyOf": [
@@ -39518,6 +40614,10 @@
           },
           "data": {
             "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
               {
                 "type": "boolean"
               },
@@ -39588,18 +40688,23 @@
             },
             "type": "array",
             "title": "Reactions"
+          },
+          "etag": {
+            "type": "string",
+            "title": "Etag",
+            "readOnly": true
           }
         },
         "type": "object",
         "required": [
           "id",
-          "user_id",
           "content",
           "created_at",
           "updated_at",
           "latest_reply_at",
           "reply_count",
-          "reactions"
+          "reactions",
+          "etag"
         ],
         "title": "MessageUserResponse"
       },
@@ -39610,8 +40715,26 @@
             "title": "Id"
           },
           "user_id": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "User Id"
+          },
+          "app_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "App Id"
           },
           "channel_id": {
             "anyOf": [
@@ -39679,6 +40802,10 @@
           },
           "data": {
             "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
               {
                 "type": "boolean"
               },
@@ -39717,15 +40844,20 @@
                 "type": "null"
               }
             ]
+          },
+          "etag": {
+            "type": "string",
+            "title": "Etag",
+            "readOnly": true
           }
         },
         "type": "object",
         "required": [
           "id",
-          "user_id",
           "content",
           "created_at",
-          "updated_at"
+          "updated_at",
+          "etag"
         ],
         "title": "MessageUserSlimResponse"
       },
@@ -39736,8 +40868,26 @@
             "title": "Id"
           },
           "user_id": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "User Id"
+          },
+          "app_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "App Id"
           },
           "channel_id": {
             "anyOf": [
@@ -39805,6 +40955,10 @@
           },
           "data": {
             "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
               {
                 "type": "boolean"
               },
@@ -39850,16 +41004,21 @@
             },
             "type": "array",
             "title": "Reactions"
+          },
+          "etag": {
+            "type": "string",
+            "title": "Etag",
+            "readOnly": true
           }
         },
         "type": "object",
         "required": [
           "id",
-          "user_id",
           "content",
           "created_at",
           "updated_at",
-          "reactions"
+          "reactions",
+          "etag"
         ],
         "title": "MessageWithReactionsResponse"
       },
@@ -43757,6 +44916,24 @@
             "title": "Enabled",
             "default": false
           },
+          "PROVIDER": {
+            "type": "string",
+            "enum": [
+              "openai",
+              "azure"
+            ],
+            "title": "Provider",
+            "default": "openai"
+          },
+          "AUTH_TYPE": {
+            "type": "string",
+            "enum": [
+              "api_key",
+              "microsoft_entra_id"
+            ],
+            "title": "Auth Type",
+            "default": "api_key"
+          },
           "OPENAI_API_BASE_URL": {
             "type": "string",
             "title": "Openai Api Base Url",
@@ -43787,6 +44964,18 @@
             "minLength": 1,
             "title": "Transcription Model",
             "default": "gpt-transcribe"
+          },
+          "INPUT_PARAMS": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Input Params"
           },
           "REALTIME_CALL_PROMPT_TEMPLATE": {
             "anyOf": [
@@ -46825,6 +48014,19 @@
           "operations"
         ],
         "title": "UpdateMemoriesForm"
+      },
+      "UpdateMutedMemberForm": {
+        "properties": {
+          "is_channel_muted": {
+            "type": "boolean",
+            "title": "Is Channel Muted"
+          }
+        },
+        "type": "object",
+        "required": [
+          "is_channel_muted"
+        ],
+        "title": "UpdateMutedMemberForm"
       },
       "UpdatePasswordForm": {
         "properties": {
