@@ -4343,6 +4343,62 @@
         }
       }
     },
+    "/tasks/feed.json": {
+      "get": {
+        "summary": "Tasks Feed",
+        "description": "Recent human edits to catalog records as rows for the Tasks page feed, rotated and restamped back from now.",
+        "operationId": "tasks_feed_tasks_feed_json_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 50,
+              "exclusiveMinimum": 0,
+              "default": 20,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Where in the rotation to start.",
+              "default": 0,
+              "title": "Offset"
+            },
+            "description": "Where in the rotation to start."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/reading-goal.json": {
       "get": {
         "summary": "Get Reading Goals Endpoint",
@@ -4677,6 +4733,85 @@
         ],
         "title": "CreateListResponse",
         "description": "Response model for POST /people/{username}/lists.json.\n\nUses `extra=\"allow\"` to preserve any additional fields returned\nby the underlying `site.save()` call (e.g. ``type``, ``created``,\n``last_modified``) for backward compatibility."
+      },
+      "FeedResponse": {
+        "properties": {
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/FeedRow"
+            },
+            "type": "array",
+            "title": "Rows"
+          }
+        },
+        "type": "object",
+        "required": [
+          "rows"
+        ],
+        "title": "FeedResponse"
+      },
+      "FeedRow": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "authors": {
+            "type": "string",
+            "title": "Authors"
+          },
+          "cover_url": {
+            "type": "string",
+            "title": "Cover Url"
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind"
+          },
+          "action": {
+            "type": "string",
+            "title": "Action"
+          },
+          "editor": {
+            "type": "string",
+            "title": "Editor"
+          },
+          "editor_key": {
+            "type": "string",
+            "title": "Editor Key"
+          },
+          "comment": {
+            "type": "string",
+            "title": "Comment"
+          },
+          "timestamp": {
+            "type": "string",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "key",
+          "title",
+          "authors",
+          "cover_url",
+          "kind",
+          "action",
+          "editor",
+          "editor_key",
+          "comment",
+          "timestamp"
+        ],
+        "title": "FeedRow"
       },
       "HTTPValidationError": {
         "properties": {
