@@ -10652,6 +10652,38 @@
               "default": 50,
               "title": "Limit"
             }
+          },
+          {
+            "name": "around",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Around"
+            }
+          },
+          {
+            "name": "before",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Before"
+            }
           }
         ],
         "responses": {
@@ -14833,6 +14865,109 @@
                 "schema": {
                   "type": "boolean",
                   "title": "Response Delete Note By Id Api V1 Notes  Id  Delete Delete"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/search": {
+      "get": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Search",
+        "operationId": "search_api_v1_search_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "maxLength": 500,
+              "default": "",
+              "title": "Q"
+            }
+          },
+          {
+            "name": "kind",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "all",
+                "chat",
+                "message",
+                "note"
+              ],
+              "type": "string",
+              "default": "all",
+              "title": "Kind"
+            }
+          },
+          {
+            "name": "sharing",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "all",
+                "mine",
+                "shared"
+              ],
+              "type": "string",
+              "default": "all",
+              "title": "Sharing"
+            }
+          },
+          {
+            "name": "scope",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "maxLength": 200,
+              "default": "",
+              "title": "Scope"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100000,
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResponse"
                 }
               }
             }
@@ -30700,6 +30835,11 @@
             "type": "boolean",
             "title": "Enable Channels"
           },
+          "ENABLE_ENCRYPTED_CHANNELS": {
+            "type": "boolean",
+            "title": "Enable Encrypted Channels",
+            "default": false
+          },
           "ENABLE_APPS": {
             "type": "boolean",
             "title": "Enable Apps",
@@ -30721,6 +30861,30 @@
           "ENABLE_MEMORY_SYSTEM_CONTEXT": {
             "type": "boolean",
             "title": "Enable Memory System Context"
+          },
+          "SKILL_CONTENT_MAX_CHARS": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Skill Content Max Chars"
+          },
+          "SKILL_PREVIEW_MAX_CHARS": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Skill Preview Max Chars"
           },
           "ENABLE_NOTES": {
             "type": "boolean",
@@ -36609,6 +36773,11 @@
             "type": "boolean",
             "title": "Channels",
             "default": true
+          },
+          "encrypted_channels": {
+            "type": "boolean",
+            "title": "Encrypted Channels",
+            "default": false
           },
           "folders": {
             "type": "boolean",
@@ -45211,6 +45380,133 @@
         },
         "type": "object",
         "title": "SearchMemoriesForm"
+      },
+      "SearchResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/SearchResult"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "has_more": {
+            "type": "boolean",
+            "title": "Has More"
+          },
+          "scopes": {
+            "items": {
+              "$ref": "#/components/schemas/SearchScope"
+            },
+            "type": "array",
+            "title": "Scopes"
+          },
+          "kinds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Kinds"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "has_more",
+          "scopes",
+          "kinds"
+        ],
+        "title": "SearchResponse"
+      },
+      "SearchResult": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "chat",
+              "message",
+              "note"
+            ],
+            "title": "Kind"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "context": {
+            "type": "string",
+            "title": "Context"
+          },
+          "snippet": {
+            "type": "string",
+            "title": "Snippet"
+          },
+          "preview": {
+            "type": "string",
+            "title": "Preview"
+          },
+          "url": {
+            "type": "string",
+            "title": "Url"
+          },
+          "updated_at": {
+            "type": "integer",
+            "title": "Updated At"
+          },
+          "shared": {
+            "type": "boolean",
+            "title": "Shared",
+            "default": false
+          },
+          "pinned": {
+            "type": "boolean",
+            "title": "Pinned",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "kind",
+          "title",
+          "context",
+          "snippet",
+          "preview",
+          "url",
+          "updated_at"
+        ],
+        "title": "SearchResult"
+      },
+      "SearchScope": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "folder",
+              "channel"
+            ],
+            "title": "Kind"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "kind"
+        ],
+        "title": "SearchScope"
       },
       "SessionUserInfoResponse": {
         "properties": {
