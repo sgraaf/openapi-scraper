@@ -3610,6 +3610,18 @@
             "description": "Drop matches that aren't readable (public or borrowable) scans. hits.total still counts them."
           },
           {
+            "name": "phrase",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "Search an unquoted query as one exact phrase, falling back to all the words when it has no hits. false searches all the words.",
+              "default": true,
+              "title": "Phrase"
+            },
+            "description": "Search an unquoted query as one exact phrase, falling back to all the words when it has no hits. false searches all the words."
+          },
+          {
             "name": "language",
             "in": "query",
             "required": false,
