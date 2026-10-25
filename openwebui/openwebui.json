@@ -4916,7 +4916,7 @@
           "retrieval"
         ],
         "summary": "Process File",
-        "description": "Process a file and save its content to the vector database.\nNote: granular session management is used to prevent connection pool exhaustion.\nThe session is committed before external API calls, and updates use a fresh session.",
+        "description": "Standalone processing endpoint: index the file, then mark it completed.\n\nUploads call index_file directly so they can finish knowledge linking before\nreporting completion.",
         "operationId": "process_file_api_v1_retrieval_process_file_post",
         "requestBody": {
           "content": {
@@ -5426,53 +5426,6 @@
         ]
       }
     },
-    "/api/v1/retrieval/ef/{text}": {
-      "get": {
-        "tags": [
-          "retrieval"
-        ],
-        "summary": "Get Embeddings",
-        "operationId": "get_embeddings_api_v1_retrieval_ef__text__get",
-        "parameters": [
-          {
-            "name": "text",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Text"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/v1/retrieval/process/files/batch": {
       "post": {
         "tags": [
@@ -5653,6 +5606,52 @@
             }
           }
         }
+      }
+    },
+    "/api/v1/configs/interface/visibility": {
+      "post": {
+        "tags": [
+          "configs"
+        ],
+        "summary": "Set Interface Visibility",
+        "operationId": "set_interface_visibility_api_v1_configs_interface_visibility_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InterfaceVisibilityForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InterfaceVisibilityForm"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
       }
     },
     "/api/v1/configs/connections": {
@@ -10002,6 +10001,63 @@
         }
       }
     },
+    "/api/v1/channels/{id}/access/update": {
+      "post": {
+        "tags": [
+          "channels"
+        ],
+        "summary": "Update Channel Access By Id",
+        "operationId": "update_channel_access_by_id_api_v1_channels__id__access_update_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChannelAccessGrantsForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChannelModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/channels/{id}/delete": {
       "delete": {
         "tags": [
@@ -13089,6 +13145,67 @@
         }
       }
     },
+    "/api/v1/chats/{id}/params": {
+      "patch": {
+        "tags": [
+          "chats"
+        ],
+        "summary": "Update Chat Params",
+        "operationId": "update_chat_params_api_v1_chats__id__params_patch",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true,
+                "title": "Form Data"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Update Chat Params Api V1 Chats  Id  Params Patch"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/chats/{id}/messages/{message_id}": {
       "post": {
         "tags": [
@@ -14677,7 +14794,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NoteForm"
+                "$ref": "#/components/schemas/NoteUpdateForm"
               }
             }
           }
@@ -23697,7 +23814,6 @@
           "files"
         ],
         "summary": "Search Files",
-        "description": "Search for files by filename with support for wildcard patterns.\nUses SQL-based filtering with pagination for better performance.",
         "operationId": "search_files_api_v1_files_search_get",
         "security": [
           {
@@ -23782,6 +23898,91 @@
         }
       }
     },
+    "/api/v1/files/user/search": {
+      "get": {
+        "tags": [
+          "files"
+        ],
+        "summary": "Search User Files",
+        "operationId": "search_user_files_api_v1_files_user_search_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "filename",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "*",
+              "title": "Filename"
+            }
+          },
+          {
+            "name": "content",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Content"
+            }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Skip"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FileModelResponse"
+                  },
+                  "title": "Response Search User Files Api V1 Files User Search Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/files/count": {
       "get": {
         "tags": [
@@ -23797,6 +23998,33 @@
                 "schema": {
                   "type": "integer",
                   "title": "Response Count Files Api V1 Files Count Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/files/user/count": {
+      "get": {
+        "tags": [
+          "files"
+        ],
+        "summary": "Count User Files",
+        "operationId": "count_user_files_api_v1_files_user_count_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "title": "Response Count User Files Api V1 Files User Count Get"
                 }
               }
             }
@@ -26352,6 +26580,20 @@
               "title": "Limit"
             },
             "description": "Max users to return"
+          },
+          {
+            "name": "metric",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "messages",
+                "tokens"
+              ],
+              "type": "string",
+              "default": "messages",
+              "title": "Metric"
+            }
           }
         ],
         "responses": {
@@ -26631,7 +26873,7 @@
           "analytics"
         ],
         "summary": "Get Daily Stats",
-        "description": "Get message counts grouped by model for time-series chart.",
+        "description": "Get message counts or total tokens grouped by model for the time-series chart.",
         "operationId": "get_daily_stats_api_v1_analytics_daily_get",
         "security": [
           {
@@ -26698,12 +26940,41 @@
             "in": "query",
             "required": false,
             "schema": {
+              "enum": [
+                "10m",
+                "hourly",
+                "3h",
+                "6h",
+                "daily"
+              ],
               "type": "string",
-              "description": "Granularity: 'hourly' or 'daily'",
               "default": "daily",
               "title": "Granularity"
-            },
-            "description": "Granularity: 'hourly' or 'daily'"
+            }
+          },
+          {
+            "name": "metric",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "messages",
+                "tokens"
+              ],
+              "type": "string",
+              "default": "messages",
+              "title": "Metric"
+            }
+          },
+          {
+            "name": "compare",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Compare"
+            }
           }
         ],
         "responses": {
@@ -28970,6 +29241,63 @@
         }
       }
     },
+    "/api/v1/calendars/{calendar_id}/access/update": {
+      "post": {
+        "tags": [
+          "calendars"
+        ],
+        "summary": "Update Calendar Access By Id",
+        "operationId": "update_calendar_access_by_id_api_v1_calendars__calendar_id__access_update_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "calendar_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Calendar Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CalendarAccessGrantsForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalendarModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/calendars/{calendar_id}/delete": {
       "delete": {
         "tags": [
@@ -30862,6 +31190,11 @@
             "type": "boolean",
             "title": "Enable Memory System Context"
           },
+          "ENABLE_SKILL_LAZY_LOADING": {
+            "type": "boolean",
+            "title": "Enable Skill Lazy Loading",
+            "default": false
+          },
           "SKILL_CONTENT_MAX_CHARS": {
             "anyOf": [
               {
@@ -32049,6 +32382,23 @@
         ],
         "title": "Body_upload_pipeline_api_v1_pipelines_upload_post"
       },
+      "CalendarAccessGrantsForm": {
+        "properties": {
+          "access_grants": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Access Grants"
+          }
+        },
+        "type": "object",
+        "required": [
+          "access_grants"
+        ],
+        "title": "CalendarAccessGrantsForm"
+      },
       "CalendarEventAttendeeModel": {
         "properties": {
           "id": {
@@ -32882,25 +33232,27 @@
               }
             ],
             "title": "Meta"
-          },
-          "access_grants": {
-            "anyOf": [
-              {
-                "items": {
-                  "additionalProperties": true,
-                  "type": "object"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Access Grants"
           }
         },
         "type": "object",
         "title": "CalendarUpdateForm"
+      },
+      "ChannelAccessGrantsForm": {
+        "properties": {
+          "access_grants": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Access Grants"
+          }
+        },
+        "type": "object",
+        "required": [
+          "access_grants"
+        ],
+        "title": "ChannelAccessGrantsForm"
       },
       "ChannelForm": {
         "properties": {
@@ -32954,21 +33306,6 @@
               }
             ],
             "title": "Meta"
-          },
-          "access_grants": {
-            "anyOf": [
-              {
-                "items": {
-                  "additionalProperties": true,
-                  "type": "object"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Access Grants"
           },
           "group_ids": {
             "anyOf": [
@@ -35019,6 +35356,32 @@
         "type": "object",
         "title": "CompactChatForm"
       },
+      "ComparisonStatsEntry": {
+        "properties": {
+          "models": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "Models"
+          },
+          "start": {
+            "type": "string",
+            "title": "Start"
+          },
+          "end": {
+            "type": "string",
+            "title": "End"
+          }
+        },
+        "type": "object",
+        "required": [
+          "models",
+          "start",
+          "end"
+        ],
+        "title": "ComparisonStatsEntry"
+      },
       "ConfigForm": {
         "properties": {
           "RAG_TEMPLATE": {
@@ -35882,21 +36245,6 @@
             ],
             "title": "Meta"
           },
-          "access_grants": {
-            "anyOf": [
-              {
-                "items": {
-                  "additionalProperties": true,
-                  "type": "object"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Access Grants"
-          },
           "group_ids": {
             "anyOf": [
               {
@@ -35924,6 +36272,21 @@
               }
             ],
             "title": "User Ids"
+          },
+          "access_grants": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Access Grants"
           },
           "type": {
             "anyOf": [
@@ -36055,6 +36418,38 @@
             },
             "type": "object",
             "title": "Models"
+          },
+          "start": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start"
+          },
+          "end": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End"
+          },
+          "previous": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ComparisonStatsEntry"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "type": "object",
@@ -39289,6 +39684,22 @@
         ],
         "title": "ImportConfigForm"
       },
+      "InterfaceVisibilityForm": {
+        "properties": {
+          "visibility": {
+            "additionalProperties": {
+              "type": "boolean"
+            },
+            "type": "object",
+            "title": "Visibility"
+          }
+        },
+        "type": "object",
+        "required": [
+          "visibility"
+        ],
+        "title": "InterfaceVisibilityForm"
+      },
       "JsonValue": {},
       "KnowledgeAccessGrantsForm": {
         "properties": {
@@ -39858,6 +40269,11 @@
             "type": "string",
             "title": "Attribute For Mail",
             "default": "mail"
+          },
+          "default_email_domain": {
+            "type": "string",
+            "title": "Default Email Domain",
+            "default": ""
           },
           "attribute_for_username": {
             "type": "string",
@@ -42886,6 +43302,47 @@
           "updated_at"
         ],
         "title": "NoteResponse"
+      },
+      "NoteUpdateForm": {
+        "properties": {
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data"
+          },
+          "meta": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Meta"
+          }
+        },
+        "type": "object",
+        "title": "NoteUpdateForm"
       },
       "NoteUserResponse": {
         "properties": {
@@ -50715,6 +51172,11 @@
           "models_export": {
             "type": "boolean",
             "title": "Models Export",
+            "default": false
+          },
+          "models_hidden": {
+            "type": "boolean",
+            "title": "Models Hidden",
             "default": false
           },
           "prompts_import": {
