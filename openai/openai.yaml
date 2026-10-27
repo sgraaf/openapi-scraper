@@ -28974,10 +28974,24 @@ paths:
                   "geography": "US",
                   "status": "validated",
                   "created_at": 1711471400
+                },
+                {
+                  "object": "organization.external_storage",
+                  "id": "extstorage_oci123",
+                  "project_id": "proj_oci123",
+                  "provider": {
+                    "type": "oci",
+                    "tenancy_ocid": "ocid1.tenancy.oc1..example",
+                    "region": "us-ashburn-1",
+                    "bucket": "customer-oci-retention"
+                  },
+                  "geography": "US",
+                  "status": "validated",
+                  "created_at": 1711471300
                 }
               ],
               "first_id": "extstorage_abc123",
-              "last_id": "extstorage_gcp123",
+              "last_id": "extstorage_oci123",
               "has_more": false
             }
       security:
@@ -29130,6 +29144,37 @@ paths:
                 "geography": "US",
                 "status": "pending",
                 "created_at": 1711471400
+              }
+          - title: OCI Object Storage
+            request:
+              curl: >
+                curl -X POST
+                https://api.openai.com/v1/organization/external_storage \
+                  -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
+                  -H "Content-Type: application/json" \
+                  -d '{
+                    "project_id": "proj_oci123",
+                    "provider": {
+                      "type": "oci",
+                      "tenancy_ocid": "ocid1.tenancy.oc1..example",
+                      "region": "us-ashburn-1",
+                      "bucket": "customer-oci-retention"
+                    }
+                  }'
+            response: |
+              {
+                "object": "organization.external_storage",
+                "id": "extstorage_oci123",
+                "project_id": "proj_oci123",
+                "provider": {
+                  "type": "oci",
+                  "tenancy_ocid": "ocid1.tenancy.oc1..example",
+                  "region": "us-ashburn-1",
+                  "bucket": "customer-oci-retention"
+                },
+                "geography": "US",
+                "status": "pending",
+                "created_at": 1711471300
               }
       security:
         - AdminApiKeyAuth: []
@@ -40953,6 +40998,18 @@ components:
         - gpt-3.5-turbo-0125
         - gpt-3.5-turbo-16k-0613
       x-openai-enum-deprecations:
+        gpt-5:
+          message: "Announced shutdown date: 2026-12-11. See
+            https://developers.openai.com/api/docs/deprecations for details and
+            recommended replacements."
+        gpt-5-mini:
+          message: "Announced shutdown date: 2026-12-11. See
+            https://developers.openai.com/api/docs/deprecations for details and
+            recommended replacements."
+        gpt-5-nano:
+          message: "Announced shutdown date: 2026-12-11. See
+            https://developers.openai.com/api/docs/deprecations for details and
+            recommended replacements."
         gpt-4.1:
           message: "Announced shutdown date: 2027-01-14. See
             https://developers.openai.com/api/docs/deprecations for details and
@@ -41144,6 +41201,11 @@ components:
                 - gpt-4o-transcribe
                 - gpt-4o-transcribe-diarize
                 - gpt-realtime-whisper
+              x-openai-enum-deprecations:
+                gpt-4o-mini-transcribe-2025-12-15:
+                  message: "Announced shutdown date: 2027-02-26. See
+                    https://developers.openai.com/api/docs/deprecations for
+                    details and recommended replacements."
         language:
           type: string
           description: >
@@ -41214,6 +41276,11 @@ components:
                 - gpt-4o-transcribe
                 - gpt-4o-transcribe-diarize
                 - gpt-realtime-whisper
+              x-openai-enum-deprecations:
+                gpt-4o-mini-transcribe-2025-12-15:
+                  message: "Announced shutdown date: 2027-02-26. See
+                    https://developers.openai.com/api/docs/deprecations for
+                    details and recommended replacements."
         language:
           type:
             - string
@@ -48762,6 +48829,11 @@ components:
                 - tts-1-hd
                 - gpt-4o-mini-tts
                 - gpt-4o-mini-tts-2025-12-15
+              x-openai-enum-deprecations:
+                gpt-4o-mini-tts:
+                  message: "Announced shutdown date: 2027-01-06. See
+                    https://developers.openai.com/api/docs/deprecations for
+                    details and recommended replacements."
           x-oaiTypeLabel: string
         input:
           type: string
@@ -48924,6 +48996,19 @@ components:
                 - gpt-3.5-turbo-1106
                 - gpt-3.5-turbo-0125
                 - gpt-3.5-turbo-16k-0613
+              x-openai-enum-deprecations:
+                gpt-5:
+                  message: "Announced shutdown date: 2026-12-11. See
+                    https://developers.openai.com/api/docs/deprecations for
+                    details and recommended replacements."
+                gpt-5-mini:
+                  message: "Announced shutdown date: 2026-12-11. See
+                    https://developers.openai.com/api/docs/deprecations for
+                    details and recommended replacements."
+                gpt-5-nano:
+                  message: "Announced shutdown date: 2026-12-11. See
+                    https://developers.openai.com/api/docs/deprecations for
+                    details and recommended replacements."
             - type: "null"
           x-oaiTypeLabel: string
         instructions:
@@ -49211,6 +49296,11 @@ components:
                 - gpt-4o-mini-transcribe
                 - gpt-4o-mini-transcribe-2025-12-15
                 - gpt-4o-transcribe-diarize
+              x-openai-enum-deprecations:
+                gpt-4o-mini-transcribe-2025-12-15:
+                  message: "Announced shutdown date: 2027-02-26. See
+                    https://developers.openai.com/api/docs/deprecations for
+                    details and recommended replacements."
               x-stainless-const: true
           x-oaiTypeLabel: string
         language:
@@ -57529,6 +57619,7 @@ components:
           enum:
             - gpt-6-astra
             - gpt-6.1-sol
+            - gpt-6.1-terra
             - gpt-6-sol
             - gpt-6-luna
             - gpt-5.6-sol
@@ -57622,6 +57713,14 @@ components:
                 https://developers.openai.com/api/docs/deprecations for details
                 and recommended replacements."
             gpt-5.1:
+              message: "Announced shutdown date: 2027-04-01. See
+                https://developers.openai.com/api/docs/deprecations for details
+                and recommended replacements."
+            gpt-5.1-2025-11-13:
+              message: "Announced shutdown date: 2027-04-01. See
+                https://developers.openai.com/api/docs/deprecations for details
+                and recommended replacements."
+            gpt-5.4-nano-2026-03-17:
               message: "Announced shutdown date: 2027-04-01. See
                 https://developers.openai.com/api/docs/deprecations for details
                 and recommended replacements."
@@ -63765,7 +63864,7 @@ components:
           parameters
 
           {
-            "type": "response.create",
+            "type": "response.create"
           }
 
 
@@ -65755,10 +65854,9 @@ components:
               "role": "assistant",
               "content": [
                 {
-                  "type": "audio",
+                  "type": "output_audio",
                   "transcript": "Yes, I can hear you loud and clear. How can I help you today?",
-                  "audio": "8//2//v/9//q/+//+P/s...",
-                  "format": "pcm16"
+                  "audio": "AAABAP//AAA="
                 }
               ]
             }
@@ -65998,9 +66096,9 @@ components:
         group: realtime
         example: |
           {
-              "type":" input_audio_buffer.dtmf_event_received",
-              "event": "9",
-              "received_at": 1763605109,
+            "type": "input_audio_buffer.dtmf_event_received",
+            "event": "9",
+            "received_at": 1763605109
           }
     RealtimeServerEventInputAudioBufferSpeechStarted:
       type: object
@@ -66846,7 +66944,7 @@ components:
               },
               "usage": null,
               "metadata": null
-            },
+            }
           }
     RealtimeServerEventResponseDone:
       type: object
@@ -67339,23 +67437,23 @@ components:
         group: realtime
         example: |
           {
-              "event_id": "event_3536",
-              "type": "response.output_item.done",
-              "response_id": "resp_001",
-              "output_index": 0,
-              "item": {
-                  "id": "msg_007",
-                  "object": "realtime.item",
-                  "type": "message",
-                  "status": "completed",
-                  "role": "assistant",
-                  "content": [
-                      {
-                          "type": "text",
-                          "text": "Sure, I can help with that."
-                      }
-                  ]
-              }
+            "event_id": "event_3536",
+            "type": "response.output_item.done",
+            "response_id": "resp_001",
+            "output_index": 0,
+            "item": {
+              "id": "msg_007",
+              "object": "realtime.item",
+              "type": "message",
+              "status": "completed",
+              "role": "assistant",
+              "content": [
+                {
+                  "type": "output_text",
+                  "text": "Sure, I can help with that."
+                }
+              ]
+            }
           }
     RealtimeServerEventResponseTextDelta:
       type: object
@@ -67537,7 +67635,7 @@ components:
                 }
               },
               "include": null
-            },
+            }
           }
     RealtimeServerEventSessionUpdated:
       type: object
@@ -67641,7 +67739,7 @@ components:
                 }
               },
               "include": null
-            },
+            }
           }
     RealtimeServerEventTranscriptionSessionUpdated:
       type: object
@@ -67745,6 +67843,19 @@ components:
                 - gpt-audio-mini
                 - gpt-audio-mini-2025-10-06
                 - gpt-audio-mini-2025-12-15
+              x-openai-enum-deprecations:
+                gpt-realtime-2025-08-28:
+                  message: "Announced shutdown date: 2027-01-20. See
+                    https://developers.openai.com/api/docs/deprecations for
+                    details and recommended replacements."
+                gpt-realtime-mini-2025-12-15:
+                  message: "Announced shutdown date: 2027-01-20. See
+                    https://developers.openai.com/api/docs/deprecations for
+                    details and recommended replacements."
+                gpt-audio-mini-2025-12-15:
+                  message: "Announced shutdown date: 2027-01-20. See
+                    https://developers.openai.com/api/docs/deprecations for
+                    details and recommended replacements."
         instructions:
           type: string
           description: >
@@ -68304,6 +68415,19 @@ components:
                 - gpt-audio-mini
                 - gpt-audio-mini-2025-10-06
                 - gpt-audio-mini-2025-12-15
+              x-openai-enum-deprecations:
+                gpt-realtime-2025-08-28:
+                  message: "Announced shutdown date: 2027-01-20. See
+                    https://developers.openai.com/api/docs/deprecations for
+                    details and recommended replacements."
+                gpt-realtime-mini-2025-12-15:
+                  message: "Announced shutdown date: 2027-01-20. See
+                    https://developers.openai.com/api/docs/deprecations for
+                    details and recommended replacements."
+                gpt-audio-mini-2025-12-15:
+                  message: "Announced shutdown date: 2027-01-20. See
+                    https://developers.openai.com/api/docs/deprecations for
+                    details and recommended replacements."
           description: |
             The Realtime model used for this session.
         instructions:
@@ -68855,6 +68979,19 @@ components:
                 - gpt-audio-mini
                 - gpt-audio-mini-2025-10-06
                 - gpt-audio-mini-2025-12-15
+              x-openai-enum-deprecations:
+                gpt-realtime-2025-08-28:
+                  message: "Announced shutdown date: 2027-01-20. See
+                    https://developers.openai.com/api/docs/deprecations for
+                    details and recommended replacements."
+                gpt-realtime-mini-2025-12-15:
+                  message: "Announced shutdown date: 2027-01-20. See
+                    https://developers.openai.com/api/docs/deprecations for
+                    details and recommended replacements."
+                gpt-audio-mini-2025-12-15:
+                  message: "Announced shutdown date: 2027-01-20. See
+                    https://developers.openai.com/api/docs/deprecations for
+                    details and recommended replacements."
           description: |
             The Realtime model used for this session.
         instructions:
@@ -82636,9 +82773,10 @@ components:
       required:
         - mode
       title: Prompt cache breakpoint
-      description: Marks the exact end of a reusable prompt prefix. The breakpoint
-        inherits its TTL from the request's `prompt_cache_options.ttl`; the
-        boundary is not rounded to a token block.
+      description: Marks the exact end of a reusable prompt prefix. When `ttl` is
+        omitted, the breakpoint inherits the request's
+        `prompt_cache_options.ttl`; the boundary is not rounded to a token
+        block.
     ModerationMode:
       type: string
       enum:
@@ -82882,13 +83020,21 @@ components:
           description: The breakpoint mode. Always `explicit`.
           default: explicit
           x-stainless-const: true
+        ttl:
+          type: string
+          enum:
+            - 30m
+            - 12h
+          description: The minimum lifetime of this cache breakpoint. Defaults to the
+            request TTL.
       type: object
       required:
         - mode
       title: Prompt cache breakpoint
-      description: Marks the exact end of a reusable prompt prefix. The breakpoint
-        inherits its TTL from the request's `prompt_cache_options.ttl`; the
-        boundary is not rounded to a token block.
+      description: Marks the exact end of a reusable prompt prefix. When `ttl` is
+        omitted, the breakpoint inherits the request's
+        `prompt_cache_options.ttl`; the boundary is not rounded to a token
+        block.
     InputTextContent:
       properties:
         type:
@@ -109298,13 +109444,21 @@ components:
           description: The breakpoint mode. Always `explicit`.
           default: explicit
           x-stainless-const: true
+        ttl:
+          type: string
+          enum:
+            - 30m
+            - 12h
+          description: The minimum lifetime of this cache breakpoint. Defaults to the
+            request TTL.
       type: object
       required:
         - mode
       title: Prompt cache breakpoint
-      description: Marks the exact end of a reusable prompt prefix. The breakpoint
-        inherits its TTL from the request's `prompt_cache_options.ttl`; the
-        boundary is not rounded to a token block.
+      description: Marks the exact end of a reusable prompt prefix. When `ttl` is
+        omitted, the breakpoint inherits the request's
+        `prompt_cache_options.ttl`; the boundary is not rounded to a token
+        block.
     BetaInputImageContent:
       properties:
         type:
@@ -111221,9 +111375,10 @@ components:
       required:
         - mode
       title: Prompt cache breakpoint
-      description: Marks the exact end of a reusable prompt prefix. The breakpoint
-        inherits its TTL from the request's `prompt_cache_options.ttl`; the
-        boundary is not rounded to a token block.
+      description: Marks the exact end of a reusable prompt prefix. When `ttl` is
+        omitted, the breakpoint inherits the request's
+        `prompt_cache_options.ttl`; the boundary is not rounded to a token
+        block.
     BetaDetailEnum:
       type: string
       enum:
@@ -112780,6 +112935,7 @@ components:
           enum:
             - gpt-6-astra
             - gpt-6.1-sol
+            - gpt-6.1-terra
             - gpt-6-sol
             - gpt-6-luna
             - gpt-5.6-sol
@@ -112873,6 +113029,14 @@ components:
                 https://developers.openai.com/api/docs/deprecations for details
                 and recommended replacements."
             gpt-5.1:
+              message: "Announced shutdown date: 2027-04-01. See
+                https://developers.openai.com/api/docs/deprecations for details
+                and recommended replacements."
+            gpt-5.1-2025-11-13:
+              message: "Announced shutdown date: 2027-04-01. See
+                https://developers.openai.com/api/docs/deprecations for details
+                and recommended replacements."
+            gpt-5.4-nano-2026-03-17:
               message: "Announced shutdown date: 2027-04-01. See
                 https://developers.openai.com/api/docs/deprecations for details
                 and recommended replacements."
