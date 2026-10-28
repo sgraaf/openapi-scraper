@@ -4468,7 +4468,7 @@
       },
       "post": {
         "summary": "Update Reading Goal Endpoint",
-        "description": "Create or update a reading goal for the authenticated user.",
+        "description": "Create or update a reading goal, or delete it when ``goal`` is 0.",
         "operationId": "update_reading_goal_endpoint_reading_goal_json_post",
         "security": [
           {
@@ -5254,8 +5254,7 @@
             "maximum": 10000.0,
             "minimum": 0.0,
             "title": "Goal",
-            "description": "Target number of books to read (0-10000). Use 0 with is_update to delete.",
-            "default": 0
+            "description": "Target number of books to read (0-10000). Use 0 to delete the goal."
           },
           "year": {
             "anyOf": [
@@ -5269,7 +5268,7 @@
               }
             ],
             "title": "Year",
-            "description": "Year for this reading goal. Defaults to current year for creates, required for updates."
+            "description": "Year for this reading goal. Defaults to the current year."
           },
           "is_update": {
             "anyOf": [
@@ -5281,12 +5280,15 @@
               }
             ],
             "title": "Is Update",
-            "description": "Set to any value to indicate this is an update operation (not create)."
+            "description": "Deprecated and ignored. Accepted so existing API callers don't break."
           }
         },
         "type": "object",
+        "required": [
+          "goal"
+        ],
         "title": "ReadingGoalForm",
-        "description": "Form data for creating or updating a reading goal.\n\nUses Pydantic model_validator to handle complex conditional validation\nthat depends on multiple fields (is_update flag affects goal validation)."
+        "description": "Form data for setting or deleting a reading goal.\n\n``goal == 0`` deletes the goal for ``year``; any other value creates or\nupdates it (upsert). ``year`` defaults to the current year."
       },
       "ReadingGoalItem": {
         "properties": {
