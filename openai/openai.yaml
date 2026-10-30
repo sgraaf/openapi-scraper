@@ -41515,6 +41515,13 @@ components:
           minItems: 1
           items:
             type: string
+        keywords:
+          type: array
+          description: >
+            Words or phrases configured to guide transcription of the input
+            audio.
+          items:
+            type: string
         prompt:
           type: string
           description: |
@@ -72252,9 +72259,11 @@ components:
           }
     ResponseConfigurationUpdate:
       type: object
-      description: |
-        A configuration update that applies to subsequent responses until it is
-        replaced by another configuration update.
+      description: >
+        A configuration update for subsequent responses. Each setting stays in
+        effect
+
+        until a later update replaces that setting.
       properties:
         id:
           type: string
@@ -72276,19 +72285,31 @@ components:
               description: |
                 The reasoning effort used for subsequent responses until another
                 configuration update replaces it.
+        text:
+          type: object
+          description: The text output configuration for subsequent responses.
+          properties:
+            format:
+              description: Use a JSON schema for structured output or text to return to plain
+                text.
+              oneOf:
+                - $ref: "#/components/schemas/ResponseFormatText"
+                - $ref: "#/components/schemas/TextResponseFormatJsonSchema"
+              discriminator:
+                propertyName: type
+          required:
+            - format
       required:
         - id
         - type
     ResponseConfigurationUpdateItemParam:
       type: object
       description: >
-        An update to the conversation's response configuration. The
-        configuration
+        An update to the conversation's response configuration. Supply
+        reasoning,
 
-        remains in effect for subsequent responses until it is replaced by
-        another
-
-        configuration update.
+        text, or both. Each setting stays in effect until a later update
+        replaces it.
       properties:
         id:
           anyOf:
@@ -72314,6 +72335,20 @@ components:
                 another
 
                 configuration update replaces it.
+        text:
+          type: object
+          description: The text output configuration for subsequent responses.
+          properties:
+            format:
+              description: Use a JSON schema for structured output or text to return to plain
+                text.
+              oneOf:
+                - $ref: "#/components/schemas/ResponseFormatText"
+                - $ref: "#/components/schemas/TextResponseFormatJsonSchema"
+              discriminator:
+                propertyName: type
+          required:
+            - format
       required:
         - type
     ResponseContentPartAddedEvent:
@@ -78527,6 +78562,8 @@ components:
         - $ref: "#/components/schemas/ResponseFormatText"
         - $ref: "#/components/schemas/TextResponseFormatJsonSchema"
         - $ref: "#/components/schemas/ResponseFormatJsonObject"
+      discriminator:
+        propertyName: type
     TextResponseFormatJsonSchema:
       x-openai-structured-output: json_schema_default_strict
       type: object
@@ -100577,6 +100614,12 @@ components:
         - deleted
       additionalProperties: false
       description: A deleted reusable environment template.
+    SessionReviewResource:
+      type: string
+      enum:
+        - none
+        - auto_review
+      description: The configured action review mode.
     SessionStatusResource:
       type: string
       enum:
@@ -100985,6 +101028,11 @@ components:
     SessionResource:
       type: object
       properties:
+        review:
+          $ref: "#/components/schemas/SessionReviewResource"
+          description: Review applied to eligible actions in this session. Omitted when
+            review is none and automatic review is not enabled. Omission means
+            none.
         metadata:
           type: object
           additionalProperties:
@@ -101107,6 +101155,15 @@ components:
         - has_more
       additionalProperties: false
       description: A page of Agents API resources, with IDs for retrieving additional pages.
+    SessionReviewParam:
+      type: string
+      enum:
+        - none
+        - auto_review
+      x-enumDescriptions:
+        - Keep the existing execution behavior without automatic action review.
+        - Review eligible actions automatically. Deny manual approval fallbacks.
+      description: Review applied to eligible actions in a session.
     CreateSessionInputParam:
       oneOf:
         - type: string
@@ -101121,6 +101178,9 @@ components:
     CreateAgentSessionParams:
       type: object
       properties:
+        review:
+          $ref: "#/components/schemas/SessionReviewParam"
+          description: Action review mode. Omit to use none.
         metadata:
           type:
             - object
@@ -102813,6 +102873,10 @@ components:
     UpdateAgentSessionParams:
       type: object
       properties:
+        review:
+          $ref: "#/components/schemas/SessionReviewParam"
+          description: Default action review for new root turns. Existing turns and their
+            subagents keep their review mode.
         agent:
           $ref: "#/components/schemas/UpdateSessionAgentParam"
           description: Model settings for subsequent turns. Omitted fields stay unchanged.
@@ -108694,6 +108758,8 @@ components:
         - $ref: "#/components/schemas/BetaResponseFormatText"
         - $ref: "#/components/schemas/BetaTextResponseFormatJsonSchema"
         - $ref: "#/components/schemas/BetaResponseFormatJsonObject"
+      discriminator:
+        propertyName: type
     BetaResponseFormatJsonObject:
       type: object
       title: JSON object
@@ -111949,13 +112015,11 @@ components:
     BetaResponseConfigurationUpdateItemParam:
       type: object
       description: >
-        An update to the conversation's response configuration. The
-        configuration
+        An update to the conversation's response configuration. Supply
+        reasoning,
 
-        remains in effect for subsequent responses until it is replaced by
-        another
-
-        configuration update.
+        text, or both. Each setting stays in effect until a later update
+        replaces it.
       properties:
         agent:
           anyOf:
@@ -111986,6 +112050,20 @@ components:
                 another
 
                 configuration update replaces it.
+        text:
+          type: object
+          description: The text output configuration for subsequent responses.
+          properties:
+            format:
+              description: Use a JSON schema for structured output or text to return to plain
+                text.
+              oneOf:
+                - $ref: "#/components/schemas/BetaResponseFormatText"
+                - $ref: "#/components/schemas/BetaTextResponseFormatJsonSchema"
+              discriminator:
+                propertyName: type
+          required:
+            - format
       required:
         - type
     BetaAdditionalToolsItemParam:
@@ -115262,9 +115340,11 @@ components:
         - fingerprint
     BetaResponseConfigurationUpdate:
       type: object
-      description: |
-        A configuration update that applies to subsequent responses until it is
-        replaced by another configuration update.
+      description: >
+        A configuration update for subsequent responses. Each setting stays in
+        effect
+
+        until a later update replaces that setting.
       properties:
         agent:
           $ref: "#/components/schemas/BetaAgentTag"
@@ -115289,6 +115369,20 @@ components:
               description: |
                 The reasoning effort used for subsequent responses until another
                 configuration update replaces it.
+        text:
+          type: object
+          description: The text output configuration for subsequent responses.
+          properties:
+            format:
+              description: Use a JSON schema for structured output or text to return to plain
+                text.
+              oneOf:
+                - $ref: "#/components/schemas/BetaResponseFormatText"
+                - $ref: "#/components/schemas/BetaTextResponseFormatJsonSchema"
+              discriminator:
+                propertyName: type
+          required:
+            - format
       required:
         - id
         - type
