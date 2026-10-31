@@ -35788,9 +35788,9 @@ paths:
     post:
       operationId: updateAgentSession
       summary: Update an agent session
-      description: Updates session metadata, model, reasoning effort, or service tier.
-        Model settings apply to subsequent turns. Omitted fields are unchanged.
-        See [managing
+      description: Updates session tools, metadata, model, reasoning effort, or
+        service tier. Model settings apply to subsequent turns. Omitted fields
+        are unchanged. See [managing
         sessions](https://developers.openai.com/api/docs/guides/agents-api/sessions/manage).
       tags:
         - Agents
@@ -65118,6 +65118,15 @@ components:
       required:
         - type
         - message
+    RealtimeNoiseReductionStrength:
+      type: number
+      minimum: 0
+      maximum: 1
+      default: 1
+      description: |
+        Input noise suppression strength. Higher values apply more suppression.
+        Defaults to 1 when noise reduction is first enabled. Omitting strength
+        from a session update preserves the current strength.
     RealtimeReasoning:
       type: object
       title: Realtime reasoning configuration
@@ -69162,6 +69171,8 @@ components:
                   properties:
                     type:
                       $ref: "#/components/schemas/NoiseReductionType"
+                    strength:
+                      $ref: "#/components/schemas/RealtimeNoiseReductionStrength"
                 turn_detection:
                   $ref: "#/components/schemas/RealtimeTurnDetection"
             output:
@@ -69737,6 +69748,8 @@ components:
                   properties:
                     type:
                       $ref: "#/components/schemas/NoiseReductionType"
+                    strength:
+                      $ref: "#/components/schemas/RealtimeNoiseReductionStrength"
                 turn_detection:
                   $ref: "#/components/schemas/RealtimeTurnDetection"
             output:
@@ -70033,6 +70046,8 @@ components:
                   properties:
                     type:
                       $ref: "#/components/schemas/NoiseReductionType"
+                    strength:
+                      $ref: "#/components/schemas/RealtimeNoiseReductionStrength"
                 turn_detection:
                   $ref: "#/components/schemas/RealtimeTurnDetection"
         include:
@@ -70235,6 +70250,8 @@ components:
                   properties:
                     type:
                       $ref: "#/components/schemas/NoiseReductionType"
+                    strength:
+                      $ref: "#/components/schemas/RealtimeNoiseReductionStrength"
                 turn_detection:
                   description: >
                     Configuration for turn detection. For
@@ -70956,6 +70973,8 @@ components:
                       properties:
                         type:
                           $ref: "#/components/schemas/NoiseReductionType"
+                        strength:
+                          $ref: "#/components/schemas/RealtimeNoiseReductionStrength"
                       required:
                         - type
                     - type: "null"
@@ -71042,6 +71061,8 @@ components:
                       properties:
                         type:
                           $ref: "#/components/schemas/NoiseReductionType"
+                        strength:
+                          $ref: "#/components/schemas/RealtimeNoiseReductionStrength"
                       required:
                         - type
                     - type: "null"
@@ -71097,6 +71118,8 @@ components:
                       properties:
                         type:
                           $ref: "#/components/schemas/NoiseReductionType"
+                        strength:
+                          $ref: "#/components/schemas/RealtimeNoiseReductionStrength"
                       required:
                         - type
                     - type: "null"
@@ -75643,6 +75666,16 @@ components:
               description: |
                 The type of the client event. Always `response.create`.
               x-stainless-const: true
+            generate:
+              type: boolean
+              description: >
+                Whether to generate output for this response. Defaults to true
+                when omitted.
+
+                Set to false to prepare request state without model output; the
+                response
+
+                ID can be used as previous_response_id on a later turn.
             stream_id:
               type: string
               minLength: 1
@@ -96286,8 +96319,6 @@ components:
             - application/zip
           default: application/zip
           x-stainless-const: true
-          x-enumDescriptions:
-            - A ZIP archive.
           description: The archive media type, always `application/zip`.
         data:
           type: string
@@ -98658,8 +98689,6 @@ components:
             - interrupt_subagent_call
           default: interrupt_subagent_call
           x-stainless-const: true
-          x-enumDescriptions:
-            - The current public item type.
           description: The item type. Always `interrupt_subagent_call`.
         id:
           type: string
@@ -98699,8 +98728,6 @@ components:
             - create_subagent_call
           default: create_subagent_call
           x-stainless-const: true
-          x-enumDescriptions:
-            - The current public item type.
           description: The item type. Always `create_subagent_call`.
         id:
           type: string
@@ -98756,8 +98783,6 @@ components:
             - send_subagent_input_call
           default: send_subagent_input_call
           x-stainless-const: true
-          x-enumDescriptions:
-            - The current public item type.
           description: The item type. Always `send_subagent_input_call`.
         id:
           type: string
@@ -98804,8 +98829,6 @@ components:
             - resume_subagent_call
           default: resume_subagent_call
           x-stainless-const: true
-          x-enumDescriptions:
-            - The current public item type.
           description: The item type. Always `resume_subagent_call`.
         id:
           type: string
@@ -98844,8 +98867,6 @@ components:
             - wait_for_subagents_call
           default: wait_for_subagents_call
           x-stainless-const: true
-          x-enumDescriptions:
-            - The current public item type.
           description: The item type. Always `wait_for_subagents_call`.
         id:
           type: string
@@ -98888,8 +98909,6 @@ components:
             - close_subagent_call
           default: close_subagent_call
           x-stainless-const: true
-          x-enumDescriptions:
-            - The current public item type.
           description: The item type. Always `close_subagent_call`.
         id:
           type: string
@@ -102855,6 +102874,18 @@ components:
     UpdateSessionAgentParam:
       type: object
       properties:
+        tools:
+          type:
+            - array
+            - "null"
+          items:
+            $ref: "#/components/schemas/AgentToolConfigParam"
+          minItems: 0
+          maxItems: 16384
+          description: Replaces the session tools. Functions and MCP servers change on the
+            next model call. Built-in tools change by the next turn. Omit to
+            keep the current tools, or pass null or an empty array to clear
+            them.
         model:
           type: string
           minLength: 0
@@ -102869,7 +102900,7 @@ components:
             - type: "null"
           description: Omit to keep the current tier. Null resets it to auto.
       additionalProperties: false
-      description: Model settings that can change after session creation.
+      description: Agent settings that can change after session creation.
     UpdateAgentSessionParams:
       type: object
       properties:
@@ -102879,7 +102910,8 @@ components:
             subagents keep their review mode.
         agent:
           $ref: "#/components/schemas/UpdateSessionAgentParam"
-          description: Model settings for subsequent turns. Omitted fields stay unchanged.
+          description: Agent settings to update on this session. Omitted fields stay
+            unchanged.
         metadata:
           type:
             - object
@@ -122193,6 +122225,16 @@ components:
               description: |
                 The type of the client event. Always `response.create`.
               x-stainless-const: true
+            generate:
+              type: boolean
+              description: >
+                Whether to generate output for this response. Defaults to true
+                when omitted.
+
+                Set to false to prepare request state without model output; the
+                response
+
+                ID can be used as previous_response_id on a later turn.
             stream_id:
               type: string
               minLength: 1
