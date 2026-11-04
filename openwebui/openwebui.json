@@ -10976,7 +10976,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ReactionForm"
+                "$ref": "#/components/schemas/open_webui__routers__channels__ReactionForm"
               }
             }
           }
@@ -11043,7 +11043,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ReactionForm"
+                "$ref": "#/components/schemas/open_webui__routers__channels__ReactionForm"
               }
             }
           }
@@ -14450,6 +14450,672 @@
         }
       }
     },
+    "/api/v1/comments/context": {
+      "get": {
+        "tags": [
+          "comments"
+        ],
+        "summary": "Context",
+        "operationId": "context_api_v1_comments_context_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "resource_type",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "enum": [
+                "model",
+                "knowledge",
+                "prompt",
+                "skill",
+                "tool",
+                "note",
+                "chat"
+              ],
+              "type": "string",
+              "title": "Resource Type"
+            }
+          },
+          {
+            "name": "resource_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Resource Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/comments/mentions": {
+      "get": {
+        "tags": [
+          "comments"
+        ],
+        "summary": "Mentions",
+        "operationId": "mentions_api_v1_comments_mentions_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "resource_type",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "enum": [
+                "model",
+                "knowledge",
+                "prompt",
+                "skill",
+                "tool",
+                "note",
+                "chat"
+              ],
+              "type": "string",
+              "title": "Resource Type"
+            }
+          },
+          {
+            "name": "resource_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Resource Id"
+            }
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "maxLength": 100,
+              "default": "",
+              "title": "Query"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/comments/": {
+      "get": {
+        "tags": [
+          "comments"
+        ],
+        "summary": "List Resource Comments",
+        "operationId": "list_resource_comments_api_v1_comments__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "resource_type",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "enum": [
+                "model",
+                "knowledge",
+                "prompt",
+                "skill",
+                "tool",
+                "note",
+                "chat"
+              ],
+              "type": "string",
+              "title": "Resource Type"
+            }
+          },
+          {
+            "name": "resource_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Resource Id"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 50,
+              "minimum": 1,
+              "default": 20,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "anchored",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Anchored"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "comments"
+        ],
+        "summary": "Create Comment",
+        "operationId": "create_comment_api_v1_comments__post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommentForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/comments/{id}": {
+      "get": {
+        "tags": [
+          "comments"
+        ],
+        "summary": "Get Comment",
+        "operationId": "get_comment_api_v1_comments__id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "comments"
+        ],
+        "summary": "Edit",
+        "operationId": "edit_api_v1_comments__id__patch",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommentUpdateForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "comments"
+        ],
+        "summary": "Remove",
+        "operationId": "remove_api_v1_comments__id__delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "etag",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{1,20}$",
+              "title": "Etag"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/comments/{id}/replies": {
+      "get": {
+        "tags": [
+          "comments"
+        ],
+        "summary": "Replies",
+        "operationId": "replies_api_v1_comments__id__replies_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "comments"
+        ],
+        "summary": "Reply",
+        "operationId": "reply_api_v1_comments__id__replies_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommentReplyForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/comments/{id}/reactions": {
+      "put": {
+        "tags": [
+          "comments"
+        ],
+        "summary": "Add Reaction",
+        "operationId": "add_reaction_api_v1_comments__id__reactions_put",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/open_webui__routers__comments__ReactionForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "comments"
+        ],
+        "summary": "Remove Reaction",
+        "operationId": "remove_reaction_api_v1_comments__id__reactions_delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100,
+              "title": "Name"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/notes/": {
       "get": {
         "tags": [
@@ -16381,6 +17047,164 @@
         ]
       }
     },
+    "/api/v1/notifications/inbox": {
+      "get": {
+        "tags": [
+          "notifications"
+        ],
+        "summary": "Get Inbox",
+        "operationId": "get_inbox_api_v1_notifications_inbox_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 100
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 50,
+              "minimum": 1,
+              "default": 20,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/notifications/inbox/count": {
+      "get": {
+        "tags": [
+          "notifications"
+        ],
+        "summary": "Get Inbox Count",
+        "operationId": "get_inbox_count_api_v1_notifications_inbox_count_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/notifications/inbox/open": {
+      "post": {
+        "tags": [
+          "notifications"
+        ],
+        "summary": "Open Inbox",
+        "operationId": "open_inbox_api_v1_notifications_inbox_open_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/notifications/inbox/{id}": {
+      "patch": {
+        "tags": [
+          "notifications"
+        ],
+        "summary": "Read Inbox Item",
+        "operationId": "read_inbox_item_api_v1_notifications_inbox__id__patch",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/notifications/events": {
       "get": {
         "tags": [
@@ -17996,6 +18820,61 @@
                 "schema": {
                   "$ref": "#/components/schemas/KnowledgeFileListResponse"
                 }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/knowledge/{id}/files/validate": {
+      "post": {
+        "tags": [
+          "knowledge"
+        ],
+        "summary": "Validate Knowledge Upload",
+        "operationId": "validate_knowledge_upload_api_v1_knowledge__id__files_validate_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KnowledgeUploadValidationForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
               }
             }
           },
@@ -19816,6 +20695,61 @@
         }
       }
     },
+    "/api/v1/tools/id/{id}/mcp/app/rpc": {
+      "post": {
+        "tags": [
+          "tools"
+        ],
+        "summary": "Mcp App Rpc",
+        "operationId": "mcp_app_rpc_api_v1_tools_id__id__mcp_app_rpc_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MCPAppRPCForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/tools/list": {
       "get": {
         "tags": [
@@ -19844,6 +20778,53 @@
             "HTTPBearer": []
           }
         ]
+      }
+    },
+    "/api/v1/tools/id/{id}/toggle": {
+      "post": {
+        "tags": [
+          "tools"
+        ],
+        "summary": "Toggle Tool By Id",
+        "operationId": "toggle_tool_by_id_api_v1_tools_id__id__toggle_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/v1/tools/load/url": {
@@ -28288,6 +29269,463 @@
         ]
       }
     },
+    "/api/v1/terminals/{server_id}/browser/view/{sid}/{ticket}/{path}": {
+      "get": {
+        "tags": [
+          "terminals"
+        ],
+        "summary": "Browser Http",
+        "operationId": "browser_http_api_v1_terminals__server_id__browser_view__sid___ticket___path__get",
+        "parameters": [
+          {
+            "name": "server_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Server Id"
+            }
+          },
+          {
+            "name": "sid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Sid"
+            }
+          },
+          {
+            "name": "ticket",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ticket"
+            }
+          },
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Path"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "terminals"
+        ],
+        "summary": "Browser Http",
+        "operationId": "browser_http_api_v1_terminals__server_id__browser_view__sid___ticket___path__get",
+        "parameters": [
+          {
+            "name": "server_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Server Id"
+            }
+          },
+          {
+            "name": "sid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Sid"
+            }
+          },
+          {
+            "name": "ticket",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ticket"
+            }
+          },
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Path"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "terminals"
+        ],
+        "summary": "Browser Http",
+        "operationId": "browser_http_api_v1_terminals__server_id__browser_view__sid___ticket___path__get",
+        "parameters": [
+          {
+            "name": "server_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Server Id"
+            }
+          },
+          {
+            "name": "sid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Sid"
+            }
+          },
+          {
+            "name": "ticket",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ticket"
+            }
+          },
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Path"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "head": {
+        "tags": [
+          "terminals"
+        ],
+        "summary": "Browser Http",
+        "operationId": "browser_http_api_v1_terminals__server_id__browser_view__sid___ticket___path__get",
+        "parameters": [
+          {
+            "name": "server_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Server Id"
+            }
+          },
+          {
+            "name": "sid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Sid"
+            }
+          },
+          {
+            "name": "ticket",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ticket"
+            }
+          },
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Path"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "terminals"
+        ],
+        "summary": "Browser Http",
+        "operationId": "browser_http_api_v1_terminals__server_id__browser_view__sid___ticket___path__get",
+        "parameters": [
+          {
+            "name": "server_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Server Id"
+            }
+          },
+          {
+            "name": "sid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Sid"
+            }
+          },
+          {
+            "name": "ticket",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ticket"
+            }
+          },
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Path"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "terminals"
+        ],
+        "summary": "Browser Http",
+        "operationId": "browser_http_api_v1_terminals__server_id__browser_view__sid___ticket___path__get",
+        "parameters": [
+          {
+            "name": "server_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Server Id"
+            }
+          },
+          {
+            "name": "sid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Sid"
+            }
+          },
+          {
+            "name": "ticket",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ticket"
+            }
+          },
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Path"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "options": {
+        "tags": [
+          "terminals"
+        ],
+        "summary": "Browser Http",
+        "operationId": "browser_http_api_v1_terminals__server_id__browser_view__sid___ticket___path__get",
+        "parameters": [
+          {
+            "name": "server_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Server Id"
+            }
+          },
+          {
+            "name": "sid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Sid"
+            }
+          },
+          {
+            "name": "ticket",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ticket"
+            }
+          },
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Path"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/terminals/": {
       "get": {
         "tags": [
@@ -29501,6 +30939,62 @@
                     "$ref": "#/components/schemas/AutomationRunModel"
                   },
                   "title": "Response Get Automation Runs Api V1 Automations  Id  Runs Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/automations/{id}/runs/{run_id}": {
+      "get": {
+        "tags": [
+          "automations"
+        ],
+        "summary": "Get Automation Run",
+        "operationId": "get_automation_run_api_v1_automations__id__runs__run_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AutomationRunModel"
                 }
               }
             }
@@ -31008,6 +32502,60 @@
         }
       }
     },
+    "/api/tasks/chat/{chat_id}/resume": {
+      "post": {
+        "summary": "Resume Temporary Chat",
+        "operationId": "resume_temporary_chat_api_tasks_chat__chat_id__resume_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "chat_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Chat Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true,
+                "title": "Form Data"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/tasks/chat/{chat_id}/stop": {
       "post": {
         "summary": "Stop Tasks By Chat Id Endpoint",
@@ -32021,6 +33569,16 @@
           "ENABLE_CHANNELS": {
             "type": "boolean",
             "title": "Enable Channels"
+          },
+          "ENABLE_COMMENTS": {
+            "type": "boolean",
+            "title": "Enable Comments",
+            "default": false
+          },
+          "ENABLE_NOTIFICATIONS": {
+            "type": "boolean",
+            "title": "Enable Notifications",
+            "default": true
           },
           "ENABLE_ENCRYPTED_CHANNELS": {
             "type": "boolean",
@@ -35577,6 +37135,11 @@
             "title": "Temporary",
             "default": true
           },
+          "side_chat": {
+            "type": "boolean",
+            "title": "Side Chat",
+            "default": false
+          },
           "temporary_enforced": {
             "type": "boolean",
             "title": "Temporary Enforced",
@@ -35840,6 +37403,11 @@
           "active": {
             "type": "boolean",
             "title": "Active",
+            "default": false
+          },
+          "pending_approval": {
+            "type": "boolean",
+            "title": "Pending Approval",
             "default": false
           },
           "archived": {
@@ -36197,6 +37765,211 @@
           "CODE_INTERPRETER_JUPYTER_TIMEOUT"
         ],
         "title": "CodeInterpreterConfigForm"
+      },
+      "CommentAnchor": {
+        "properties": {
+          "quote": {
+            "type": "string",
+            "maxLength": 10000,
+            "minLength": 1,
+            "title": "Quote"
+          },
+          "prefix": {
+            "type": "string",
+            "maxLength": 64,
+            "title": "Prefix",
+            "default": ""
+          },
+          "suffix": {
+            "type": "string",
+            "maxLength": 64,
+            "title": "Suffix",
+            "default": ""
+          },
+          "start": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Start"
+          },
+          "end": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "End"
+          },
+          "surface_id": {
+            "type": "string",
+            "maxLength": 256,
+            "title": "Surface Id"
+          },
+          "source": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Source"
+          },
+          "content_hash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Content Hash"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "quote",
+          "start",
+          "end",
+          "surface_id",
+          "source",
+          "content_hash"
+        ],
+        "title": "CommentAnchor"
+      },
+      "CommentForm": {
+        "properties": {
+          "content": {
+            "type": "string",
+            "maxLength": 20000,
+            "minLength": 1,
+            "title": "Content"
+          },
+          "temp_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Temp Id"
+          },
+          "resource_type": {
+            "type": "string",
+            "enum": [
+              "model",
+              "knowledge",
+              "prompt",
+              "skill",
+              "tool",
+              "note",
+              "chat"
+            ],
+            "title": "Resource Type"
+          },
+          "resource_id": {
+            "type": "string",
+            "maxLength": 512,
+            "minLength": 1,
+            "title": "Resource Id"
+          },
+          "target_type": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "note_page",
+                  "chat_message"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target Type"
+          },
+          "target_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 256
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target Id"
+          },
+          "anchor": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CommentAnchor"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "content",
+          "resource_type",
+          "resource_id"
+        ],
+        "title": "CommentForm"
+      },
+      "CommentReplyForm": {
+        "properties": {
+          "content": {
+            "type": "string",
+            "maxLength": 20000,
+            "minLength": 1,
+            "title": "Content"
+          },
+          "temp_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Temp Id"
+          },
+          "reply_to_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reply To Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "content"
+        ],
+        "title": "CommentReplyForm"
+      },
+      "CommentUpdateForm": {
+        "properties": {
+          "content": {
+            "type": "string",
+            "maxLength": 20000,
+            "minLength": 1,
+            "title": "Content"
+          },
+          "etag": {
+            "type": "string",
+            "pattern": "^\\d{1,20}$",
+            "title": "Etag"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "content",
+          "etag"
+        ],
+        "title": "CommentUpdateForm"
       },
       "CompactChatForm": {
         "properties": {
@@ -36929,6 +38702,48 @@
               }
             ],
             "title": "File Max Count"
+          },
+          "KNOWLEDGE_MAX_UPLOAD_COUNT": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Knowledge Max Upload Count"
+          },
+          "KNOWLEDGE_MAX_FILE_COUNT": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Knowledge Max File Count"
+          },
+          "KNOWLEDGE_MAX_FILE_SIZE": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Knowledge Max File Size"
           },
           "FILE_IMAGE_COMPRESSION_WIDTH": {
             "anyOf": [
@@ -41019,6 +42834,16 @@
               }
             ],
             "title": "Access Grants"
+          },
+          "meta": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/KnowledgeMeta"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "type": "object",
@@ -41027,6 +42852,36 @@
           "description"
         ],
         "title": "KnowledgeForm"
+      },
+      "KnowledgeMeta": {
+        "properties": {
+          "max_file_count": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max File Count"
+          },
+          "max_file_size": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max File Size"
+          }
+        },
+        "type": "object",
+        "title": "KnowledgeMeta"
       },
       "KnowledgeResponse": {
         "properties": {
@@ -41106,6 +42961,39 @@
           "updated_at"
         ],
         "title": "KnowledgeResponse"
+      },
+      "KnowledgeUploadValidationForm": {
+        "properties": {
+          "count": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Count"
+          },
+          "file_size": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "File Size"
+          },
+          "removed_file_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Removed File Ids"
+          }
+        },
+        "type": "object",
+        "required": [
+          "count"
+        ],
+        "title": "KnowledgeUploadValidationForm"
       },
       "LdapConfigForm": {
         "properties": {
@@ -41359,6 +43247,45 @@
           "url"
         ],
         "title": "LoadUrlForm"
+      },
+      "MCPAppRPCForm": {
+        "properties": {
+          "tool_name": {
+            "type": "string",
+            "title": "Tool Name"
+          },
+          "binding": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 64,
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "Binding"
+          },
+          "method": {
+            "type": "string",
+            "enum": [
+              "tools/call",
+              "resources/read",
+              "resources/list",
+              "ui/resource"
+            ],
+            "title": "Method"
+          },
+          "params": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Params"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "tool_name",
+          "binding",
+          "method",
+          "params"
+        ],
+        "title": "MCPAppRPCForm"
       },
       "Manifest": {
         "properties": {
@@ -43484,6 +45411,16 @@
             ],
             "title": "Knowledge"
           },
+          "subagents": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ModelSubagents"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "voice": {
             "anyOf": [
               {
@@ -43719,6 +45656,19 @@
           "created_at"
         ],
         "title": "ModelResponse"
+      },
+      "ModelSubagents": {
+        "properties": {
+          "model_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Model Ids"
+          }
+        },
+        "type": "object",
+        "title": "ModelSubagents"
       },
       "ModelUnloadForm": {
         "properties": {
@@ -46500,19 +48450,6 @@
         "type": "object",
         "title": "RatingData"
       },
-      "ReactionForm": {
-        "properties": {
-          "name": {
-            "type": "string",
-            "title": "Name"
-          }
-        },
-        "type": "object",
-        "required": [
-          "name"
-        ],
-        "title": "ReactionForm"
-      },
       "Reactions": {
         "properties": {
           "name": {
@@ -48240,19 +50177,51 @@
             "title": "Subagents Background Enabled"
           },
           "SUBAGENTS_MAX_CONCURRENT": {
-            "type": "integer",
+            "anyOf": [
+              {
+                "type": "integer",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Subagents Max Concurrent"
           },
           "SUBAGENTS_MAX_ASYNC": {
-            "type": "integer",
+            "anyOf": [
+              {
+                "type": "integer",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Subagents Max Async"
           },
           "SUBAGENTS_MAX_ITERATIONS": {
-            "type": "integer",
+            "anyOf": [
+              {
+                "type": "integer",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Subagents Max Iterations"
           },
           "SUBAGENTS_MAX_OUTPUT": {
-            "type": "integer",
+            "anyOf": [
+              {
+                "type": "integer",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Subagents Max Output"
           },
           "SUBAGENTS_SYSTEM_PROMPT": {
@@ -48264,10 +50233,6 @@
         "required": [
           "ENABLE_SUBAGENTS",
           "SUBAGENTS_BACKGROUND_ENABLED",
-          "SUBAGENTS_MAX_CONCURRENT",
-          "SUBAGENTS_MAX_ASYNC",
-          "SUBAGENTS_MAX_ITERATIONS",
-          "SUBAGENTS_MAX_OUTPUT",
           "SUBAGENTS_SYSTEM_PROMPT"
         ],
         "title": "SubagentsConfigForm"
@@ -49210,6 +51175,11 @@
           "meta": {
             "$ref": "#/components/schemas/ToolMeta"
           },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active",
+            "default": true
+          },
           "access_grants": {
             "items": {
               "$ref": "#/components/schemas/AccessGrantModel"
@@ -49419,6 +51389,11 @@
           "meta": {
             "$ref": "#/components/schemas/ToolMeta"
           },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active",
+            "default": true
+          },
           "access_grants": {
             "items": {
               "$ref": "#/components/schemas/AccessGrantModel"
@@ -49480,6 +51455,11 @@
           },
           "meta": {
             "$ref": "#/components/schemas/ToolMeta"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active",
+            "default": true
           },
           "access_grants": {
             "items": {
@@ -49657,6 +51637,11 @@
           },
           "meta": {
             "$ref": "#/components/schemas/ToolMeta"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active",
+            "default": true
           },
           "access_grants": {
             "items": {
@@ -52480,6 +54465,19 @@
         ],
         "title": "UserResponse"
       },
+      "open_webui__routers__channels__ReactionForm": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "ReactionForm"
+      },
       "open_webui__routers__chats__MessageForm": {
         "properties": {
           "content": {
@@ -52508,6 +54506,21 @@
         },
         "type": "object",
         "title": "MessageForm"
+      },
+      "open_webui__routers__comments__ReactionForm": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "ReactionForm"
       },
       "open_webui__routers__images__ConnectionVerificationForm": {
         "properties": {
