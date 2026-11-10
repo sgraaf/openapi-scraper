@@ -41147,6 +41147,21 @@ webhooks:
             Non-200
 
             status codes will be retried.
+  live_transport_connected:
+    post:
+      description: Sent when a direct Live WebRTC session is created or an Instant
+        Connect session activates.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WebhookLiveTransportConnected"
+      responses:
+        "200":
+          description: Acknowledges delivery after the endpoint has recorded the work.
+        "204":
+          description: Acknowledges delivery without a response body.
   live_transport_incoming:
     post:
       description: |
@@ -83499,6 +83514,61 @@ components:
               ]
             }
           }
+    WebhookLiveTransportConnected:
+      type: object
+      title: live.transport.connected
+      description: Sent when a direct Live WebRTC session is created or an Instant
+        Connect session activates. Use its session ID to attach a sideband
+        observer.
+      required:
+        - id
+        - object
+        - created_at
+        - type
+        - data
+      properties:
+        id:
+          type: string
+          description: The webhook event ID.
+        object:
+          type: string
+          enum:
+            - event
+          x-stainless-const: true
+        created_at:
+          type: integer
+          format: unixtime
+          description: Unix time in seconds when the event was created.
+        type:
+          type: string
+          enum:
+            - live.transport.connected
+          x-stainless-const: true
+        data:
+          type: object
+          required:
+            - session_id
+            - type
+          properties:
+            type:
+              type: string
+              enum:
+                - webrtc
+              description: The session transport.
+            session_id:
+              type: string
+              description: The Live session ID to use with the sideband attach endpoint.
+      x-oaiMeta:
+        name: live.transport.connected
+        group: webhook-events
+        example: |
+          {
+            "id": "evt_abc123",
+            "object": "event",
+            "created_at": 1793815201,
+            "type": "live.transport.connected",
+            "data": {"session_id": "live_u0_abc123", "type": "webrtc"}
+          }
     WebhookLiveTransportIncoming:
       type: object
       title: live.transport.incoming
@@ -88304,20 +88374,27 @@ components:
                     - beacon
                     - bossa
                     - brise
+                    - calandria
                     - cedar
                     - cinder
+                    - compas
                     - coral
                     - delta
+                    - destello
                     - echo
                     - flitz
                     - gleam
+                    - halo
                     - harema
+                    - hornero
                     - juni
+                    - luciernaga
                     - marin
                     - meridian
                     - nira
                     - noeul
                     - nuri
+                    - pearl
                     - quartz
                     - ripple
                     - sage
@@ -92490,10 +92567,11 @@ components:
         headers:
           additionalProperties:
             type: string
-            description: The retry header value.
+            description: The header value.
           type: object
-          description: The Retry-After and Retry-After-Ms headers returned with the
-            original error, if any.
+          description: Headers returned with the original error. These can include
+            Retry-After, Retry-After-Ms, and, on opted-in deployments,
+            x-openai-inference-capacity-reason.
           x-oaiTypeLabel: map
         misalignment:
           $ref: "#/components/schemas/MisalignmentErrorDetailsResource"
@@ -106331,11 +106409,9 @@ components:
           description: The unique ID of the webhook endpoint.
         object:
           type: string
-          enum:
-            - webhook_endpoint
+          const: webhook_endpoint
           description: The object type, which is always webhook_endpoint.
           default: webhook_endpoint
-          x-stainless-const: true
         created_at:
           type: integer
           format: unixtime
@@ -106375,11 +106451,9 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - list
+          const: list
           description: The object type, which is always list.
           default: list
-          x-stainless-const: true
         data:
           items:
             $ref: "#/components/schemas/WebhookEndpointBody"
@@ -106465,11 +106539,9 @@ components:
           description: The unique ID of the webhook endpoint.
         object:
           type: string
-          enum:
-            - webhook_endpoint
+          const: webhook_endpoint
           description: The object type, which is always webhook_endpoint.
           default: webhook_endpoint
-          x-stainless-const: true
         created_at:
           type: integer
           format: unixtime
@@ -106537,11 +106609,9 @@ components:
           description: The ID of the deleted webhook endpoint.
         object:
           type: string
-          enum:
-            - webhook_endpoint.deleted
+          const: webhook_endpoint.deleted
           description: The object type, which is always webhook_endpoint.deleted.
           default: webhook_endpoint.deleted
-          x-stainless-const: true
         deleted:
           type: boolean
           description: Whether the endpoint was deleted.
@@ -106571,11 +106641,9 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - webhook_endpoint.test
+          const: webhook_endpoint.test
           description: The object type, which is always webhook_endpoint.test.
           default: webhook_endpoint.test
-          x-stainless-const: true
         webhook_endpoint_id:
           type: string
           description: The ID of the webhook endpoint that received the test.
@@ -106587,12 +106655,10 @@ components:
           description: The HTTP status code returned by the endpoint.
         success:
           type: boolean
-          enum:
-            - true
+          const: true
           description: Whether the test request completed. Always true for returned
             results; use status_code to determine the endpoint response.
           default: true
-          x-stainless-const: true
       type: object
       required:
         - object
@@ -106604,11 +106670,9 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - list
+          const: list
           description: The object type, which is always list.
           default: list
-          x-stainless-const: true
         data:
           items:
             type: string
@@ -125201,6 +125265,9 @@ x-oaiMeta:
           path: <auto>
         - type: object
           key: WebhookLiveTransportIncoming
+          path: <auto>
+        - type: object
+          key: WebhookLiveTransportConnected
           path: <auto>
         - type: object
           key: WebhookSafetyWarningIssued
