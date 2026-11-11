@@ -42252,6 +42252,10 @@ components:
                     type: string
                   description: A list of scopes allowed for the API key, e.g.
                     `["api.model.request"]`
+                expires_in_seconds:
+                  type: integer
+                  description: Number of seconds from the update request until the API key
+                    expires.
         api_key.deleted:
           type: object
           description: The details for events with this `type`.
@@ -43589,7 +43593,6 @@ components:
 
             - If listing, activating, or deactivating certificates for a
             project, the object type is `organization.project.certificate`.
-          x-stainless-const: true
         id:
           type: string
           description: The identifier, which can be referenced in API endpoints
@@ -48854,9 +48857,7 @@ components:
           anyOf:
             - type: string
             - type: string
-              enum:
-                - dall-e-2
-              x-stainless-const: true
+              const: dall-e-2
             - type: "null"
           x-oaiTypeLabel: string
           default: dall-e-2
@@ -49485,6 +49486,8 @@ components:
                     - `auto`: If the input to this Response exceeds
                       the model's context window size, the model will truncate the
                       response to fit the context window by dropping items from the beginning of the conversation.
+                      On some models, trimming can begin earlier because the API subtracts the model's
+                      maximum output allowance from its input limit, even if you set a lower `max_output_tokens`.
                     - `disabled` (default): If the input size will exceed the
                     context window
                       size for a model, the request will fail with a 400 error.
@@ -55561,11 +55564,11 @@ components:
                 `gpt-image-2.5-sunburst-2026-09-08`, `gpt-image-2.5-flare`,
                 `gpt-image-2.5-flare-2026-09-08`, `gpt-image-2.6-sunburst`,
                 `gpt-image-2.6-flare`, or `chatgpt-image-latest`. Default:
-                `gpt-image-2`.
+                `gpt-image-2.6-sunburst`.
 
                 `gpt-image-1` was shut down on October 23, 2026. Use
                 `gpt-image-2.5-sunburst` or `gpt-image-2.5-flare` instead.
-              default: gpt-image-2
+              default: gpt-image-2.6-sunburst
         complexity:
           type: string
           enum:
@@ -56783,6 +56786,8 @@ components:
           $ref: "#/components/schemas/ModelIdsLive"
           description: The Live model to use for the accepted call.
           minLength: 1
+        safety_identifier:
+          $ref: "#/components/schemas/safety_identifier"
         instructions:
           $ref: "#/components/schemas/instructions"
         audio:
@@ -56980,6 +56985,8 @@ components:
       properties:
         model:
           $ref: "#/components/schemas/ModelIdsLive"
+        safety_identifier:
+          $ref: "#/components/schemas/safety_identifier"
         instructions:
           $ref: "#/components/schemas/instructions"
         audio:
@@ -61227,10 +61234,8 @@ components:
           description: Optional client-generated ID used to identify this event.
         type:
           type: string
-          enum:
-            - conversation.item.create
+          const: conversation.item.create
           description: The event type, must be `conversation.item.create`.
-          x-stainless-const: true
         previous_item_id:
           type: string
           description: >
@@ -61289,10 +61294,8 @@ components:
           description: Optional client-generated ID used to identify this event.
         type:
           type: string
-          enum:
-            - conversation.item.delete
+          const: conversation.item.delete
           description: The event type, must be `conversation.item.delete`.
-          x-stainless-const: true
         item_id:
           type: string
           description: The ID of the item to delete.
@@ -61327,10 +61330,8 @@ components:
           description: Optional client-generated ID used to identify this event.
         type:
           type: string
-          enum:
-            - conversation.item.retrieve
+          const: conversation.item.retrieve
           description: The event type, must be `conversation.item.retrieve`.
-          x-stainless-const: true
         item_id:
           type: string
           description: The ID of the item to retrieve.
@@ -61380,10 +61381,8 @@ components:
           description: Optional client-generated ID used to identify this event.
         type:
           type: string
-          enum:
-            - conversation.item.truncate
+          const: conversation.item.truncate
           description: The event type, must be `conversation.item.truncate`.
-          x-stainless-const: true
         item_id:
           type: string
           description: >
@@ -61454,10 +61453,8 @@ components:
           description: Optional client-generated ID used to identify this event.
         type:
           type: string
-          enum:
-            - input_audio_buffer.append
+          const: input_audio_buffer.append
           description: The event type, must be `input_audio_buffer.append`.
-          x-stainless-const: true
         audio:
           type: string
           description: >
@@ -61488,10 +61485,8 @@ components:
           description: Optional client-generated ID used to identify this event.
         type:
           type: string
-          enum:
-            - input_audio_buffer.clear
+          const: input_audio_buffer.clear
           description: The event type, must be `input_audio_buffer.clear`.
-          x-stainless-const: true
       required:
         - type
       x-oaiMeta:
@@ -61535,10 +61530,8 @@ components:
           description: Optional client-generated ID used to identify this event.
         type:
           type: string
-          enum:
-            - input_audio_buffer.commit
+          const: input_audio_buffer.commit
           description: The event type, must be `input_audio_buffer.commit`.
-          x-stainless-const: true
       required:
         - type
       x-oaiMeta:
@@ -61563,10 +61556,8 @@ components:
           description: The unique ID of the client event used for error handling.
         type:
           type: string
-          enum:
-            - output_audio_buffer.clear
+          const: output_audio_buffer.clear
           description: The event type, must be `output_audio_buffer.clear`.
-          x-stainless-const: true
       required:
         - type
       x-oaiMeta:
@@ -61593,10 +61584,8 @@ components:
           description: Optional client-generated ID used to identify this event.
         type:
           type: string
-          enum:
-            - response.cancel
+          const: response.cancel
           description: The event type, must be `response.cancel`.
-          x-stainless-const: true
         response_id:
           type: string
           description: |
@@ -61675,10 +61664,8 @@ components:
           description: Optional client-generated ID used to identify this event.
         type:
           type: string
-          enum:
-            - response.create
+          const: response.create
           description: The event type, must be `response.create`.
-          x-stainless-const: true
         response:
           $ref: "#/components/schemas/RealtimeBetaResponseCreateParams"
       required:
@@ -61751,10 +61738,8 @@ components:
           description: Optional client-generated ID used to identify this event.
         type:
           type: string
-          enum:
-            - session.update
+          const: session.update
           description: The event type, must be `session.update`.
-          x-stainless-const: true
         session:
           $ref: "#/components/schemas/RealtimeSessionCreateRequest"
       required:
@@ -61808,10 +61793,8 @@ components:
           description: Optional client-generated ID used to identify this event.
         type:
           type: string
-          enum:
-            - transcription_session.update
+          const: transcription_session.update
           description: The event type, must be `transcription_session.update`.
-          x-stainless-const: true
         session:
           $ref: "#/components/schemas/RealtimeTranscriptionSessionCreateRequest"
       required:
@@ -61854,10 +61837,8 @@ components:
           description: The unique ID of the response.
         object:
           type: string
-          enum:
-            - realtime.response
+          const: realtime.response
           description: The object type, must be `realtime.response`.
-          x-stainless-const: true
         status:
           type: string
           enum:
@@ -62071,9 +62052,7 @@ components:
           oneOf:
             - type: integer
             - type: string
-              enum:
-                - inf
-              x-stainless-const: true
+              const: inf
           description: |
             Maximum number of output tokens for a single assistant response,
             inclusive of tool calls, that was used in this response.
@@ -62159,10 +62138,8 @@ components:
             properties:
               type:
                 type: string
-                enum:
-                  - function
+                const: function
                 description: The type of the tool, i.e. `function`.
-                x-stainless-const: true
               name:
                 type: string
                 description: The name of the function.
@@ -62199,9 +62176,7 @@ components:
           oneOf:
             - type: integer
             - type: string
-              enum:
-                - inf
-              x-stainless-const: true
+              const: inf
           description: |
             Maximum number of output tokens for a single assistant response,
             inclusive of tool calls. Provide an integer between 1 and 4096 to
@@ -62265,10 +62240,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - conversation.item.created
+          const: conversation.item.created
           description: The event type, must be `conversation.item.created`.
-          x-stainless-const: true
         previous_item_id:
           anyOf:
             - type: string
@@ -62320,10 +62293,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - conversation.item.deleted
+          const: conversation.item.deleted
           description: The event type, must be `conversation.item.deleted`.
-          x-stainless-const: true
         item_id:
           type: string
           description: The ID of the item that was deleted.
@@ -62372,12 +62343,10 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - conversation.item.input_audio_transcription.completed
+          const: conversation.item.input_audio_transcription.completed
           description: |
             The event type, must be
             `conversation.item.input_audio_transcription.completed`.
-          x-stainless-const: true
         item_id:
           type: string
           description: The ID of the user message item containing the audio.
@@ -62449,11 +62418,9 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - conversation.item.input_audio_transcription.delta
+          const: conversation.item.input_audio_transcription.delta
           description: The event type, must be
             `conversation.item.input_audio_transcription.delta`.
-          x-stainless-const: true
         item_id:
           type: string
           description: The ID of the item.
@@ -62500,12 +62467,10 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - conversation.item.input_audio_transcription.failed
+          const: conversation.item.input_audio_transcription.failed
           description: |
             The event type, must be
             `conversation.item.input_audio_transcription.failed`.
-          x-stainless-const: true
         item_id:
           type: string
           description: The ID of the user message item.
@@ -62560,11 +62525,9 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - conversation.item.input_audio_transcription.segment
+          const: conversation.item.input_audio_transcription.segment
           description: The event type, must be
             `conversation.item.input_audio_transcription.segment`.
-          x-stainless-const: true
         item_id:
           type: string
           description: The ID of the item containing the input audio content.
@@ -62624,10 +62587,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - conversation.item.retrieved
+          const: conversation.item.retrieved
           description: The event type, must be `conversation.item.retrieved`.
-          x-stainless-const: true
         item:
           $ref: "#/components/schemas/RealtimeConversationItem"
       required:
@@ -62680,10 +62641,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - conversation.item.truncated
+          const: conversation.item.truncated
           description: The event type, must be `conversation.item.truncated`.
-          x-stainless-const: true
         item_id:
           type: string
           description: The ID of the assistant message item that was truncated.
@@ -62726,10 +62685,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - error
+          const: error
           description: The event type, must be `error`.
-          x-stainless-const: true
         error:
           type: object
           description: Details of the error.
@@ -62792,10 +62749,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - input_audio_buffer.cleared
+          const: input_audio_buffer.cleared
           description: The event type, must be `input_audio_buffer.cleared`.
-          x-stainless-const: true
       required:
         - event_id
         - type
@@ -62826,10 +62781,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - input_audio_buffer.committed
+          const: input_audio_buffer.committed
           description: The event type, must be `input_audio_buffer.committed`.
-          x-stainless-const: true
         previous_item_id:
           anyOf:
             - type: string
@@ -62890,10 +62843,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - input_audio_buffer.speech_started
+          const: input_audio_buffer.speech_started
           description: The event type, must be `input_audio_buffer.speech_started`.
-          x-stainless-const: true
         audio_start_ms:
           type: integer
           description: >
@@ -62941,10 +62892,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - input_audio_buffer.speech_stopped
+          const: input_audio_buffer.speech_stopped
           description: The event type, must be `input_audio_buffer.speech_stopped`.
-          x-stainless-const: true
         audio_end_ms:
           type: integer
           description: >
@@ -62982,10 +62931,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - mcp_list_tools.completed
+          const: mcp_list_tools.completed
           description: The event type, must be `mcp_list_tools.completed`.
-          x-stainless-const: true
         item_id:
           type: string
           description: The ID of the MCP list tools item.
@@ -63011,10 +62958,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - mcp_list_tools.failed
+          const: mcp_list_tools.failed
           description: The event type, must be `mcp_list_tools.failed`.
-          x-stainless-const: true
         item_id:
           type: string
           description: The ID of the MCP list tools item.
@@ -63040,10 +62985,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - mcp_list_tools.in_progress
+          const: mcp_list_tools.in_progress
           description: The event type, must be `mcp_list_tools.in_progress`.
-          x-stainless-const: true
         item_id:
           type: string
           description: The ID of the MCP list tools item.
@@ -63079,10 +63022,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - rate_limits.updated
+          const: rate_limits.updated
           description: The event type, must be `rate_limits.updated`.
-          x-stainless-const: true
         rate_limits:
           type: array
           description: List of rate limit information.
@@ -63140,10 +63081,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.output_audio.delta
+          const: response.output_audio.delta
           description: The event type, must be `response.output_audio.delta`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The ID of the response.
@@ -63193,10 +63132,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.output_audio.done
+          const: response.output_audio.done
           description: The event type, must be `response.output_audio.done`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The ID of the response.
@@ -63239,10 +63176,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.output_audio_transcript.delta
+          const: response.output_audio_transcript.delta
           description: The event type, must be `response.output_audio_transcript.delta`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The ID of the response.
@@ -63291,10 +63226,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.output_audio_transcript.done
+          const: response.output_audio_transcript.done
           description: The event type, must be `response.output_audio_transcript.done`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The ID of the response.
@@ -63344,10 +63277,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.content_part.added
+          const: response.content_part.added
           description: The event type, must be `response.content_part.added`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The ID of the response.
@@ -63416,10 +63347,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.content_part.done
+          const: response.content_part.done
           description: The event type, must be `response.content_part.done`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The ID of the response.
@@ -63488,10 +63417,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.created
+          const: response.created
           description: The event type, must be `response.created`.
-          x-stainless-const: true
         response:
           $ref: "#/components/schemas/RealtimeBetaResponse"
       required:
@@ -63547,10 +63474,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.done
+          const: response.done
           description: The event type, must be `response.done`.
-          x-stainless-const: true
         response:
           $ref: "#/components/schemas/RealtimeBetaResponse"
       required:
@@ -63614,11 +63539,9 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.function_call_arguments.delta
+          const: response.function_call_arguments.delta
           description: |
             The event type, must be `response.function_call_arguments.delta`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The ID of the response.
@@ -63668,11 +63591,9 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.function_call_arguments.done
+          const: response.function_call_arguments.done
           description: |
             The event type, must be `response.function_call_arguments.done`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The ID of the response.
@@ -63724,10 +63645,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.mcp_call_arguments.delta
+          const: response.mcp_call_arguments.delta
           description: The event type, must be `response.mcp_call_arguments.delta`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The ID of the response.
@@ -63774,10 +63693,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.mcp_call_arguments.done
+          const: response.mcp_call_arguments.done
           description: The event type, must be `response.mcp_call_arguments.done`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The ID of the response.
@@ -63818,10 +63735,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.mcp_call.completed
+          const: response.mcp_call.completed
           description: The event type, must be `response.mcp_call.completed`.
-          x-stainless-const: true
         output_index:
           type: integer
           description: The index of the output item in the response.
@@ -63852,10 +63767,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.mcp_call.failed
+          const: response.mcp_call.failed
           description: The event type, must be `response.mcp_call.failed`.
-          x-stainless-const: true
         output_index:
           type: integer
           description: The index of the output item in the response.
@@ -63886,10 +63799,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.mcp_call.in_progress
+          const: response.mcp_call.in_progress
           description: The event type, must be `response.mcp_call.in_progress`.
-          x-stainless-const: true
         output_index:
           type: integer
           description: The index of the output item in the response.
@@ -63920,10 +63831,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.output_item.added
+          const: response.output_item.added
           description: The event type, must be `response.output_item.added`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The ID of the Response to which the item belongs.
@@ -63969,10 +63878,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.output_item.done
+          const: response.output_item.done
           description: The event type, must be `response.output_item.done`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The ID of the Response to which the item belongs.
@@ -64019,10 +63926,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.output_text.delta
+          const: response.output_text.delta
           description: The event type, must be `response.output_text.delta`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The ID of the response.
@@ -64072,10 +63977,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.output_text.done
+          const: response.output_text.done
           description: The event type, must be `response.output_text.done`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The ID of the response.
@@ -64127,10 +64030,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - session.created
+          const: session.created
           description: The event type, must be `session.created`.
-          x-stainless-const: true
         session:
           $ref: "#/components/schemas/RealtimeSession"
       required:
@@ -64185,10 +64086,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - session.updated
+          const: session.updated
           description: The event type, must be `session.updated`.
-          x-stainless-const: true
         session:
           $ref: "#/components/schemas/RealtimeSession"
       required:
@@ -64233,10 +64132,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - transcription_session.created
+          const: transcription_session.created
           description: The event type, must be `transcription_session.created`.
-          x-stainless-const: true
         session:
           $ref: "#/components/schemas/RealtimeTranscriptionSessionCreateResponse"
       required:
@@ -64284,10 +64181,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - transcription_session.updated
+          const: transcription_session.updated
           description: The event type, must be `transcription_session.updated`.
-          x-stainless-const: true
         session:
           $ref: "#/components/schemas/RealtimeTranscriptionSessionCreateResponse"
       required:
@@ -64435,10 +64330,8 @@ components:
           description: Optional client-generated ID used to identify this event.
         type:
           type: string
-          enum:
-            - conversation.item.create
+          const: conversation.item.create
           description: The event type, must be `conversation.item.create`.
-          x-stainless-const: true
         previous_item_id:
           type: string
           description: >
@@ -64495,10 +64388,8 @@ components:
           description: Optional client-generated ID used to identify this event.
         type:
           type: string
-          enum:
-            - conversation.item.delete
+          const: conversation.item.delete
           description: The event type, must be `conversation.item.delete`.
-          x-stainless-const: true
         item_id:
           type: string
           description: The ID of the item to delete.
@@ -64534,10 +64425,8 @@ components:
           description: Optional client-generated ID used to identify this event.
         type:
           type: string
-          enum:
-            - conversation.item.retrieve
+          const: conversation.item.retrieve
           description: The event type, must be `conversation.item.retrieve`.
-          x-stainless-const: true
         item_id:
           type: string
           description: The ID of the item to retrieve.
@@ -64588,10 +64477,8 @@ components:
           description: Optional client-generated ID used to identify this event.
         type:
           type: string
-          enum:
-            - conversation.item.truncate
+          const: conversation.item.truncate
           description: The event type, must be `conversation.item.truncate`.
-          x-stainless-const: true
         item_id:
           type: string
           description: >
@@ -64671,10 +64558,8 @@ components:
           description: Optional client-generated ID used to identify this event.
         type:
           type: string
-          enum:
-            - input_audio_buffer.append
+          const: input_audio_buffer.append
           description: The event type, must be `input_audio_buffer.append`.
-          x-stainless-const: true
         audio:
           type: string
           description: >
@@ -64706,10 +64591,8 @@ components:
           description: Optional client-generated ID used to identify this event.
         type:
           type: string
-          enum:
-            - input_audio_buffer.clear
+          const: input_audio_buffer.clear
           description: The event type, must be `input_audio_buffer.clear`.
-          x-stainless-const: true
       required:
         - type
       x-oaiMeta:
@@ -64741,10 +64624,8 @@ components:
           description: Optional client-generated ID used to identify this event.
         type:
           type: string
-          enum:
-            - input_audio_buffer.commit
+          const: input_audio_buffer.commit
           description: The event type, must be `input_audio_buffer.commit`.
-          x-stainless-const: true
       required:
         - type
       x-oaiMeta:
@@ -64769,10 +64650,8 @@ components:
           description: The unique ID of the client event used for error handling.
         type:
           type: string
-          enum:
-            - output_audio_buffer.clear
+          const: output_audio_buffer.clear
           description: The event type, must be `output_audio_buffer.clear`.
-          x-stainless-const: true
       required:
         - type
       x-oaiMeta:
@@ -64806,10 +64685,8 @@ components:
           description: Optional client-generated ID used to identify this event.
         type:
           type: string
-          enum:
-            - response.cancel
+          const: response.cancel
           description: The event type, must be `response.cancel`.
-          x-stainless-const: true
         response_id:
           type: string
           description: |
@@ -64891,10 +64768,8 @@ components:
           description: Optional client-generated ID used to identify this event.
         type:
           type: string
-          enum:
-            - response.create
+          const: response.create
           description: The event type, must be `response.create`.
-          x-stainless-const: true
         response:
           $ref: "#/components/schemas/RealtimeResponseCreateParams"
       required:
@@ -64973,10 +64848,8 @@ components:
             `session.updated` event will not include it.
         type:
           type: string
-          enum:
-            - session.update
+          const: session.update
           description: The event type, must be `session.update`.
-          x-stainless-const: true
         session:
           type: object
           description: |
@@ -65038,10 +64911,8 @@ components:
           description: Optional client-generated ID used to identify this event.
         type:
           type: string
-          enum:
-            - transcription_session.update
+          const: transcription_session.update
           description: The event type, must be `transcription_session.update`.
-          x-stainless-const: true
         session:
           $ref: "#/components/schemas/RealtimeTranscriptionSessionCreateRequest"
       required:
@@ -65123,17 +64994,13 @@ components:
             generated by the server.
         object:
           type: string
-          enum:
-            - realtime.item
+          const: realtime.item
           description: Identifier for the API object being returned - always
             `realtime.item`. Optional when creating a new item.
-          x-stainless-const: true
         type:
           type: string
-          enum:
-            - function_call
+          const: function_call
           description: The type of the item. Always `function_call`.
-          x-stainless-const: true
         status:
           type: string
           enum:
@@ -65167,17 +65034,13 @@ components:
             generated by the server.
         object:
           type: string
-          enum:
-            - realtime.item
+          const: realtime.item
           description: Identifier for the API object being returned - always
             `realtime.item`. Optional when creating a new item.
-          x-stainless-const: true
         type:
           type: string
-          enum:
-            - function_call_output
+          const: function_call_output
           description: The type of the item. Always `function_call_output`.
-          x-stainless-const: true
         status:
           type: string
           enum:
@@ -65207,17 +65070,13 @@ components:
             generated by the server.
         object:
           type: string
-          enum:
-            - realtime.item
+          const: realtime.item
           description: Identifier for the API object being returned - always
             `realtime.item`. Optional when creating a new item.
-          x-stainless-const: true
         type:
           type: string
-          enum:
-            - message
+          const: message
           description: The type of the item. Always `message`.
-          x-stainless-const: true
         status:
           type: string
           enum:
@@ -65227,10 +65086,8 @@ components:
           description: The status of the item. Has no effect on the conversation.
         role:
           type: string
-          enum:
-            - assistant
+          const: assistant
           description: The role of the message sender. Always `assistant`.
-          x-stainless-const: true
         content:
           type: array
           description: The content of the message.
@@ -65277,17 +65134,13 @@ components:
             generated by the server.
         object:
           type: string
-          enum:
-            - realtime.item
+          const: realtime.item
           description: Identifier for the API object being returned - always
             `realtime.item`. Optional when creating a new item.
-          x-stainless-const: true
         type:
           type: string
-          enum:
-            - message
+          const: message
           description: The type of the item. Always `message`.
-          x-stainless-const: true
         status:
           type: string
           enum:
@@ -65297,10 +65150,8 @@ components:
           description: The status of the item. Has no effect on the conversation.
         role:
           type: string
-          enum:
-            - system
+          const: system
           description: The role of the message sender. Always `system`.
-          x-stainless-const: true
         content:
           type: array
           description: The content of the message.
@@ -65309,10 +65160,8 @@ components:
             properties:
               type:
                 type: string
-                enum:
-                  - input_text
+                const: input_text
                 description: The content type. Always `input_text` for system messages.
-                x-stainless-const: true
               text:
                 type: string
                 description: The text content.
@@ -65331,17 +65180,13 @@ components:
             generated by the server.
         object:
           type: string
-          enum:
-            - realtime.item
+          const: realtime.item
           description: Identifier for the API object being returned - always
             `realtime.item`. Optional when creating a new item.
-          x-stainless-const: true
         type:
           type: string
-          enum:
-            - message
+          const: message
           description: The type of the item. Always `message`.
-          x-stainless-const: true
         status:
           type: string
           enum:
@@ -65351,10 +65196,8 @@ components:
           description: The status of the item. Has no effect on the conversation.
         role:
           type: string
-          enum:
-            - user
+          const: user
           description: The role of the message sender. Always `user`.
-          x-stainless-const: true
         content:
           type: array
           description: The content of the message.
@@ -65433,12 +65276,10 @@ components:
             `function_call_output`, `item_reference`).
         object:
           type: string
-          enum:
-            - realtime.item
+          const: realtime.item
           description: >
             Identifier for the API object being returned - always
             `realtime.item`.
-          x-stainless-const: true
         status:
           type: string
           enum:
@@ -65565,15 +65406,13 @@ components:
           properties:
             anchor:
               type: string
-              enum:
-                - created_at
+              const: created_at
               description: >
                 The anchor point for the client secret expiration, meaning that
                 `seconds` will be added to the `created_at` time of the client
                 secret to produce an expiration timestamp. Only `created_at` is
                 currently supported.
               default: created_at
-              x-stainless-const: true
             seconds:
               type: integer
               format: int64
@@ -65684,10 +65523,8 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - function
+          const: function
           description: The type of the tool, i.e. `function`.
-          x-stainless-const: true
         name:
           type: string
           description: The name of the function.
@@ -65708,10 +65545,8 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - mcp_approval_request
+          const: mcp_approval_request
           description: The type of the item. Always `mcp_approval_request`.
-          x-stainless-const: true
         id:
           type: string
           description: The unique ID of the approval request.
@@ -65738,10 +65573,8 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - mcp_approval_response
+          const: mcp_approval_response
           description: The type of the item. Always `mcp_approval_response`.
-          x-stainless-const: true
         id:
           type: string
           description: The unique ID of the approval response.
@@ -65767,9 +65600,7 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - http_error
-          x-stainless-const: true
+          const: http_error
         code:
           type: integer
         message:
@@ -65786,10 +65617,8 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - mcp_list_tools
+          const: mcp_list_tools
           description: The type of the item. Always `mcp_list_tools`.
-          x-stainless-const: true
         id:
           type: string
           description: The unique ID of the list.
@@ -65811,9 +65640,7 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - protocol_error
-          x-stainless-const: true
+          const: protocol_error
         code:
           type: integer
         message:
@@ -65830,10 +65657,8 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - mcp_call
+          const: mcp_call
           description: The type of the item. Always `mcp_call`.
-          x-stainless-const: true
         id:
           type: string
           description: The unique ID of the tool call.
@@ -65876,9 +65701,7 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - tool_execution_error
-          x-stainless-const: true
+          const: tool_execution_error
         message:
           type: string
       required:
@@ -65925,10 +65748,8 @@ components:
           description: The unique ID of the response, will look like `resp_1234`.
         object:
           type: string
-          enum:
-            - realtime.response
+          const: realtime.response
           description: The object type, must be `realtime.response`.
-          x-stainless-const: true
         status:
           type: string
           enum:
@@ -66141,9 +65962,7 @@ components:
           oneOf:
             - type: integer
             - type: string
-              enum:
-                - inf
-              x-stainless-const: true
+              const: inf
           description: |
             Maximum number of output tokens for a single assistant response,
             inclusive of tool calls, that was used in this response.
@@ -66245,9 +66064,7 @@ components:
           oneOf:
             - type: integer
             - type: string
-              enum:
-                - inf
-              x-stainless-const: true
+              const: inf
           description: |
             Maximum number of output tokens for a single assistant response,
             inclusive of tool calls. Provide an integer between 1 and 4096 to
@@ -66631,9 +66448,7 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - item_reference
-          x-stainless-const: true
+          const: item_reference
           description: The type of this item. Always `item_reference`.
         id:
           type: string
@@ -66720,10 +66535,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - conversation.created
+          const: conversation.created
           description: The event type, must be `conversation.created`.
-          x-stainless-const: true
         conversation:
           type: object
           description: The conversation resource.
@@ -66776,10 +66589,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - conversation.item.added
+          const: conversation.item.added
           description: The event type, must be `conversation.item.added`.
-          x-stainless-const: true
         previous_item_id:
           anyOf:
             - type: string
@@ -66835,10 +66646,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - conversation.item.created
+          const: conversation.item.created
           description: The event type, must be `conversation.item.created`.
-          x-stainless-const: true
         previous_item_id:
           anyOf:
             - type: string
@@ -66890,10 +66699,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - conversation.item.deleted
+          const: conversation.item.deleted
           description: The event type, must be `conversation.item.deleted`.
-          x-stainless-const: true
         item_id:
           type: string
           description: The ID of the item that was deleted.
@@ -66925,10 +66732,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - conversation.item.done
+          const: conversation.item.done
           description: The event type, must be `conversation.item.done`.
-          x-stainless-const: true
         previous_item_id:
           anyOf:
             - type: string
@@ -66997,12 +66802,10 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - conversation.item.input_audio_transcription.completed
+          const: conversation.item.input_audio_transcription.completed
           description: |
             The event type, must be
             `conversation.item.input_audio_transcription.completed`.
-          x-stainless-const: true
         item_id:
           type: string
           description: The ID of the item containing the audio that is being transcribed.
@@ -67075,11 +66878,9 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - conversation.item.input_audio_transcription.delta
+          const: conversation.item.input_audio_transcription.delta
           description: The event type, must be
             `conversation.item.input_audio_transcription.delta`.
-          x-stainless-const: true
         item_id:
           type: string
           description: The ID of the item containing the audio that is being transcribed.
@@ -67133,12 +66934,10 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - conversation.item.input_audio_transcription.failed
+          const: conversation.item.input_audio_transcription.failed
           description: |
             The event type, must be
             `conversation.item.input_audio_transcription.failed`.
-          x-stainless-const: true
         item_id:
           type: string
           description: The ID of the user message item.
@@ -67193,11 +66992,9 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - conversation.item.input_audio_transcription.segment
+          const: conversation.item.input_audio_transcription.segment
           description: The event type, must be
             `conversation.item.input_audio_transcription.segment`.
-          x-stainless-const: true
         item_id:
           type: string
           description: The ID of the item containing the input audio content.
@@ -67260,10 +67057,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - conversation.item.retrieved
+          const: conversation.item.retrieved
           description: The event type, must be `conversation.item.retrieved`.
-          x-stainless-const: true
         item:
           $ref: "#/components/schemas/RealtimeConversationItem"
       required:
@@ -67315,10 +67110,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - conversation.item.truncated
+          const: conversation.item.truncated
           description: The event type, must be `conversation.item.truncated`.
-          x-stainless-const: true
         item_id:
           type: string
           description: The ID of the assistant message item that was truncated.
@@ -67361,10 +67154,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - error
+          const: error
           description: The event type, must be `error`.
-          x-stainless-const: true
         error:
           type: object
           description: Details of the error.
@@ -67427,10 +67218,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - input_audio_buffer.cleared
+          const: input_audio_buffer.cleared
           description: The event type, must be `input_audio_buffer.cleared`.
-          x-stainless-const: true
       required:
         - event_id
         - type
@@ -67461,10 +67250,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - input_audio_buffer.committed
+          const: input_audio_buffer.committed
           description: The event type, must be `input_audio_buffer.committed`.
-          x-stainless-const: true
         previous_item_id:
           anyOf:
             - type: string
@@ -67507,10 +67294,8 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - input_audio_buffer.dtmf_event_received
+          const: input_audio_buffer.dtmf_event_received
           description: The event type, must be `input_audio_buffer.dtmf_event_received`.
-          x-stainless-const: true
         event:
           type: string
           description: The telephone keypad that was pressed by the user.
@@ -67565,10 +67350,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - input_audio_buffer.speech_started
+          const: input_audio_buffer.speech_started
           description: The event type, must be `input_audio_buffer.speech_started`.
-          x-stainless-const: true
         audio_start_ms:
           type: integer
           description: >
@@ -67616,10 +67399,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - input_audio_buffer.speech_stopped
+          const: input_audio_buffer.speech_stopped
           description: The event type, must be `input_audio_buffer.speech_stopped`.
-          x-stainless-const: true
         audio_end_ms:
           type: integer
           description: >
@@ -67689,10 +67470,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - input_audio_buffer.timeout_triggered
+          const: input_audio_buffer.timeout_triggered
           description: The event type, must be `input_audio_buffer.timeout_triggered`.
-          x-stainless-const: true
         audio_start_ms:
           type: integer
           description: Millisecond offset of audio written to the input audio buffer that
@@ -67730,10 +67509,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - mcp_list_tools.completed
+          const: mcp_list_tools.completed
           description: The event type, must be `mcp_list_tools.completed`.
-          x-stainless-const: true
         item_id:
           type: string
           description: The ID of the MCP list tools item.
@@ -67759,10 +67536,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - mcp_list_tools.failed
+          const: mcp_list_tools.failed
           description: The event type, must be `mcp_list_tools.failed`.
-          x-stainless-const: true
         item_id:
           type: string
           description: The ID of the MCP list tools item.
@@ -67788,10 +67563,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - mcp_list_tools.in_progress
+          const: mcp_list_tools.in_progress
           description: The event type, must be `mcp_list_tools.in_progress`.
-          x-stainless-const: true
         item_id:
           type: string
           description: The ID of the MCP list tools item.
@@ -67822,10 +67595,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - output_audio_buffer.cleared
+          const: output_audio_buffer.cleared
           description: The event type, must be `output_audio_buffer.cleared`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The unique ID of the response that produced the audio.
@@ -67855,10 +67626,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - output_audio_buffer.started
+          const: output_audio_buffer.started
           description: The event type, must be `output_audio_buffer.started`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The unique ID of the response that produced the audio.
@@ -67888,10 +67657,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - output_audio_buffer.stopped
+          const: output_audio_buffer.stopped
           description: The event type, must be `output_audio_buffer.stopped`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The unique ID of the response that produced the audio.
@@ -67927,10 +67694,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - rate_limits.updated
+          const: rate_limits.updated
           description: The event type, must be `rate_limits.updated`.
-          x-stainless-const: true
         rate_limits:
           type: array
           description: List of rate limit information.
@@ -67988,10 +67753,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.output_audio.delta
+          const: response.output_audio.delta
           description: The event type, must be `response.output_audio.delta`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The ID of the response.
@@ -68041,10 +67804,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.output_audio.done
+          const: response.output_audio.done
           description: The event type, must be `response.output_audio.done`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The ID of the response.
@@ -68087,10 +67848,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.output_audio_transcript.delta
+          const: response.output_audio_transcript.delta
           description: The event type, must be `response.output_audio_transcript.delta`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The ID of the response.
@@ -68139,10 +67898,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.output_audio_transcript.done
+          const: response.output_audio_transcript.done
           description: The event type, must be `response.output_audio_transcript.done`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The ID of the response.
@@ -68192,10 +67949,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.content_part.added
+          const: response.content_part.added
           description: The event type, must be `response.content_part.added`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The ID of the response.
@@ -68264,10 +68019,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.content_part.done
+          const: response.content_part.done
           description: The event type, must be `response.content_part.done`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The ID of the response.
@@ -68336,10 +68089,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.created
+          const: response.created
           description: The event type, must be `response.created`.
-          x-stainless-const: true
         response:
           $ref: "#/components/schemas/RealtimeResponse"
       required:
@@ -68407,10 +68158,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.done
+          const: response.done
           description: The event type, must be `response.done`.
-          x-stainless-const: true
         response:
           $ref: "#/components/schemas/RealtimeResponse"
       required:
@@ -68490,11 +68239,9 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.function_call_arguments.delta
+          const: response.function_call_arguments.delta
           description: |
             The event type, must be `response.function_call_arguments.delta`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The ID of the response.
@@ -68544,11 +68291,9 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.function_call_arguments.done
+          const: response.function_call_arguments.done
           description: |
             The event type, must be `response.function_call_arguments.done`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The ID of the response.
@@ -68600,10 +68345,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.mcp_call_arguments.delta
+          const: response.mcp_call_arguments.delta
           description: The event type, must be `response.mcp_call_arguments.delta`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The ID of the response.
@@ -68650,10 +68393,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.mcp_call_arguments.done
+          const: response.mcp_call_arguments.done
           description: The event type, must be `response.mcp_call_arguments.done`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The ID of the response.
@@ -68694,10 +68435,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.mcp_call.completed
+          const: response.mcp_call.completed
           description: The event type, must be `response.mcp_call.completed`.
-          x-stainless-const: true
         output_index:
           type: integer
           description: The index of the output item in the response.
@@ -68728,10 +68467,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.mcp_call.failed
+          const: response.mcp_call.failed
           description: The event type, must be `response.mcp_call.failed`.
-          x-stainless-const: true
         output_index:
           type: integer
           description: The index of the output item in the response.
@@ -68762,10 +68499,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.mcp_call.in_progress
+          const: response.mcp_call.in_progress
           description: The event type, must be `response.mcp_call.in_progress`.
-          x-stainless-const: true
         output_index:
           type: integer
           description: The index of the output item in the response.
@@ -68796,10 +68531,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.output_item.added
+          const: response.output_item.added
           description: The event type, must be `response.output_item.added`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The ID of the Response to which the item belongs.
@@ -68845,10 +68578,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.output_item.done
+          const: response.output_item.done
           description: The event type, must be `response.output_item.done`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The ID of the Response to which the item belongs.
@@ -68895,10 +68626,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.output_text.delta
+          const: response.output_text.delta
           description: The event type, must be `response.output_text.delta`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The ID of the response.
@@ -68948,10 +68677,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - response.output_text.done
+          const: response.output_text.done
           description: The event type, must be `response.output_text.done`.
-          x-stainless-const: true
         response_id:
           type: string
           description: The ID of the response.
@@ -69003,10 +68730,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - session.created
+          const: session.created
           description: The event type, must be `session.created`.
-          x-stainless-const: true
         session:
           description: The session configuration.
           oneOf:
@@ -69079,10 +68804,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - session.updated
+          const: session.updated
           description: The event type, must be `session.updated`.
-          x-stainless-const: true
         session:
           description: The session configuration.
           oneOf:
@@ -69185,10 +68908,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - transcription_session.updated
+          const: transcription_session.updated
           description: The event type, must be `transcription_session.updated`.
-          x-stainless-const: true
         session:
           $ref: "#/components/schemas/RealtimeTranscriptionSessionCreateResponse"
       required:
@@ -69433,9 +69154,7 @@ components:
                   default: auto
                   description: |
                     Default tracing mode for the session.
-                  enum:
-                    - auto
-                  x-stainless-const: true
+                  const: auto
                 - type: object
                   title: Tracing Configuration
                   description: |
@@ -69485,9 +69204,7 @@ components:
           oneOf:
             - type: integer
             - type: string
-              enum:
-                - inf
-              x-stainless-const: true
+              const: inf
           description: |
             Maximum number of output tokens for a single assistant response,
             inclusive of tool calls. Provide an integer between 1 and 4096 to
@@ -69650,9 +69367,7 @@ components:
               default: auto
               description: |
                 Default tracing mode for the session.
-              enum:
-                - auto
-              x-stainless-const: true
+              const: auto
             - type: object
               title: Tracing Configuration
               description: |
@@ -69723,10 +69438,8 @@ components:
             properties:
               type:
                 type: string
-                enum:
-                  - function
+                const: function
                 description: The type of the tool, i.e. `function`.
-                x-stainless-const: true
               name:
                 type: string
                 description: The name of the function.
@@ -69759,9 +69472,7 @@ components:
           oneOf:
             - type: integer
             - type: string
-              enum:
-                - inf
-              x-stainless-const: true
+              const: inf
           description: |
             Maximum number of output tokens for a single assistant response,
             inclusive of tool calls. Provide an integer between 1 and 4096 to
@@ -69813,9 +69524,7 @@ components:
           description: >
             The type of session to create. Always `realtime` for the Realtime
             API.
-          enum:
-            - realtime
-          x-stainless-const: true
+          const: realtime
         output_modalities:
           type: array
           description: >
@@ -70023,9 +69732,7 @@ components:
               description: >
                 Enables tracing and sets default values for tracing
                 configuration options. Always `auto`.
-              enum:
-                - auto
-              x-stainless-const: true
+              const: auto
             - type: object
               title: Tracing Configuration
               description: |
@@ -70080,9 +69787,7 @@ components:
           oneOf:
             - type: integer
             - type: string
-              enum:
-                - inf
-              x-stainless-const: true
+              const: inf
           description: |
             Maximum number of output tokens for a single assistant response,
             inclusive of tool calls. Provide an integer between 1 and 4096 to
@@ -70237,9 +69942,7 @@ components:
               default: auto
               description: |
                 Default tracing mode for the session.
-              enum:
-                - auto
-              x-stainless-const: true
+              const: auto
             - type: object
               title: Tracing Configuration
               description: |
@@ -70320,9 +70023,7 @@ components:
           oneOf:
             - type: integer
             - type: string
-              enum:
-                - inf
-              x-stainless-const: true
+              const: inf
           description: |
             Maximum number of output tokens for a single assistant response,
             inclusive of tool calls. Provide an integer between 1 and 4096 to
@@ -70376,9 +70077,7 @@ components:
           description: >
             The type of session to create. Always `realtime` for the Realtime
             API.
-          enum:
-            - realtime
-          x-stainless-const: true
+          const: realtime
         id:
           type: string
           description: >
@@ -70387,9 +70086,7 @@ components:
         object:
           type: string
           description: The object type. Always `realtime.session`.
-          enum:
-            - realtime.session
-          x-stainless-const: true
+          const: realtime.session
         expires_at:
           type: integer
           format: unixtime
@@ -70597,9 +70294,7 @@ components:
                   description: >
                     Enables tracing and sets default values for tracing
                     configuration options. Always `auto`.
-                  enum:
-                    - auto
-                  x-stainless-const: true
+                  const: auto
                 - type: object
                   title: Tracing Configuration
                   description: |
@@ -70649,9 +70344,7 @@ components:
           oneOf:
             - type: integer
             - type: string
-              enum:
-                - inf
-              x-stainless-const: true
+              const: inf
           description: |
             Maximum number of output tokens for a single assistant response,
             inclusive of tool calls. Provide an integer between 1 and 4096 to
@@ -70774,9 +70467,7 @@ components:
           description: >
             The type of session to create. Always `transcription` for
             transcription sessions.
-          enum:
-            - transcription
-          x-stainless-const: true
+          const: transcription
         audio:
           type: object
           description: |
@@ -70963,9 +70654,7 @@ components:
           description: >
             The type of session. Always `transcription` for transcription
             sessions.
-          enum:
-            - transcription
-          x-stainless-const: true
+          const: transcription
         id:
           type: string
           description: >
@@ -71155,10 +70844,8 @@ components:
           description: Optional client-generated ID used to identify this event.
         type:
           type: string
-          enum:
-            - session.input_audio_buffer.append
+          const: session.input_audio_buffer.append
           description: The event type, must be `session.input_audio_buffer.append`.
-          x-stainless-const: true
         audio:
           type: string
           description: Base64-encoded 24 kHz PCM16 mono audio bytes.
@@ -71190,10 +70877,8 @@ components:
           description: Optional client-generated ID used to identify this event.
         type:
           type: string
-          enum:
-            - session.close
+          const: session.close
           description: The event type, must be `session.close`.
-          x-stainless-const: true
       required:
         - type
       x-oaiMeta:
@@ -71221,10 +70906,8 @@ components:
           description: Optional client-generated ID used to identify this event.
         type:
           type: string
-          enum:
-            - session.update
+          const: session.update
           description: The event type, must be `session.update`.
-          x-stainless-const: true
         session:
           $ref: "#/components/schemas/RealtimeTranslationSessionUpdateRequest"
           description: >
@@ -71278,15 +70961,13 @@ components:
           properties:
             anchor:
               type: string
-              enum:
-                - created_at
+              const: created_at
               description: >
                 The anchor point for the client secret expiration, meaning that
                 `seconds` will be added to the `created_at` time of the client
                 secret to produce an expiration timestamp. Only `created_at` is
                 currently supported.
               default: created_at
-              x-stainless-const: true
             seconds:
               type: integer
               format: int64
@@ -71377,10 +71058,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - session.closed
+          const: session.closed
           description: The event type, must be `session.closed`.
-          x-stainless-const: true
       required:
         - event_id
         - type
@@ -71408,10 +71087,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - session.created
+          const: session.created
           description: The event type, must be `session.created`.
-          x-stainless-const: true
         session:
           $ref: "#/components/schemas/RealtimeTranslationSession"
           description: The translation session configuration.
@@ -71466,10 +71143,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - session.input_transcript.delta
+          const: session.input_transcript.delta
           description: The event type, must be `session.input_transcript.delta`.
-          x-stainless-const: true
         delta:
           type: string
           description: Append-only source-language transcript text.
@@ -71518,10 +71193,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - session.output_audio.delta
+          const: session.output_audio.delta
           description: The event type, must be `session.output_audio.delta`.
-          x-stainless-const: true
         delta:
           type: string
           description: Base64-encoded translated audio data.
@@ -71535,10 +71208,8 @@ components:
           default: 1
         format:
           type: string
-          enum:
-            - pcm16
+          const: pcm16
           description: Audio encoding for `delta`.
-          x-stainless-const: true
         elapsed_ms:
           anyOf:
             - type: integer
@@ -71584,10 +71255,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - session.output_transcript.delta
+          const: session.output_transcript.delta
           description: The event type, must be `session.output_transcript.delta`.
-          x-stainless-const: true
         delta:
           type: string
           description: Append-only transcript text for the translated output audio.
@@ -71633,10 +71302,8 @@ components:
           description: The unique ID of the server event.
         type:
           type: string
-          enum:
-            - session.updated
+          const: session.updated
           description: The event type, must be `session.updated`.
-          x-stainless-const: true
         session:
           $ref: "#/components/schemas/RealtimeTranslationSession"
           description: The translation session configuration.
@@ -71688,12 +71355,10 @@ components:
             `sess_1234567890abcdef`.
         type:
           type: string
-          enum:
-            - translation
+          const: translation
           description: >
             The session type. Always `translation` for Realtime translation
             sessions.
-          x-stainless-const: true
         expires_at:
           type: integer
           format: unixtime
@@ -71938,10 +71603,8 @@ components:
           properties:
             type:
               type: string
-              enum:
-                - retention_ratio
+              const: retention_ratio
               description: Use retention ratio truncation.
-              x-stainless-const: true
             retention_ratio:
               type: number
               description: >
@@ -72348,6 +72011,8 @@ components:
                     - `auto`: If the input to this Response exceeds
                       the model's context window size, the model will truncate the
                       response to fit the context window by dropping items from the beginning of the conversation.
+                      On some models, trimming can begin earlier because the API subtracts the model's
+                      maximum output allowance from its input limit, even if you set a lower `max_output_tokens`.
                     - `disabled` (default): If the input size will exceed the
                     context window
                       size for a model, the request will fail with a 400 error.
@@ -81517,9 +81182,7 @@ components:
         object:
           description: The object type, which is always `vector_store.file_batch`.
           type: string
-          enum:
-            - vector_store.file_batch
-          x-stainless-const: true
+          const: vector_store.file_batch
         created_at:
           description: The Unix timestamp (in seconds) for when the vector store files
             batch was created.
@@ -88334,6 +87997,13 @@ components:
                 the author model's default when omitted or null.
       required:
         - model
+    safety_identifier:
+      anyOf:
+        - description: A stable identifier for your end user, used for safety monitoring
+            and abuse detection.
+          type: string
+          maxLength: 128
+        - type: "null"
     instructions:
       anyOf:
         - description: Frontend instructions for voice, conversation, interruptions, and
@@ -93014,12 +92684,18 @@ components:
             - type: "null"
         truncation:
           $ref: "#/components/schemas/TruncationEnum"
-          description: "The truncation strategy to use for the model response. - `auto`:
-            If the input to this Response exceeds the model's context window
-            size, the model will truncate the response to fit the context window
-            by dropping items from the beginning of the conversation. -
-            `disabled` (default): If the input size will exceed the context
-            window size for a model, the request will fail with a 400 error."
+          description: >-
+            The truncation strategy to use for the model response.
+
+            - `auto`: If the input to this Response exceeds the model's context
+            window size, the model will truncate the response to fit the context
+            window by dropping items from the beginning of the conversation. On
+            some models, trimming can begin earlier because the API subtracts
+            the model's maximum output allowance from its input limit before
+            counting tokens.
+
+            - `disabled` (default): If the input size will exceed the context
+            window size for a model, the request will fail with a 400 error.
           deprecated: true
         instructions:
           anyOf:
@@ -93125,6 +92801,7 @@ components:
                 from a previous response will not be carried over to the next
                 response. This makes it simple to swap out system (or developer)
                 messages in new responses.
+              deprecated: true
             - type: "null"
         image:
           $ref: "#/components/schemas/ImageOptionsParam"
@@ -102297,6 +101974,77 @@ components:
         - The session is waiting for one or more required actions.
         - The session failed.
       description: The current status of a session.
+    McpApprovalRequestResourceMcpToolCall:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - mcp_tool_call
+          default: mcp_tool_call
+          x-stainless-const: true
+          description: The type of the object. Always `mcp_tool_call`.
+        server_label:
+          type: string
+          minLength: 0
+        name:
+          type:
+            - string
+            - "null"
+          minLength: 0
+          description: The tool name, or null when CCA does not provide it.
+        arguments:
+          anyOf:
+            - {}
+            - type: "null"
+          description: The tool arguments as JSON, or null when CCA does not provide them.
+        message:
+          type: string
+          minLength: 0
+      required:
+        - type
+        - server_label
+        - name
+        - arguments
+        - message
+      additionalProperties: false
+    McpApprovalRequestResource:
+      oneOf:
+        - $ref: "#/components/schemas/McpApprovalRequestResourceMcpToolCall"
+      discriminator:
+        propertyName: type
+        mapping:
+          mcp_tool_call: "#/components/schemas/McpApprovalRequestResourceMcpToolCall"
+      x-oai-discriminator-values:
+        - mcp_tool_call
+      description: Information for presenting an MCP approval.
+    SessionRequiredActionResourceMcpApprovalRequest:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - mcp_approval_request
+          default: mcp_approval_request
+          x-stainless-const: true
+          description: The type of the object. Always `mcp_approval_request`.
+        turn_id:
+          type: string
+          minLength: 0
+          description: The turn that requested approval.
+        request_id:
+          type: string
+          minLength: 0
+          description: The opaque approval ID to echo when responding.
+        request:
+          $ref: "#/components/schemas/McpApprovalRequestResource"
+      required:
+        - type
+        - turn_id
+        - request_id
+        - request
+      additionalProperties: false
+      description: Respond to an MCP tool-call approval request.
     ComputerUseApprovalRequestKindResourceBrowserAuthentication:
       type: object
       properties:
@@ -102464,6 +102212,7 @@ components:
       description: Reconnect a session environment.
     SessionRequiredActionResource:
       oneOf:
+        - $ref: "#/components/schemas/SessionRequiredActionResourceMcpApprovalRequest"
         - $ref: "#/components/schemas/SessionRequiredActionResourceComputerUseApprovalReq\
             uest"
         - $ref: "#/components/schemas/SessionRequiredActionResourceFunctionCall"
@@ -102471,12 +102220,15 @@ components:
       discriminator:
         propertyName: type
         mapping:
+          mcp_approval_request: "#/components/schemas/SessionRequiredActionResourceMcpApp\
+            rovalRequest"
           computer_use_approval_request: "#/components/schemas/SessionRequiredActionResou\
             rceComputerUseApprovalRequest"
           function_call: "#/components/schemas/SessionRequiredActionResourceFunctionCall"
           environment_connection: "#/components/schemas/SessionRequiredActionResourceEnvi\
             ronmentConnection"
       x-oai-discriminator-values:
+        - mcp_approval_request
         - computer_use_approval_request
         - function_call
         - environment_connection
@@ -102872,6 +102624,10 @@ components:
     CreateAgentSessionParams:
       type: object
       properties:
+        environment:
+          $ref: "#/components/schemas/EnvironmentParam"
+          description: An inline execution environment or a reference to an environment
+            template.
         review:
           $ref: "#/components/schemas/SessionReviewParam"
           description: Action review mode. Omit to use none.
@@ -102902,10 +102658,6 @@ components:
           maxLength: 64
           description: The ID of a saved reusable agent. Omit `agent` to use its
             configuration unchanged.
-        environment:
-          $ref: "#/components/schemas/EnvironmentParam"
-          description: An inline execution environment or a reference to an environment
-            template.
         vault_ids:
           type:
             - array
@@ -104926,6 +104678,63 @@ components:
         - deleted
       additionalProperties: false
       description: Confirmation that an immutable session artifact was deleted.
+    McpApprovalDecisionParam:
+      type: string
+      enum:
+        - approve
+        - deny
+        - cancel
+    McpApprovalResponseParamMcpToolCall:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - mcp_tool_call
+          default: mcp_tool_call
+          x-stainless-const: true
+          description: The type of the object. Always `mcp_tool_call`.
+        decision:
+          $ref: "#/components/schemas/McpApprovalDecisionParam"
+          description: Cancel dismisses this request without cancelling the session or turn.
+      required:
+        - type
+        - decision
+      additionalProperties: false
+    McpApprovalResponseParam:
+      oneOf:
+        - $ref: "#/components/schemas/McpApprovalResponseParamMcpToolCall"
+      discriminator:
+        propertyName: type
+        mapping:
+          mcp_tool_call: "#/components/schemas/McpApprovalResponseParamMcpToolCall"
+      x-oai-discriminator-values:
+        - mcp_tool_call
+      description: The user's decision for a pending MCP tool call.
+    SessionInputParamAgentSessionInputMcpApprovalRequestResult:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - agent.session.input.mcp_approval_request_result
+          default: agent.session.input.mcp_approval_request_result
+          x-stainless-const: true
+          description: The type of the object. Always
+            `agent.session.input.mcp_approval_request_result`.
+        request_id:
+          type: string
+          minLength: 0
+          maxLength: 1048576
+          description: The opaque approval ID from the required action.
+        response:
+          $ref: "#/components/schemas/McpApprovalResponseParam"
+      required:
+        - type
+        - request_id
+        - response
+      additionalProperties: false
+      description: Responds to a pending MCP tool-call approval request.
     BrowserAuthenticationFieldValueParam:
       type: object
       properties:
@@ -105183,6 +104992,8 @@ components:
       description: Submits the result of a function call.
     SessionInputParam:
       oneOf:
+        - $ref: "#/components/schemas/SessionInputParamAgentSessionInputMcpApprovalReques\
+            tResult"
         - $ref: "#/components/schemas/SessionInputParamAgentSessionInputComputerUseApprov\
             alRequestResult"
         - $ref: "#/components/schemas/SessionInputParamAgentSessionInputMessage"
@@ -105191,12 +105002,15 @@ components:
       discriminator:
         propertyName: type
         mapping:
+          agent.session.input.mcp_approval_request_result: "#/components/schemas/SessionI\
+            nputParamAgentSessionInputMcpApprovalRequestResult"
           agent.session.input.computer_use_approval_request_result: "#/components/schemas\
             /SessionInputParamAgentSessionInputComputerUseApprovalRequestResult"
           agent.session.input.message: "#/components/schemas/SessionInputParamAgentSessionInputMessage"
           agent.session.input.cancel: "#/components/schemas/SessionInputParamAgentSessionInputCancel"
           agent.session.input.tool_result: "#/components/schemas/SessionInputParamAgentSessionInputToolResult"
       x-oai-discriminator-values:
+        - agent.session.input.mcp_approval_request_result
         - agent.session.input.computer_use_approval_request_result
         - agent.session.input.message
         - agent.session.input.cancel
@@ -106697,6 +106511,7 @@ components:
       type: string
       enum:
         - computer_use_approval_request
+        - mcp_approval_request
         - function_call
         - environment_connection
     AgentSessionRequiredActionPayloadResource:
@@ -106878,6 +106693,13 @@ components:
       properties:
         model:
           $ref: "#/components/schemas/ModelIdsLive"
+        safety_identifier:
+          anyOf:
+            - description: A stable identifier for your end user, used for safety monitoring
+                and abuse detection.
+              type: string
+              maxLength: 128
+            - type: "null"
         instructions:
           anyOf:
             - description: Frontend instructions for voice, conversation, interruptions, and
@@ -108093,6 +107915,13 @@ components:
       properties:
         model:
           $ref: "#/components/schemas/ModelIdsLive"
+        safety_identifier:
+          anyOf:
+            - description: A stable identifier for your end user, used for safety monitoring
+                and abuse detection.
+              type: string
+              maxLength: 128
+            - type: "null"
         instructions:
           anyOf:
             - description: Frontend instructions for voice, conversation, interruptions, and
@@ -110148,12 +109977,18 @@ components:
             - type: "null"
         truncation:
           $ref: "#/components/schemas/BetaTruncationEnum"
-          description: "The truncation strategy to use for the model response. - `auto`:
-            If the input to this Response exceeds the model's context window
-            size, the model will truncate the response to fit the context window
-            by dropping items from the beginning of the conversation. -
-            `disabled` (default): If the input size will exceed the context
-            window size for a model, the request will fail with a 400 error."
+          description: >-
+            The truncation strategy to use for the model response.
+
+            - `auto`: If the input to this Response exceeds the model's context
+            window size, the model will truncate the response to fit the context
+            window by dropping items from the beginning of the conversation. On
+            some models, trimming can begin earlier because the API subtracts
+            the model's maximum output allowance from its input limit before
+            counting tokens.
+
+            - `disabled` (default): If the input size will exceed the context
+            window size for a model, the request will fail with a 400 error.
           deprecated: true
         instructions:
           anyOf:
@@ -111387,11 +111222,11 @@ components:
                 `gpt-image-2.5-sunburst-2026-09-08`, `gpt-image-2.5-flare`,
                 `gpt-image-2.5-flare-2026-09-08`, `gpt-image-2.6-sunburst`,
                 `gpt-image-2.6-flare`, or `chatgpt-image-latest`. Default:
-                `gpt-image-2`.
+                `gpt-image-2.6-sunburst`.
 
                 `gpt-image-1` was shut down on October 23, 2026. Use
                 `gpt-image-2.5-sunburst` or `gpt-image-2.5-flare` instead.
-              default: gpt-image-2
+              default: gpt-image-2.6-sunburst
         complexity:
           type: string
           enum:
@@ -116005,6 +115840,7 @@ components:
                 from a previous response will not be carried over to the next
                 response. This makes it simple to swap out system (or developer)
                 messages in new responses.
+              deprecated: true
             - type: "null"
         image:
           $ref: "#/components/schemas/BetaImageOptionsParam"
@@ -118322,6 +118158,8 @@ components:
                     - `auto`: If the input to this Response exceeds
                       the model's context window size, the model will truncate the
                       response to fit the context window by dropping items from the beginning of the conversation.
+                      On some models, trimming can begin earlier because the API subtracts the model's
+                      maximum output allowance from its input limit, even if you set a lower `max_output_tokens`.
                     - `disabled` (default): If the input size will exceed the
                     context window
                       size for a model, the request will fail with a 400 error.
@@ -124315,6 +124153,8 @@ components:
                     - `auto`: If the input to this Response exceeds
                       the model's context window size, the model will truncate the
                       response to fit the context window by dropping items from the beginning of the conversation.
+                      On some models, trimming can begin earlier because the API subtracts the model's
+                      maximum output allowance from its input limit, even if you set a lower `max_output_tokens`.
                     - `disabled` (default): If the input size will exceed the
                     context window
                       size for a model, the request will fail with a 400 error.
