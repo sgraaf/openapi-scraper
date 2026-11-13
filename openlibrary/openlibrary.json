@@ -875,10 +875,10 @@
                   "type": "null"
                 }
               ],
-              "description": "Metadata provider: amazon, ia, or marc",
+              "description": "Metadata provider: amazon, ia, marc, project_gutenberg, or json",
               "title": "Provider"
             },
-            "description": "Metadata provider: amazon, ia, or marc"
+            "description": "Metadata provider: amazon, ia, marc, project_gutenberg, or json"
           },
           {
             "name": "identifier",
@@ -3695,6 +3695,7 @@
             "required": false,
             "schema": {
               "type": "integer",
+              "maximum": 100,
               "minimum": 0,
               "default": 20,
               "title": "Limit"
@@ -5607,19 +5608,22 @@
             "type": "array",
             "title": "Saves By Field"
           },
-          "initiative": {
-            "items": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ]
+          "initiatives": {
+            "additionalProperties": {
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "type": "array"
             },
-            "type": "array",
-            "title": "Initiative"
+            "type": "object",
+            "title": "Initiatives"
           }
         },
         "type": "object",
@@ -5627,7 +5631,7 @@
           "dates",
           "series",
           "saves_by_field",
-          "initiative"
+          "initiatives"
         ],
         "title": "TasksSeries"
       },
