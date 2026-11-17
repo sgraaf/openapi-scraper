@@ -46377,9 +46377,9 @@ components:
               default: 1
               example: 1
               description: How many chat completion choices to generate for each input
-                message. Note that you will be charged based on the number of
-                generated tokens across all of the choices. Keep `n` as `1` to
-                minimize costs.
+                message. Omit `n` to generate one choice. Newer models reject an
+                explicit `n`, even `n=1`. When requesting multiple choices, you
+                are billed for generated tokens across all choices.
             prediction:
               description: |
                 Configuration for a [Predicted Output](https://developers.openai.com/api/docs/guides/predicted-outputs),
@@ -46968,7 +46968,9 @@ components:
           default: 1
           example: 1
           description: >
-            How many completions to generate for each prompt.
+            How many completions to generate for each prompt. Omit `n` to
+            generate one completion per prompt. Newer models reject an explicit
+            `n`, even `n=1`.
 
 
             **Note:** Because this parameter generates many completions, it can
@@ -48991,6 +48993,7 @@ components:
               enum:
                 - omni-moderation-latest
                 - omni-moderation-2024-09-26
+                - omni-moderation-csam-latest
                 - text-moderation-latest
                 - text-moderation-stable
           x-oaiTypeLabel: string
@@ -69442,8 +69445,11 @@ components:
                       - boolean
                   default: null
                   description: >
-                    Configuration for input audio noise reduction. This can be
-                    set to `null` to turn off.
+                    When you supply a `noise_reduction` object, you must set
+                    `type` to `near_field` or `far_field`.
+
+                    Set `noise_reduction` to `null` to turn off input audio
+                    noise reduction.
 
                     Noise reduction filters audio added to the input audio
                     buffer before it is sent to VAD and the model.
@@ -85220,7 +85226,11 @@ components:
               propertyName: type
           type: array
           maxItems: 200
-          description: An optional list of skills referenced by id or inline data.
+          description: An optional list of skills referenced by id or inline data. Across
+            all inline skills in this list, decoded ZIP data must total at most
+            50 MiB and Base64 text must total at most 70,254,592 characters,
+            including line breaks. Skill references do not count toward these
+            limits.
       type: object
       required:
         - type
@@ -87901,7 +87911,11 @@ components:
             - type: "null"
         skills:
           anyOf:
-            - description: An optional list of skills referenced by id or inline data.
+            - description: An optional list of skills referenced by id or inline data. Across
+                all inline skills in this list, decoded ZIP data must total at
+                most 50 MiB and Base64 text must total at most 70,254,592
+                characters, including line breaks. Skill references do not count
+                toward these limits.
               type: array
               items:
                 discriminator:
@@ -87999,6 +88013,46 @@ components:
             - image_generation
       required:
         - type
+    LiveMCPToolFilterParam:
+      type: object
+      properties:
+        tool_names:
+          anyOf:
+            - description: A list of tool names to match against.
+              type: array
+              items:
+                type: string
+            - type: "null"
+        read_only:
+          anyOf:
+            - description: Whether to allow only read-only tools for matching entries.
+              type: boolean
+            - type: "null"
+      required: []
+    LiveMCPRequireApprovalFilterParam:
+      type: object
+      properties:
+        always:
+          anyOf:
+            - description: A filter that forces approval for matching tools.
+              $ref: "#/components/schemas/LiveMCPToolFilterParam"
+            - type: "null"
+        never:
+          anyOf:
+            - description: A filter that skips approval for matching tools.
+              $ref: "#/components/schemas/LiveMCPToolFilterParam"
+            - type: "null"
+      required: []
+    LiveMCPRequireApprovalApiEnum:
+      type: string
+      enum:
+        - always
+        - never
+    LiveCallableToolAllowedCaller:
+      type: string
+      enum:
+        - direct
+        - programmatic
     LiveMCPToolInputParam:
       type: object
       properties:
@@ -88008,6 +88062,86 @@ components:
           type: string
           enum:
             - mcp
+        server_label:
+          description: A label used to identify the MCP server.
+          type: string
+          maxLength: 128
+          pattern: ^[A-Za-z][A-Za-z0-9_-]*$
+        server_url:
+          anyOf:
+            - description: The URL of the MCP server to connect to.
+              type: string
+              format: uri
+            - type: "null"
+        server_description:
+          anyOf:
+            - description: An optional human-readable description of the MCP server.
+              type: string
+            - type: "null"
+        authorization:
+          description: This value is omitted from returned Live session data.
+          writeOnly: true
+          anyOf:
+            - description: The authorization token to use when connecting to the MCP server or
+                connector.
+              type: string
+            - type: "null"
+        headers:
+          description: This value is omitted from returned Live session data.
+          writeOnly: true
+          anyOf:
+            - description: Optional HTTP headers to send when connecting to the MCP server.
+              type: object
+              additionalProperties:
+                type: string
+            - type: "null"
+        allowed_tools:
+          anyOf:
+            - description: A list of MCP tool names that are allowed for this server.
+              oneOf:
+                - type: array
+                  items:
+                    type: string
+                - $ref: "#/components/schemas/LiveMCPToolFilterParam"
+            - type: "null"
+        require_approval:
+          anyOf:
+            - description: Controls which MCP tools require explicit user approval before
+                execution.
+              oneOf:
+                - $ref: "#/components/schemas/LiveMCPRequireApprovalFilterParam"
+                - description: Default approval behavior for MCP tool calls.
+                  $ref: "#/components/schemas/LiveMCPRequireApprovalApiEnum"
+            - type: "null"
+        connector_id:
+          anyOf:
+            - description: The ID of a built-in MCP connector. This field is deprecated for
+                models released after September 1, 2026. Use `server_url` to
+                connect to a remote MCP server, or `tunnel_id` to connect to a
+                local MCP server.
+              deprecated: true
+              type: string
+            - type: "null"
+        tunnel_id:
+          anyOf:
+            - description: The Secure MCP Tunnel ID to use instead of a direct server URL.
+              type: string
+              pattern: ^tunnel_[a-z0-9]{32}$
+            - type: "null"
+        allowed_callers:
+          anyOf:
+            - description: The tool invocation context(s).
+              type: array
+              items:
+                $ref: "#/components/schemas/LiveCallableToolAllowedCaller"
+              minItems: 1
+            - type: "null"
+        defer_loading:
+          anyOf:
+            - description: Whether this MCP tool should be deferred and discovered via tool
+                search.
+              type: boolean
+            - type: "null"
       required:
         - type
     LiveCustomToolInputParam:
@@ -96170,6 +96304,16 @@ components:
         created_by:
           $ref: "#/components/schemas/AutomationCreatedByResource"
           description: Service-recorded provenance; callers cannot supply this field.
+        pause_reason:
+          type:
+            - string
+            - "null"
+          enum:
+            - target_session_failed
+            - null
+          default: target_session_failed
+          x-stainless-const: true
+          description: Why the service paused this schedule, or null for other schedules.
         expression:
           type: string
           minLength: 0
@@ -96246,6 +96390,16 @@ components:
         created_by:
           $ref: "#/components/schemas/AutomationCreatedByResource"
           description: Service-recorded provenance; callers cannot supply this field.
+        pause_reason:
+          type:
+            - string
+            - "null"
+          enum:
+            - target_session_failed
+            - null
+          default: target_session_failed
+          x-stainless-const: true
+          description: Why the service paused this schedule, or null for other schedules.
         run_at:
           type: integer
           format: int64
@@ -110567,7 +110721,11 @@ components:
               propertyName: type
           type: array
           maxItems: 200
-          description: An optional list of skills referenced by id or inline data.
+          description: An optional list of skills referenced by id or inline data. Across
+            all inline skills in this list, decoded ZIP data must total at most
+            50 MiB and Base64 text must total at most 70,254,592 characters,
+            including line breaks. Skill references do not count toward these
+            limits.
       type: object
       required:
         - type
