@@ -4434,18 +4434,19 @@
         ]
       }
     },
-    "/api/v1/images/verify": {
+    "/api/v1/images/connections/verify": {
       "post": {
         "tags": [
           "images"
         ],
-        "summary": "Verify Connection",
-        "operationId": "verify_connection_api_v1_images_verify_post",
+        "summary": "Verify Image Connection",
+        "description": "Reach a connection before saving it and list the models it serves.",
+        "operationId": "verify_image_connection_api_v1_images_connections_verify_post",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/open_webui__routers__images__ConnectionVerificationForm"
+                "$ref": "#/components/schemas/ImageConnection"
               }
             }
           },
@@ -4484,7 +4485,33 @@
           "images"
         ],
         "summary": "Get Models",
+        "description": "Image models this user can pick from, with what each can do.",
         "operationId": "get_models_api_v1_images_models_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/images/connections/models": {
+      "get": {
+        "tags": [
+          "images"
+        ],
+        "summary": "Get Connection Models",
+        "description": "Every model the enabled connections offer, whoever may use them, for choosing the default models.",
+        "operationId": "get_connection_models_api_v1_images_connections_models_get",
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -4558,6 +4585,215 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/EditImageForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/videos/config": {
+      "get": {
+        "tags": [
+          "videos"
+        ],
+        "summary": "Get Config",
+        "operationId": "get_config_api_v1_videos_config_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VideosConfig"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/videos/config/update": {
+      "post": {
+        "tags": [
+          "videos"
+        ],
+        "summary": "Update Config",
+        "operationId": "update_config_api_v1_videos_config_update_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VideosConfig"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/videos/connections/verify": {
+      "post": {
+        "tags": [
+          "videos"
+        ],
+        "summary": "Verify Video Connection",
+        "description": "Reach a connection before saving it and list the models it serves.",
+        "operationId": "verify_video_connection_api_v1_videos_connections_verify_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VideoConnection"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/videos/models": {
+      "get": {
+        "tags": [
+          "videos"
+        ],
+        "summary": "Get Models",
+        "description": "Video models this user can pick from.",
+        "operationId": "get_models_api_v1_videos_models_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/videos/connections/models": {
+      "get": {
+        "tags": [
+          "videos"
+        ],
+        "summary": "Get Connection Models",
+        "description": "Every model the enabled connections offer, whoever may use them, for choosing the default model.",
+        "operationId": "get_connection_models_api_v1_videos_connections_models_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/videos/generations": {
+      "post": {
+        "tags": [
+          "videos"
+        ],
+        "summary": "Generate Videos",
+        "operationId": "generate_videos_api_v1_videos_generations_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateVideoForm"
               }
             }
           },
@@ -5928,148 +6164,13 @@
           "configs"
         ],
         "summary": "Verify Terminal Server Connection",
-        "description": "Verify the connection to a terminal server by detecting its type.\n\nTries GET {url}/api/v1/policies (orchestrator) then GET {url}/api/config\n(plain terminal).  Returns ``{status: true, type: \"orchestrator\"|\"terminal\"}``.",
+        "description": "Verify the connection to a terminal server by detecting its type.\n\nTries GET {url}/api/v1/terminals/templates (orchestrator) then GET {url}/api/config\n(plain terminal).  Returns ``{status: true, type: \"orchestrator\"|\"terminal\"}``.",
         "operationId": "verify_terminal_server_connection_api_v1_configs_terminal_servers_verify_post",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/TerminalServerConnection"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "HTTPBearer": []
-          }
-        ]
-      }
-    },
-    "/api/v1/configs/terminal_servers/policy": {
-      "post": {
-        "tags": [
-          "configs"
-        ],
-        "summary": "Put Terminal Server Policy",
-        "description": "Proxy a policy read or update to an orchestrator terminal server.",
-        "operationId": "put_terminal_server_policy_api_v1_configs_terminal_servers_policy_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TerminalServerPolicyForm"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "HTTPBearer": []
-          }
-        ]
-      }
-    },
-    "/api/v1/configs/terminal_servers/lifecycle": {
-      "post": {
-        "tags": [
-          "configs"
-        ],
-        "summary": "Put Terminal Server Lifecycle",
-        "description": "Proxy a lifecycle read or update to an orchestrator terminal server.",
-        "operationId": "put_terminal_server_lifecycle_api_v1_configs_terminal_servers_lifecycle_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TerminalServerLifecycleForm"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "HTTPBearer": []
-          }
-        ]
-      }
-    },
-    "/api/v1/configs/terminal_servers/refresh": {
-      "post": {
-        "tags": [
-          "configs"
-        ],
-        "summary": "Refresh Terminal Server Terminals",
-        "description": "Proxy a terminal refresh request to an orchestrator terminal server.",
-        "operationId": "refresh_terminal_server_terminals_api_v1_configs_terminal_servers_refresh_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TerminalServerRefreshForm"
               }
             }
           },
@@ -13325,7 +13426,7 @@
                 "schema": {
                   "anyOf": [
                     {
-                      "$ref": "#/components/schemas/ChatResponse"
+                      "$ref": "#/components/schemas/ChatAccessResponse"
                     },
                     {
                       "type": "null"
@@ -13580,7 +13681,7 @@
                 "schema": {
                   "anyOf": [
                     {
-                      "$ref": "#/components/schemas/ChatResponse"
+                      "$ref": "#/components/schemas/ChatAccessResponse"
                     },
                     {
                       "type": "null"
@@ -13643,7 +13744,7 @@
                 "schema": {
                   "anyOf": [
                     {
-                      "$ref": "#/components/schemas/ChatResponse"
+                      "$ref": "#/components/schemas/ChatAccessResponse"
                     },
                     {
                       "type": "null"
@@ -14842,6 +14943,65 @@
                     "$ref": "#/components/schemas/TagModel"
                   },
                   "title": "Response Delete Tag By Id And Tag Name Api V1 Chats  Id  Tags Delete"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "chats"
+        ],
+        "summary": "Update Chat Tag Color",
+        "operationId": "update_chat_tag_color_api_v1_chats__id__tags_patch",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TagColorForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TagModel"
+                  },
+                  "title": "Response Update Chat Tag Color Api V1 Chats  Id  Tags Patch"
                 }
               }
             }
@@ -18653,6 +18813,54 @@
             }
           }
         }
+      }
+    },
+    "/api/v1/knowledge/external/source/stores": {
+      "post": {
+        "tags": [
+          "knowledge"
+        ],
+        "summary": "List External Knowledge Stores",
+        "operationId": "list_external_knowledge_stores_api_v1_knowledge_external_source_stores_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalKnowledgeStoreListForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response List External Knowledge Stores Api V1 Knowledge External Source Stores Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
       }
     },
     "/api/v1/knowledge/external/knowledge/create": {
@@ -24518,6 +24726,105 @@
               "default": "desc",
               "title": "Sort Dir"
             }
+          },
+          {
+            "name": "workspace",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Workspace"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "maxLength": 256,
+              "default": "",
+              "title": "Search"
+            }
+          },
+          {
+            "name": "tag_ids",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": [],
+              "title": "Tag Ids"
+            }
+          },
+          {
+            "name": "user_ids",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": [],
+              "title": "User Ids"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": [],
+              "title": "Status"
+            }
+          },
+          {
+            "name": "activity",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "unread",
+                    "generating",
+                    "waiting_for_approval",
+                    "idle"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Activity"
+            }
+          },
+          {
+            "name": "updated_at_gte",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Updated At Gte"
+            }
           }
         ],
         "responses": {
@@ -24565,6 +24872,206 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/folders/{id}/automations": {
+      "get": {
+        "tags": [
+          "folders"
+        ],
+        "summary": "Get Folder Automations",
+        "description": "The folder's automations, whoever made them. Only creators edit; folder editors may pause and run.",
+        "operationId": "get_folder_automations_api_v1_folders__id__automations_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/folders/{id}/users": {
+      "get": {
+        "tags": [
+          "folders"
+        ],
+        "summary": "Get Folder Users",
+        "operationId": "get_folder_users_api_v1_folders__id__users_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/folders/{id}/tags": {
+      "get": {
+        "tags": [
+          "folders"
+        ],
+        "summary": "Get Folder Tags",
+        "operationId": "get_folder_tags_api_v1_folders__id__tags_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/folders/{id}/chats/{chat_id}/status": {
+      "patch": {
+        "tags": [
+          "folders"
+        ],
+        "summary": "Update Folder Chat Status",
+        "operationId": "update_folder_chat_status_api_v1_folders__id__chats__chat_id__status_patch",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "chat_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Chat Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FolderChatStatusForm"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -29678,13 +30185,762 @@
         ]
       }
     },
-    "/api/v1/terminals/{server_id}/browser/view/{sid}/{ticket}/{path}": {
+    "/api/v1/terminals/templates/connections": {
+      "get": {
+        "tags": [
+          "terminals"
+        ],
+        "summary": "Management Connections",
+        "operationId": "management_connections_api_v1_terminals_templates_connections_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/terminals/templates/connections/{connection_id}/status": {
+      "get": {
+        "tags": [
+          "terminals"
+        ],
+        "summary": "Connection Status",
+        "operationId": "connection_status_api_v1_terminals_templates_connections__connection_id__status_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "connection_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Connection Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/terminals/templates": {
+      "post": {
+        "tags": [
+          "terminals"
+        ],
+        "summary": "Create Template",
+        "operationId": "create_template_api_v1_terminals_templates_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/terminals/templates/{terminal_id}": {
+      "get": {
+        "tags": [
+          "terminals"
+        ],
+        "summary": "Get Template",
+        "operationId": "get_template_api_v1_terminals_templates__terminal_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "terminal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Terminal Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "terminals"
+        ],
+        "summary": "Update Template",
+        "operationId": "update_template_api_v1_terminals_templates__terminal_id__patch",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "terminal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Terminal Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true,
+                "title": "Body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "terminals"
+        ],
+        "summary": "Delete Template",
+        "operationId": "delete_template_api_v1_terminals_templates__terminal_id__delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "terminal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Terminal Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/terminals/templates/{terminal_id}/access": {
+      "get": {
+        "tags": [
+          "terminals"
+        ],
+        "summary": "Get Shares",
+        "operationId": "get_shares_api_v1_terminals_templates__terminal_id__access_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "terminal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Terminal Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "terminals"
+        ],
+        "summary": "Set Shares",
+        "operationId": "set_shares_api_v1_terminals_templates__terminal_id__access_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "terminal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Terminal Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShareForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/terminals/templates/{terminal_id}/instance": {
+      "get": {
+        "tags": [
+          "terminals"
+        ],
+        "summary": "Current Instance",
+        "operationId": "current_instance_api_v1_terminals_templates__terminal_id__instance_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "terminal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Terminal Id"
+            }
+          },
+          {
+            "name": "chat_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Chat Id"
+            }
+          },
+          {
+            "name": "model_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Model Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "terminals"
+        ],
+        "summary": "Delete Instance",
+        "operationId": "delete_instance_api_v1_terminals_templates__terminal_id__instance_delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "terminal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Terminal Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InstanceForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/terminals/templates/{terminal_id}/instances": {
+      "get": {
+        "tags": [
+          "terminals"
+        ],
+        "summary": "List Instances",
+        "operationId": "list_instances_api_v1_terminals_templates__terminal_id__instances_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "terminal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Terminal Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/terminals/templates/{terminal_id}/restart": {
+      "post": {
+        "tags": [
+          "terminals"
+        ],
+        "summary": "Restart",
+        "operationId": "restart_api_v1_terminals_templates__terminal_id__restart_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "terminal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Terminal Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InstanceForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/terminals/templates/{terminal_id}/stop": {
+      "post": {
+        "tags": [
+          "terminals"
+        ],
+        "summary": "Stop",
+        "operationId": "stop_api_v1_terminals_templates__terminal_id__stop_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "terminal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Terminal Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InstanceForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/terminals/templates/{terminal_id}/start": {
+      "post": {
+        "tags": [
+          "terminals"
+        ],
+        "summary": "Start",
+        "operationId": "start_api_v1_terminals_templates__terminal_id__start_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "terminal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Terminal Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InstanceForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/terminals/templates/{terminal_id}/reset": {
+      "post": {
+        "tags": [
+          "terminals"
+        ],
+        "summary": "Reset",
+        "operationId": "reset_api_v1_terminals_templates__terminal_id__reset_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "terminal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Terminal Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InstanceForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/terminals/{server_id}/browser/view/{sid}/{browser_token}/{path}": {
       "get": {
         "tags": [
           "terminals"
         ],
         "summary": "Browser Http",
-        "operationId": "browser_http_api_v1_terminals__server_id__browser_view__sid___ticket___path__get",
+        "operationId": "browser_http_api_v1_terminals__server_id__browser_view__sid___browser_token___path__get",
         "parameters": [
           {
             "name": "server_id",
@@ -29705,12 +30961,12 @@
             }
           },
           {
-            "name": "ticket",
+            "name": "browser_token",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "title": "Ticket"
+              "title": "Browser Token"
             }
           },
           {
@@ -29749,7 +31005,7 @@
           "terminals"
         ],
         "summary": "Browser Http",
-        "operationId": "browser_http_api_v1_terminals__server_id__browser_view__sid___ticket___path__get",
+        "operationId": "browser_http_api_v1_terminals__server_id__browser_view__sid___browser_token___path__get",
         "parameters": [
           {
             "name": "server_id",
@@ -29770,12 +31026,12 @@
             }
           },
           {
-            "name": "ticket",
+            "name": "browser_token",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "title": "Ticket"
+              "title": "Browser Token"
             }
           },
           {
@@ -29814,7 +31070,7 @@
           "terminals"
         ],
         "summary": "Browser Http",
-        "operationId": "browser_http_api_v1_terminals__server_id__browser_view__sid___ticket___path__get",
+        "operationId": "browser_http_api_v1_terminals__server_id__browser_view__sid___browser_token___path__get",
         "parameters": [
           {
             "name": "server_id",
@@ -29835,12 +31091,12 @@
             }
           },
           {
-            "name": "ticket",
+            "name": "browser_token",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "title": "Ticket"
+              "title": "Browser Token"
             }
           },
           {
@@ -29879,7 +31135,7 @@
           "terminals"
         ],
         "summary": "Browser Http",
-        "operationId": "browser_http_api_v1_terminals__server_id__browser_view__sid___ticket___path__get",
+        "operationId": "browser_http_api_v1_terminals__server_id__browser_view__sid___browser_token___path__get",
         "parameters": [
           {
             "name": "server_id",
@@ -29900,12 +31156,12 @@
             }
           },
           {
-            "name": "ticket",
+            "name": "browser_token",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "title": "Ticket"
+              "title": "Browser Token"
             }
           },
           {
@@ -29944,7 +31200,7 @@
           "terminals"
         ],
         "summary": "Browser Http",
-        "operationId": "browser_http_api_v1_terminals__server_id__browser_view__sid___ticket___path__get",
+        "operationId": "browser_http_api_v1_terminals__server_id__browser_view__sid___browser_token___path__get",
         "parameters": [
           {
             "name": "server_id",
@@ -29965,12 +31221,12 @@
             }
           },
           {
-            "name": "ticket",
+            "name": "browser_token",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "title": "Ticket"
+              "title": "Browser Token"
             }
           },
           {
@@ -30009,7 +31265,7 @@
           "terminals"
         ],
         "summary": "Browser Http",
-        "operationId": "browser_http_api_v1_terminals__server_id__browser_view__sid___ticket___path__get",
+        "operationId": "browser_http_api_v1_terminals__server_id__browser_view__sid___browser_token___path__get",
         "parameters": [
           {
             "name": "server_id",
@@ -30030,12 +31286,12 @@
             }
           },
           {
-            "name": "ticket",
+            "name": "browser_token",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "title": "Ticket"
+              "title": "Browser Token"
             }
           },
           {
@@ -30074,7 +31330,7 @@
           "terminals"
         ],
         "summary": "Browser Http",
-        "operationId": "browser_http_api_v1_terminals__server_id__browser_view__sid___ticket___path__get",
+        "operationId": "browser_http_api_v1_terminals__server_id__browser_view__sid___browser_token___path__get",
         "parameters": [
           {
             "name": "server_id",
@@ -30095,12 +31351,12 @@
             }
           },
           {
-            "name": "ticket",
+            "name": "browser_token",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "title": "Ticket"
+              "title": "Browser Token"
             }
           },
           {
@@ -30166,7 +31422,6 @@
           "terminals"
         ],
         "summary": "Proxy Terminal",
-        "description": "Proxy a request to the admin terminal server identified by *server_id*.",
         "operationId": "proxy_terminal_api_v1_terminals__server_id__chats__chat_id___path__get",
         "security": [
           {
@@ -30219,7 +31474,6 @@
           "terminals"
         ],
         "summary": "Proxy Terminal",
-        "description": "Proxy a request to the admin terminal server identified by *server_id*.",
         "operationId": "proxy_terminal_api_v1_terminals__server_id__chats__chat_id___path__get",
         "security": [
           {
@@ -30272,7 +31526,6 @@
           "terminals"
         ],
         "summary": "Proxy Terminal",
-        "description": "Proxy a request to the admin terminal server identified by *server_id*.",
         "operationId": "proxy_terminal_api_v1_terminals__server_id__chats__chat_id___path__get",
         "security": [
           {
@@ -30325,7 +31578,6 @@
           "terminals"
         ],
         "summary": "Proxy Terminal",
-        "description": "Proxy a request to the admin terminal server identified by *server_id*.",
         "operationId": "proxy_terminal_api_v1_terminals__server_id__chats__chat_id___path__get",
         "security": [
           {
@@ -30378,7 +31630,6 @@
           "terminals"
         ],
         "summary": "Proxy Terminal",
-        "description": "Proxy a request to the admin terminal server identified by *server_id*.",
         "operationId": "proxy_terminal_api_v1_terminals__server_id__chats__chat_id___path__get",
         "security": [
           {
@@ -30431,7 +31682,6 @@
           "terminals"
         ],
         "summary": "Proxy Terminal",
-        "description": "Proxy a request to the admin terminal server identified by *server_id*.",
         "operationId": "proxy_terminal_api_v1_terminals__server_id__chats__chat_id___path__get",
         "security": [
           {
@@ -30484,7 +31734,6 @@
           "terminals"
         ],
         "summary": "Proxy Terminal",
-        "description": "Proxy a request to the admin terminal server identified by *server_id*.",
         "operationId": "proxy_terminal_api_v1_terminals__server_id__chats__chat_id___path__get",
         "security": [
           {
@@ -30539,7 +31788,6 @@
           "terminals"
         ],
         "summary": "Proxy Terminal",
-        "description": "Proxy a request to the admin terminal server identified by *server_id*.",
         "operationId": "proxy_terminal_api_v1_terminals__server_id___path__get",
         "security": [
           {
@@ -30592,7 +31840,6 @@
           "terminals"
         ],
         "summary": "Proxy Terminal",
-        "description": "Proxy a request to the admin terminal server identified by *server_id*.",
         "operationId": "proxy_terminal_api_v1_terminals__server_id___path__get",
         "security": [
           {
@@ -30645,7 +31892,6 @@
           "terminals"
         ],
         "summary": "Proxy Terminal",
-        "description": "Proxy a request to the admin terminal server identified by *server_id*.",
         "operationId": "proxy_terminal_api_v1_terminals__server_id___path__get",
         "security": [
           {
@@ -30698,7 +31944,6 @@
           "terminals"
         ],
         "summary": "Proxy Terminal",
-        "description": "Proxy a request to the admin terminal server identified by *server_id*.",
         "operationId": "proxy_terminal_api_v1_terminals__server_id___path__get",
         "security": [
           {
@@ -30751,7 +31996,6 @@
           "terminals"
         ],
         "summary": "Proxy Terminal",
-        "description": "Proxy a request to the admin terminal server identified by *server_id*.",
         "operationId": "proxy_terminal_api_v1_terminals__server_id___path__get",
         "security": [
           {
@@ -30804,7 +32048,6 @@
           "terminals"
         ],
         "summary": "Proxy Terminal",
-        "description": "Proxy a request to the admin terminal server identified by *server_id*.",
         "operationId": "proxy_terminal_api_v1_terminals__server_id___path__get",
         "security": [
           {
@@ -30857,7 +32100,6 @@
           "terminals"
         ],
         "summary": "Proxy Terminal",
-        "description": "Proxy a request to the admin terminal server identified by *server_id*.",
         "operationId": "proxy_terminal_api_v1_terminals__server_id___path__get",
         "security": [
           {
@@ -37190,6 +38432,147 @@
         ],
         "title": "ChatAccessGrantsForm"
       },
+      "ChatAccessResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "user_id": {
+            "type": "string",
+            "title": "User Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "chat": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Chat"
+          },
+          "updated_at": {
+            "type": "integer",
+            "title": "Updated At"
+          },
+          "created_at": {
+            "type": "integer",
+            "title": "Created At"
+          },
+          "share_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Share Id"
+          },
+          "archived": {
+            "type": "boolean",
+            "title": "Archived"
+          },
+          "pinned": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pinned",
+            "default": false
+          },
+          "meta": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Meta",
+            "default": {}
+          },
+          "variables": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Variables",
+            "default": {}
+          },
+          "folder_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Folder Id"
+          },
+          "tasks": {
+            "anyOf": [
+              {
+                "items": {},
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tasks"
+          },
+          "summary": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Summary"
+          },
+          "current_message_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Current Message Id"
+          },
+          "context_usage": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context Usage"
+          },
+          "write_access": {
+            "type": "boolean",
+            "title": "Write Access"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "user_id",
+          "title",
+          "chat",
+          "updated_at",
+          "created_at",
+          "archived",
+          "write_access"
+        ],
+        "title": "ChatAccessResponse"
+      },
       "ChatBody": {
         "properties": {
           "history": {
@@ -37256,6 +38639,11 @@
           "CONTEXT_COMPACTION_PROMPT_TEMPLATE": {
             "type": "string",
             "title": "Context Compaction Prompt Template"
+          },
+          "VISUALIZATION_PROMPT_TEMPLATE": {
+            "type": "string",
+            "title": "Visualization Prompt Template",
+            "default": ""
           },
           "ENABLE_TOOL_PERMISSIONS": {
             "type": "boolean",
@@ -37430,6 +38818,11 @@
           "CONTEXT_COMPACTION_PROMPT_TEMPLATE": {
             "type": "string",
             "title": "Context Compaction Prompt Template"
+          },
+          "VISUALIZATION_PROMPT_TEMPLATE": {
+            "type": "string",
+            "title": "Visualization Prompt Template",
+            "default": ""
           },
           "ENABLE_TOOL_PERMISSIONS": {
             "type": "boolean",
@@ -39741,15 +41134,6 @@
       },
       "ConnectionsConfigForm": {
         "properties": {
-          "ENABLE_DIRECT_CONNECTIONS": {
-            "type": "boolean",
-            "title": "Enable Direct Connections"
-          },
-          "ENABLE_DIRECT_INTEGRATIONS": {
-            "type": "boolean",
-            "title": "Enable Direct Integrations",
-            "default": false
-          },
           "ENABLE_BASE_MODELS_CACHE": {
             "type": "boolean",
             "title": "Enable Base Models Cache"
@@ -39757,7 +41141,6 @@
         },
         "type": "object",
         "required": [
-          "ENABLE_DIRECT_CONNECTIONS",
           "ENABLE_BASE_MODELS_CACHE"
         ],
         "title": "ConnectionsConfigForm"
@@ -39905,6 +41288,30 @@
         "type": "object",
         "title": "CreateChannelForm"
       },
+      "CreateForm": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "connection_id": {
+            "type": "string",
+            "title": "Connection Id"
+          },
+          "data": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Data"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "connection_id"
+        ],
+        "title": "CreateForm"
+      },
       "CreateImageForm": {
         "properties": {
           "model": {
@@ -40007,6 +41414,63 @@
         "type": "object",
         "title": "CreateModelForm",
         "description": "Payload for creating a new model via Modelfile."
+      },
+      "CreateVideoForm": {
+        "properties": {
+          "model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model"
+          },
+          "prompt": {
+            "type": "string",
+            "title": "Prompt"
+          },
+          "seconds": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seconds"
+          },
+          "size": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Size"
+          },
+          "image": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Image"
+          }
+        },
+        "type": "object",
+        "required": [
+          "prompt"
+        ],
+        "title": "CreateVideoForm"
       },
       "DailyStatsEntry": {
         "properties": {
@@ -40810,6 +42274,29 @@
         ],
         "title": "ExternalKnowledgeSourceUpdateForm"
       },
+      "ExternalKnowledgeStoreListForm": {
+        "properties": {
+          "connection_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Connection Id"
+          },
+          "connection": {
+            "$ref": "#/components/schemas/ExternalKnowledgeConnectionForm"
+          }
+        },
+        "type": "object",
+        "required": [
+          "connection"
+        ],
+        "title": "ExternalKnowledgeStoreListForm"
+      },
       "FeaturesPermissions": {
         "properties": {
           "api_keys": {
@@ -40837,11 +42324,6 @@
             "title": "Folders",
             "default": true
           },
-          "direct_tool_servers": {
-            "type": "boolean",
-            "title": "Direct Tool Servers",
-            "default": false
-          },
           "web_search": {
             "type": "boolean",
             "title": "Web Search",
@@ -40852,6 +42334,11 @@
             "title": "Image Generation",
             "default": true
           },
+          "video_generation": {
+            "type": "boolean",
+            "title": "Video Generation",
+            "default": false
+          },
           "code_interpreter": {
             "type": "boolean",
             "title": "Code Interpreter",
@@ -40860,6 +42347,11 @@
           "memories": {
             "type": "boolean",
             "title": "Memories",
+            "default": true
+          },
+          "subagents": {
+            "type": "boolean",
+            "title": "Subagents",
             "default": true
           },
           "automations": {
@@ -41567,6 +43059,25 @@
           "access_grants"
         ],
         "title": "FolderAccessGrantsForm"
+      },
+      "FolderChatStatusForm": {
+        "properties": {
+          "status": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 64,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status"
+          }
+        },
+        "type": "object",
+        "title": "FolderChatStatusForm"
       },
       "FolderForm": {
         "properties": {
@@ -43098,6 +44609,50 @@
         ],
         "title": "HistoryEntry"
       },
+      "ImageConnection": {
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "default": ""
+          },
+          "type": {
+            "type": "string",
+            "title": "Type",
+            "default": "openai"
+          },
+          "url": {
+            "type": "string",
+            "title": "Url",
+            "default": ""
+          },
+          "key": {
+            "type": "string",
+            "title": "Key",
+            "default": ""
+          },
+          "config": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Config",
+            "default": {}
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "title": "ImageConnection"
+      },
       "ImagesConfig": {
         "properties": {
           "ENABLE_IMAGE_GENERATION": {
@@ -43108,228 +44663,34 @@
             "type": "boolean",
             "title": "Enable Image Prompt Generation"
           },
-          "IMAGE_GENERATION_ENGINE": {
-            "type": "string",
-            "title": "Image Generation Engine"
-          },
-          "IMAGE_GENERATION_MODEL": {
-            "type": "string",
-            "title": "Image Generation Model"
-          },
-          "IMAGE_SIZE": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Image Size"
-          },
-          "IMAGE_STEPS": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Image Steps"
-          },
-          "IMAGES_OPENAI_API_BASE_URL": {
-            "type": "string",
-            "title": "Images Openai Api Base Url"
-          },
-          "IMAGES_OPENAI_API_KEY": {
-            "type": "string",
-            "title": "Images Openai Api Key"
-          },
-          "IMAGES_OPENAI_API_VERSION": {
-            "type": "string",
-            "title": "Images Openai Api Version"
-          },
-          "IMAGES_OPENAI_API_PARAMS": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Images Openai Api Params"
-          },
-          "AUTOMATIC1111_BASE_URL": {
-            "type": "string",
-            "title": "Automatic1111 Base Url"
-          },
-          "AUTOMATIC1111_API_AUTH": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Automatic1111 Api Auth"
-          },
-          "AUTOMATIC1111_PARAMS": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Automatic1111 Params"
-          },
-          "COMFYUI_BASE_URL": {
-            "type": "string",
-            "title": "Comfyui Base Url"
-          },
-          "COMFYUI_API_KEY": {
-            "type": "string",
-            "title": "Comfyui Api Key"
-          },
-          "COMFYUI_WORKFLOW": {
-            "type": "string",
-            "title": "Comfyui Workflow"
-          },
-          "COMFYUI_WORKFLOW_NODES": {
-            "items": {
-              "additionalProperties": true,
-              "type": "object"
-            },
-            "type": "array",
-            "title": "Comfyui Workflow Nodes"
-          },
-          "IMAGES_GEMINI_API_BASE_URL": {
-            "type": "string",
-            "title": "Images Gemini Api Base Url"
-          },
-          "IMAGES_GEMINI_API_KEY": {
-            "type": "string",
-            "title": "Images Gemini Api Key"
-          },
-          "IMAGES_GEMINI_ENDPOINT_METHOD": {
-            "type": "string",
-            "title": "Images Gemini Endpoint Method"
-          },
           "ENABLE_IMAGE_EDIT": {
             "type": "boolean",
             "title": "Enable Image Edit"
           },
-          "IMAGE_EDIT_ENGINE": {
+          "IMAGE_GENERATION_DEFAULT_MODEL": {
             "type": "string",
-            "title": "Image Edit Engine"
+            "title": "Image Generation Default Model",
+            "default": ""
           },
-          "IMAGE_EDIT_MODEL": {
+          "IMAGE_EDIT_DEFAULT_MODEL": {
             "type": "string",
-            "title": "Image Edit Model"
+            "title": "Image Edit Default Model",
+            "default": ""
           },
-          "IMAGE_EDIT_SIZE": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Image Edit Size"
-          },
-          "IMAGES_EDIT_OPENAI_API_BASE_URL": {
-            "type": "string",
-            "title": "Images Edit Openai Api Base Url"
-          },
-          "IMAGES_EDIT_OPENAI_API_KEY": {
-            "type": "string",
-            "title": "Images Edit Openai Api Key"
-          },
-          "IMAGES_EDIT_OPENAI_API_VERSION": {
-            "type": "string",
-            "title": "Images Edit Openai Api Version"
-          },
-          "IMAGES_EDIT_GEMINI_API_BASE_URL": {
-            "type": "string",
-            "title": "Images Edit Gemini Api Base Url"
-          },
-          "IMAGES_EDIT_GEMINI_API_KEY": {
-            "type": "string",
-            "title": "Images Edit Gemini Api Key"
-          },
-          "IMAGES_EDIT_COMFYUI_BASE_URL": {
-            "type": "string",
-            "title": "Images Edit Comfyui Base Url"
-          },
-          "IMAGES_EDIT_COMFYUI_API_KEY": {
-            "type": "string",
-            "title": "Images Edit Comfyui Api Key"
-          },
-          "IMAGES_EDIT_COMFYUI_WORKFLOW": {
-            "type": "string",
-            "title": "Images Edit Comfyui Workflow"
-          },
-          "IMAGES_EDIT_COMFYUI_WORKFLOW_NODES": {
+          "IMAGE_CONNECTIONS": {
             "items": {
-              "additionalProperties": true,
-              "type": "object"
+              "$ref": "#/components/schemas/ImageConnection"
             },
             "type": "array",
-            "title": "Images Edit Comfyui Workflow Nodes"
+            "title": "Image Connections",
+            "default": []
           }
         },
         "type": "object",
         "required": [
           "ENABLE_IMAGE_GENERATION",
           "ENABLE_IMAGE_PROMPT_GENERATION",
-          "IMAGE_GENERATION_ENGINE",
-          "IMAGE_GENERATION_MODEL",
-          "IMAGE_SIZE",
-          "IMAGE_STEPS",
-          "IMAGES_OPENAI_API_BASE_URL",
-          "IMAGES_OPENAI_API_KEY",
-          "IMAGES_OPENAI_API_VERSION",
-          "IMAGES_OPENAI_API_PARAMS",
-          "AUTOMATIC1111_BASE_URL",
-          "AUTOMATIC1111_API_AUTH",
-          "AUTOMATIC1111_PARAMS",
-          "COMFYUI_BASE_URL",
-          "COMFYUI_API_KEY",
-          "COMFYUI_WORKFLOW",
-          "COMFYUI_WORKFLOW_NODES",
-          "IMAGES_GEMINI_API_BASE_URL",
-          "IMAGES_GEMINI_API_KEY",
-          "IMAGES_GEMINI_ENDPOINT_METHOD",
-          "ENABLE_IMAGE_EDIT",
-          "IMAGE_EDIT_ENGINE",
-          "IMAGE_EDIT_MODEL",
-          "IMAGE_EDIT_SIZE",
-          "IMAGES_EDIT_OPENAI_API_BASE_URL",
-          "IMAGES_EDIT_OPENAI_API_KEY",
-          "IMAGES_EDIT_OPENAI_API_VERSION",
-          "IMAGES_EDIT_GEMINI_API_BASE_URL",
-          "IMAGES_EDIT_GEMINI_API_KEY",
-          "IMAGES_EDIT_COMFYUI_BASE_URL",
-          "IMAGES_EDIT_COMFYUI_API_KEY",
-          "IMAGES_EDIT_COMFYUI_WORKFLOW",
-          "IMAGES_EDIT_COMFYUI_WORKFLOW_NODES"
+          "ENABLE_IMAGE_EDIT"
         ],
         "title": "ImagesConfig"
       },
@@ -43346,6 +44707,46 @@
           "config"
         ],
         "title": "ImportConfigForm"
+      },
+      "InstanceForm": {
+        "properties": {
+          "user_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "User Id"
+          },
+          "chat_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Chat Id"
+          },
+          "model_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Id"
+          }
+        },
+        "type": "object",
+        "title": "InstanceForm"
       },
       "InterfaceVisibilityForm": {
         "properties": {
@@ -45798,6 +47199,17 @@
           "model_id": {
             "type": "string",
             "title": "Model Id"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
           },
           "count": {
             "type": "integer",
@@ -50211,6 +51623,23 @@
         "type": "object",
         "title": "ShareChatForm"
       },
+      "ShareForm": {
+        "properties": {
+          "access_grants": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Access Grants"
+          }
+        },
+        "type": "object",
+        "required": [
+          "access_grants"
+        ],
+        "title": "ShareForm"
+      },
       "SharedChatResponse": {
         "properties": {
           "id": {
@@ -51480,6 +52909,27 @@
         ],
         "title": "TTSConfigForm"
       },
+      "TagColorForm": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "color": {
+            "type": "string",
+            "maxLength": 32,
+            "minLength": 1,
+            "pattern": "^[a-z][a-z0-9-]*$",
+            "title": "Color"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "color"
+        ],
+        "title": "TagColorForm"
+      },
       "TagEntry": {
         "properties": {
           "tag": {
@@ -51825,17 +53275,6 @@
               }
             ],
             "title": "Server Type"
-          },
-          "policy_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Policy Id"
           }
         },
         "additionalProperties": true,
@@ -51844,183 +53283,6 @@
           "url"
         ],
         "title": "TerminalServerConnection"
-      },
-      "TerminalServerLifecycleForm": {
-        "properties": {
-          "url": {
-            "type": "string",
-            "title": "Url"
-          },
-          "key": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Key",
-            "default": ""
-          },
-          "auth_type": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Auth Type",
-            "default": "bearer"
-          },
-          "policy_id": {
-            "type": "string",
-            "title": "Policy Id"
-          },
-          "lifecycle_data": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Lifecycle Data"
-          }
-        },
-        "type": "object",
-        "required": [
-          "url",
-          "policy_id"
-        ],
-        "title": "TerminalServerLifecycleForm"
-      },
-      "TerminalServerPolicyForm": {
-        "properties": {
-          "url": {
-            "type": "string",
-            "title": "Url"
-          },
-          "key": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Key",
-            "default": ""
-          },
-          "auth_type": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Auth Type",
-            "default": "bearer"
-          },
-          "policy_id": {
-            "type": "string",
-            "title": "Policy Id"
-          },
-          "policy_data": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Policy Data"
-          }
-        },
-        "type": "object",
-        "required": [
-          "url",
-          "policy_id"
-        ],
-        "title": "TerminalServerPolicyForm"
-      },
-      "TerminalServerRefreshForm": {
-        "properties": {
-          "url": {
-            "type": "string",
-            "title": "Url"
-          },
-          "key": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Key",
-            "default": ""
-          },
-          "auth_type": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Auth Type",
-            "default": "bearer"
-          },
-          "user_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "User Id"
-          },
-          "policy_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Policy Id"
-          },
-          "only_idle": {
-            "type": "boolean",
-            "title": "Only Idle",
-            "default": true
-          },
-          "reset": {
-            "type": "boolean",
-            "title": "Reset",
-            "default": false
-          }
-        },
-        "type": "object",
-        "required": [
-          "url"
-        ],
-        "title": "TerminalServerRefreshForm"
       },
       "TerminalServersConfigForm": {
         "properties": {
@@ -54260,6 +55522,76 @@
         ],
         "title": "ValidationError"
       },
+      "VideoConnection": {
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "default": ""
+          },
+          "type": {
+            "type": "string",
+            "title": "Type",
+            "default": "openai"
+          },
+          "url": {
+            "type": "string",
+            "title": "Url",
+            "default": ""
+          },
+          "key": {
+            "type": "string",
+            "title": "Key",
+            "default": ""
+          },
+          "config": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Config",
+            "default": {}
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "title": "VideoConnection"
+      },
+      "VideosConfig": {
+        "properties": {
+          "ENABLE_VIDEO_GENERATION": {
+            "type": "boolean",
+            "title": "Enable Video Generation"
+          },
+          "VIDEO_GENERATION_DEFAULT_MODEL": {
+            "type": "string",
+            "title": "Video Generation Default Model",
+            "default": ""
+          },
+          "VIDEO_CONNECTIONS": {
+            "items": {
+              "$ref": "#/components/schemas/VideoConnection"
+            },
+            "type": "array",
+            "title": "Video Connections",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "ENABLE_VIDEO_GENERATION"
+        ],
+        "title": "VideosConfig"
+      },
       "WebConfig": {
         "properties": {
           "ENABLE_WEB_SEARCH": {
@@ -55513,35 +56845,6 @@
           "name"
         ],
         "title": "ReactionForm"
-      },
-      "open_webui__routers__images__ConnectionVerificationForm": {
-        "properties": {
-          "engine": {
-            "type": "string",
-            "title": "Engine"
-          },
-          "url": {
-            "type": "string",
-            "title": "Url"
-          },
-          "key": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Key"
-          }
-        },
-        "type": "object",
-        "required": [
-          "engine",
-          "url"
-        ],
-        "title": "ConnectionVerificationForm"
       },
       "open_webui__routers__ollama__ConnectionVerificationForm": {
         "properties": {
