@@ -6092,13 +6092,13 @@
         ]
       }
     },
-    "/api/v1/configs/terminal_servers": {
+    "/api/v1/configs/machines": {
       "get": {
         "tags": [
           "configs"
         ],
-        "summary": "Get Terminal Servers Config",
-        "operationId": "get_terminal_servers_config_api_v1_configs_terminal_servers_get",
+        "summary": "Get Machines Config",
+        "operationId": "get_machines_config_api_v1_configs_machines_get",
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -6119,13 +6119,13 @@
         "tags": [
           "configs"
         ],
-        "summary": "Set Terminal Servers Config",
-        "operationId": "set_terminal_servers_config_api_v1_configs_terminal_servers_post",
+        "summary": "Set Machines Config",
+        "operationId": "set_machines_config_api_v1_configs_machines_post",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TerminalServersConfigForm"
+                "$ref": "#/components/schemas/MachinesConfigForm"
               }
             }
           },
@@ -6158,19 +6158,19 @@
         ]
       }
     },
-    "/api/v1/configs/terminal_servers/verify": {
+    "/api/v1/configs/machines/verify": {
       "post": {
         "tags": [
           "configs"
         ],
-        "summary": "Verify Terminal Server Connection",
+        "summary": "Verify Machine Connection",
         "description": "Verify the connection to a terminal server by detecting its type.\n\nTries GET {url}/api/v1/terminals/templates (orchestrator) then GET {url}/api/config\n(plain terminal).  Returns ``{status: true, type: \"orchestrator\"|\"terminal\"}``.",
-        "operationId": "verify_terminal_server_connection_api_v1_configs_terminal_servers_verify_post",
+        "operationId": "verify_machine_connection_api_v1_configs_machines_verify_post",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TerminalServerConnection"
+                "$ref": "#/components/schemas/MachineConnection"
               }
             }
           },
@@ -6460,6 +6460,76 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/SubagentsConfigForm"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/configs/router_models": {
+      "get": {
+        "tags": [
+          "configs"
+        ],
+        "summary": "Get Router Models Config",
+        "operationId": "get_router_models_config_api_v1_configs_router_models_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RouterModelsConfigForm"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "configs"
+        ],
+        "summary": "Set Router Models Config",
+        "operationId": "set_router_models_config_api_v1_configs_router_models_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RouterModelsConfigForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RouterModelsConfigForm"
                 }
               }
             }
@@ -11919,6 +11989,23 @@
             }
           },
           {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Limit"
+            }
+          },
+          {
             "name": "include_pinned",
             "in": "query",
             "required": false,
@@ -11970,6 +12057,21 @@
               "type": "string",
               "default": "desc",
               "title": "Sort Dir"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "active",
+                "archived",
+                "all"
+              ],
+              "type": "string",
+              "default": "active",
+              "title": "Status"
             }
           }
         ],
@@ -12031,6 +12133,23 @@
             }
           },
           {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Limit"
+            }
+          },
+          {
             "name": "include_pinned",
             "in": "query",
             "required": false,
@@ -12082,6 +12201,21 @@
               "type": "string",
               "default": "desc",
               "title": "Sort Dir"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "active",
+                "archived",
+                "all"
+              ],
+              "type": "string",
+              "default": "active",
+              "title": "Status"
             }
           }
         ],
@@ -13546,6 +13680,58 @@
             "content": {
               "application/json": {
                 "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/chats/{id}/children": {
+      "get": {
+        "tags": [
+          "chats"
+        ],
+        "summary": "Get Chat Children",
+        "description": "The user's sub-agents and scheduled timers of a chat.",
+        "operationId": "get_chat_children_api_v1_chats__id__children_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ChatChildResponse"
+                  },
+                  "title": "Response Get Chat Children Api V1 Chats  Id  Children Get"
+                }
               }
             }
           },
@@ -15882,6 +16068,19 @@
               "default": 1,
               "title": "Page"
             }
+          },
+          {
+            "name": "tag_ids",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": [],
+              "title": "Tag Ids"
+            }
           }
         ],
         "responses": {
@@ -15891,6 +16090,294 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/NoteListResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/notes/tags": {
+      "get": {
+        "tags": [
+          "notes"
+        ],
+        "summary": "Get Note Tag Counts",
+        "description": "Tags on the notes the list shows, with note counts, for its tag filter.",
+        "operationId": "get_note_tag_counts_api_v1_notes_tags_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "permission",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Permission"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": true
+                  },
+                  "title": "Response Get Note Tag Counts Api V1 Notes Tags Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/notes/{id}/tags": {
+      "get": {
+        "tags": [
+          "notes"
+        ],
+        "summary": "Get Note Tags By Id",
+        "operationId": "get_note_tags_by_id_api_v1_notes__id__tags_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TagModel"
+                  },
+                  "title": "Response Get Note Tags By Id Api V1 Notes  Id  Tags Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "notes"
+        ],
+        "summary": "Add Note Tag By Id",
+        "operationId": "add_note_tag_by_id_api_v1_notes__id__tags_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NoteTagForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TagModel"
+                  },
+                  "title": "Response Add Note Tag By Id Api V1 Notes  Id  Tags Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "notes"
+        ],
+        "summary": "Delete Note Tag By Id",
+        "operationId": "delete_note_tag_by_id_api_v1_notes__id__tags_delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NoteTagForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TagModel"
+                  },
+                  "title": "Response Delete Note Tag By Id Api V1 Notes  Id  Tags Delete"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "notes"
+        ],
+        "summary": "Update Note Tag Color",
+        "operationId": "update_note_tag_color_api_v1_notes__id__tags_patch",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NoteTagColorForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TagModel"
+                  },
+                  "title": "Response Update Note Tag Color Api V1 Notes  Id  Tags Patch"
                 }
               }
             }
@@ -16330,6 +16817,71 @@
                     }
                   ],
                   "title": "Response Update Note Access By Id Api V1 Notes  Id  Access Update Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/notes/{id}/folder": {
+      "post": {
+        "tags": [
+          "notes"
+        ],
+        "summary": "Update Note Folder Id By Id",
+        "operationId": "update_note_folder_id_by_id_api_v1_notes__id__folder_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NoteFolderIdForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/NoteModel"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "title": "Response Update Note Folder Id By Id Api V1 Notes  Id  Folder Post"
                 }
               }
             }
@@ -24315,6 +24867,36 @@
         ]
       }
     },
+    "/api/v1/folders/active": {
+      "get": {
+        "tags": [
+          "folders"
+        ],
+        "summary": "Get Active Folders",
+        "operationId": "get_active_folders_api_v1_folders_active_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ActiveFolderResponse"
+                  },
+                  "type": "array",
+                  "title": "Response Get Active Folders Api V1 Folders Active Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
     "/api/v1/folders/shared": {
       "get": {
         "tags": [
@@ -24788,6 +25370,19 @@
             }
           },
           {
+            "name": "priority",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": [],
+              "title": "Priority"
+            }
+          },
+          {
             "name": "activity",
             "in": "query",
             "required": false,
@@ -24894,13 +25489,101 @@
         }
       }
     },
+    "/api/v1/folders/{id}/view": {
+      "get": {
+        "tags": [
+          "folders"
+        ],
+        "summary": "Get Folder View",
+        "operationId": "get_folder_view_api_v1_folders__id__view_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "folders"
+        ],
+        "summary": "Update Folder View",
+        "operationId": "update_folder_view_api_v1_folders__id__view_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/folders/{id}/automations": {
       "get": {
         "tags": [
           "folders"
         ],
         "summary": "Get Folder Automations",
-        "description": "The folder's automations, whoever made them. Only creators edit; folder editors may pause and run.",
+        "description": "The folder's automations, whoever made them. Only creators edit; folder editors, and anyone\nan automation is shared with for editing, may rename, reschedule, pause and run it.",
         "operationId": "get_folder_automations_api_v1_folders__id__automations_get",
         "security": [
           {
@@ -24924,6 +25607,65 @@
             "content": {
               "application/json": {
                 "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/folders/{id}/notes": {
+      "get": {
+        "tags": [
+          "folders"
+        ],
+        "summary": "Get Folder Notes",
+        "description": "The folder's notes, whoever made them. Anyone who can read the folder can read its notes.",
+        "operationId": "get_folder_notes_api_v1_folders__id__notes_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FolderNoteListResponse"
+                }
               }
             }
           },
@@ -25068,6 +25810,70 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/FolderChatStatusForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/folders/{id}/chats/{chat_id}/priority": {
+      "patch": {
+        "tags": [
+          "folders"
+        ],
+        "summary": "Update Folder Chat Priority",
+        "operationId": "update_folder_chat_priority_api_v1_folders__id__chats__chat_id__priority_patch",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "chat_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Chat Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FolderChatPriorityForm"
               }
             }
           }
@@ -26205,7 +27011,8 @@
                 "schema": {
                   "anyOf": [
                     {
-                      "$ref": "#/components/schemas/FileModel"
+                      "type": "object",
+                      "additionalProperties": true
                     },
                     {
                       "type": "null"
@@ -27935,72 +28742,6 @@
             }
           }
         }
-      }
-    },
-    "/api/v1/evaluations/config": {
-      "get": {
-        "tags": [
-          "evaluations"
-        ],
-        "summary": "Get Config",
-        "operationId": "get_config_api_v1_evaluations_config_get",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "HTTPBearer": []
-          }
-        ]
-      },
-      "post": {
-        "tags": [
-          "evaluations"
-        ],
-        "summary": "Update Config",
-        "operationId": "update_config_api_v1_evaluations_config_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateConfigForm"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "HTTPBearer": []
-          }
-        ]
       }
     },
     "/api/v1/evaluations/feedbacks/models": {
@@ -30185,13 +30926,13 @@
         ]
       }
     },
-    "/api/v1/terminals/templates/connections": {
+    "/api/v1/machines/templates/connections": {
       "get": {
         "tags": [
-          "terminals"
+          "machines"
         ],
         "summary": "Management Connections",
-        "operationId": "management_connections_api_v1_terminals_templates_connections_get",
+        "operationId": "management_connections_api_v1_machines_templates_connections_get",
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -30209,13 +30950,13 @@
         ]
       }
     },
-    "/api/v1/terminals/templates/connections/{connection_id}/status": {
+    "/api/v1/machines/templates/connections/{connection_id}/status": {
       "get": {
         "tags": [
-          "terminals"
+          "machines"
         ],
         "summary": "Connection Status",
-        "operationId": "connection_status_api_v1_terminals_templates_connections__connection_id__status_get",
+        "operationId": "connection_status_api_v1_machines_templates_connections__connection_id__status_get",
         "security": [
           {
             "HTTPBearer": []
@@ -30254,18 +30995,18 @@
         }
       }
     },
-    "/api/v1/terminals/templates": {
+    "/api/v1/machines/templates": {
       "post": {
         "tags": [
-          "terminals"
+          "machines"
         ],
         "summary": "Create Template",
-        "operationId": "create_template_api_v1_terminals_templates_post",
+        "operationId": "create_template_api_v1_machines_templates_post",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateForm"
+                "$ref": "#/components/schemas/open_webui__routers__templates__CreateForm"
               }
             }
           },
@@ -30298,13 +31039,13 @@
         ]
       }
     },
-    "/api/v1/terminals/templates/{terminal_id}": {
+    "/api/v1/machines/templates/{machine_id}": {
       "get": {
         "tags": [
-          "terminals"
+          "machines"
         ],
         "summary": "Get Template",
-        "operationId": "get_template_api_v1_terminals_templates__terminal_id__get",
+        "operationId": "get_template_api_v1_machines_templates__machine_id__get",
         "security": [
           {
             "HTTPBearer": []
@@ -30312,12 +31053,12 @@
         ],
         "parameters": [
           {
-            "name": "terminal_id",
+            "name": "machine_id",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "title": "Terminal Id"
+              "title": "Machine Id"
             }
           }
         ],
@@ -30344,10 +31085,10 @@
       },
       "patch": {
         "tags": [
-          "terminals"
+          "machines"
         ],
         "summary": "Update Template",
-        "operationId": "update_template_api_v1_terminals_templates__terminal_id__patch",
+        "operationId": "update_template_api_v1_machines_templates__machine_id__patch",
         "security": [
           {
             "HTTPBearer": []
@@ -30355,12 +31096,12 @@
         ],
         "parameters": [
           {
-            "name": "terminal_id",
+            "name": "machine_id",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "title": "Terminal Id"
+              "title": "Machine Id"
             }
           }
         ],
@@ -30399,10 +31140,10 @@
       },
       "delete": {
         "tags": [
-          "terminals"
+          "machines"
         ],
         "summary": "Delete Template",
-        "operationId": "delete_template_api_v1_terminals_templates__terminal_id__delete",
+        "operationId": "delete_template_api_v1_machines_templates__machine_id__delete",
         "security": [
           {
             "HTTPBearer": []
@@ -30410,12 +31151,12 @@
         ],
         "parameters": [
           {
-            "name": "terminal_id",
+            "name": "machine_id",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "title": "Terminal Id"
+              "title": "Machine Id"
             }
           }
         ],
@@ -30441,13 +31182,13 @@
         }
       }
     },
-    "/api/v1/terminals/templates/{terminal_id}/access": {
+    "/api/v1/machines/templates/{machine_id}/access": {
       "get": {
         "tags": [
-          "terminals"
+          "machines"
         ],
         "summary": "Get Shares",
-        "operationId": "get_shares_api_v1_terminals_templates__terminal_id__access_get",
+        "operationId": "get_shares_api_v1_machines_templates__machine_id__access_get",
         "security": [
           {
             "HTTPBearer": []
@@ -30455,12 +31196,12 @@
         ],
         "parameters": [
           {
-            "name": "terminal_id",
+            "name": "machine_id",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "title": "Terminal Id"
+              "title": "Machine Id"
             }
           }
         ],
@@ -30487,10 +31228,10 @@
       },
       "post": {
         "tags": [
-          "terminals"
+          "machines"
         ],
         "summary": "Set Shares",
-        "operationId": "set_shares_api_v1_terminals_templates__terminal_id__access_post",
+        "operationId": "set_shares_api_v1_machines_templates__machine_id__access_post",
         "security": [
           {
             "HTTPBearer": []
@@ -30498,12 +31239,12 @@
         ],
         "parameters": [
           {
-            "name": "terminal_id",
+            "name": "machine_id",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "title": "Terminal Id"
+              "title": "Machine Id"
             }
           }
         ],
@@ -30539,13 +31280,13 @@
         }
       }
     },
-    "/api/v1/terminals/templates/{terminal_id}/instance": {
+    "/api/v1/machines/templates/{machine_id}/instance": {
       "get": {
         "tags": [
-          "terminals"
+          "machines"
         ],
         "summary": "Current Instance",
-        "operationId": "current_instance_api_v1_terminals_templates__terminal_id__instance_get",
+        "operationId": "current_instance_api_v1_machines_templates__machine_id__instance_get",
         "security": [
           {
             "HTTPBearer": []
@@ -30553,12 +31294,12 @@
         ],
         "parameters": [
           {
-            "name": "terminal_id",
+            "name": "machine_id",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "title": "Terminal Id"
+              "title": "Machine Id"
             }
           },
           {
@@ -30617,10 +31358,10 @@
       },
       "delete": {
         "tags": [
-          "terminals"
+          "machines"
         ],
         "summary": "Delete Instance",
-        "operationId": "delete_instance_api_v1_terminals_templates__terminal_id__instance_delete",
+        "operationId": "delete_instance_api_v1_machines_templates__machine_id__instance_delete",
         "security": [
           {
             "HTTPBearer": []
@@ -30628,12 +31369,12 @@
         ],
         "parameters": [
           {
-            "name": "terminal_id",
+            "name": "machine_id",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "title": "Terminal Id"
+              "title": "Machine Id"
             }
           }
         ],
@@ -30669,13 +31410,13 @@
         }
       }
     },
-    "/api/v1/terminals/templates/{terminal_id}/instances": {
+    "/api/v1/machines/templates/{machine_id}/instances": {
       "get": {
         "tags": [
-          "terminals"
+          "machines"
         ],
         "summary": "List Instances",
-        "operationId": "list_instances_api_v1_terminals_templates__terminal_id__instances_get",
+        "operationId": "list_instances_api_v1_machines_templates__machine_id__instances_get",
         "security": [
           {
             "HTTPBearer": []
@@ -30683,12 +31424,12 @@
         ],
         "parameters": [
           {
-            "name": "terminal_id",
+            "name": "machine_id",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "title": "Terminal Id"
+              "title": "Machine Id"
             }
           }
         ],
@@ -30714,13 +31455,13 @@
         }
       }
     },
-    "/api/v1/terminals/templates/{terminal_id}/restart": {
+    "/api/v1/machines/templates/{machine_id}/restart": {
       "post": {
         "tags": [
-          "terminals"
+          "machines"
         ],
         "summary": "Restart",
-        "operationId": "restart_api_v1_terminals_templates__terminal_id__restart_post",
+        "operationId": "restart_api_v1_machines_templates__machine_id__restart_post",
         "security": [
           {
             "HTTPBearer": []
@@ -30728,12 +31469,12 @@
         ],
         "parameters": [
           {
-            "name": "terminal_id",
+            "name": "machine_id",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "title": "Terminal Id"
+              "title": "Machine Id"
             }
           }
         ],
@@ -30769,13 +31510,13 @@
         }
       }
     },
-    "/api/v1/terminals/templates/{terminal_id}/stop": {
+    "/api/v1/machines/templates/{machine_id}/stop": {
       "post": {
         "tags": [
-          "terminals"
+          "machines"
         ],
         "summary": "Stop",
-        "operationId": "stop_api_v1_terminals_templates__terminal_id__stop_post",
+        "operationId": "stop_api_v1_machines_templates__machine_id__stop_post",
         "security": [
           {
             "HTTPBearer": []
@@ -30783,12 +31524,12 @@
         ],
         "parameters": [
           {
-            "name": "terminal_id",
+            "name": "machine_id",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "title": "Terminal Id"
+              "title": "Machine Id"
             }
           }
         ],
@@ -30824,13 +31565,13 @@
         }
       }
     },
-    "/api/v1/terminals/templates/{terminal_id}/start": {
+    "/api/v1/machines/templates/{machine_id}/start": {
       "post": {
         "tags": [
-          "terminals"
+          "machines"
         ],
         "summary": "Start",
-        "operationId": "start_api_v1_terminals_templates__terminal_id__start_post",
+        "operationId": "start_api_v1_machines_templates__machine_id__start_post",
         "security": [
           {
             "HTTPBearer": []
@@ -30838,12 +31579,12 @@
         ],
         "parameters": [
           {
-            "name": "terminal_id",
+            "name": "machine_id",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "title": "Terminal Id"
+              "title": "Machine Id"
             }
           }
         ],
@@ -30879,13 +31620,13 @@
         }
       }
     },
-    "/api/v1/terminals/templates/{terminal_id}/reset": {
+    "/api/v1/machines/templates/{machine_id}/reset": {
       "post": {
         "tags": [
-          "terminals"
+          "machines"
         ],
         "summary": "Reset",
-        "operationId": "reset_api_v1_terminals_templates__terminal_id__reset_post",
+        "operationId": "reset_api_v1_machines_templates__machine_id__reset_post",
         "security": [
           {
             "HTTPBearer": []
@@ -30893,12 +31634,12 @@
         ],
         "parameters": [
           {
-            "name": "terminal_id",
+            "name": "machine_id",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "title": "Terminal Id"
+              "title": "Machine Id"
             }
           }
         ],
@@ -30934,471 +31675,13 @@
         }
       }
     },
-    "/api/v1/terminals/{server_id}/browser/view/{sid}/{browser_token}/{path}": {
-      "get": {
-        "tags": [
-          "terminals"
-        ],
-        "summary": "Browser Http",
-        "operationId": "browser_http_api_v1_terminals__server_id__browser_view__sid___browser_token___path__get",
-        "parameters": [
-          {
-            "name": "server_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Server Id"
-            }
-          },
-          {
-            "name": "sid",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Sid"
-            }
-          },
-          {
-            "name": "browser_token",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Browser Token"
-            }
-          },
-          {
-            "name": "path",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Path"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "terminals"
-        ],
-        "summary": "Browser Http",
-        "operationId": "browser_http_api_v1_terminals__server_id__browser_view__sid___browser_token___path__get",
-        "parameters": [
-          {
-            "name": "server_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Server Id"
-            }
-          },
-          {
-            "name": "sid",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Sid"
-            }
-          },
-          {
-            "name": "browser_token",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Browser Token"
-            }
-          },
-          {
-            "name": "path",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Path"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "terminals"
-        ],
-        "summary": "Browser Http",
-        "operationId": "browser_http_api_v1_terminals__server_id__browser_view__sid___browser_token___path__get",
-        "parameters": [
-          {
-            "name": "server_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Server Id"
-            }
-          },
-          {
-            "name": "sid",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Sid"
-            }
-          },
-          {
-            "name": "browser_token",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Browser Token"
-            }
-          },
-          {
-            "name": "path",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Path"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      },
-      "head": {
-        "tags": [
-          "terminals"
-        ],
-        "summary": "Browser Http",
-        "operationId": "browser_http_api_v1_terminals__server_id__browser_view__sid___browser_token___path__get",
-        "parameters": [
-          {
-            "name": "server_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Server Id"
-            }
-          },
-          {
-            "name": "sid",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Sid"
-            }
-          },
-          {
-            "name": "browser_token",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Browser Token"
-            }
-          },
-          {
-            "name": "path",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Path"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      },
+    "/api/v1/machines/ssh/keypair": {
       "post": {
         "tags": [
-          "terminals"
+          "machines"
         ],
-        "summary": "Browser Http",
-        "operationId": "browser_http_api_v1_terminals__server_id__browser_view__sid___browser_token___path__get",
-        "parameters": [
-          {
-            "name": "server_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Server Id"
-            }
-          },
-          {
-            "name": "sid",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Sid"
-            }
-          },
-          {
-            "name": "browser_token",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Browser Token"
-            }
-          },
-          {
-            "name": "path",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Path"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "terminals"
-        ],
-        "summary": "Browser Http",
-        "operationId": "browser_http_api_v1_terminals__server_id__browser_view__sid___browser_token___path__get",
-        "parameters": [
-          {
-            "name": "server_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Server Id"
-            }
-          },
-          {
-            "name": "sid",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Sid"
-            }
-          },
-          {
-            "name": "browser_token",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Browser Token"
-            }
-          },
-          {
-            "name": "path",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Path"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      },
-      "options": {
-        "tags": [
-          "terminals"
-        ],
-        "summary": "Browser Http",
-        "operationId": "browser_http_api_v1_terminals__server_id__browser_view__sid___browser_token___path__get",
-        "parameters": [
-          {
-            "name": "server_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Server Id"
-            }
-          },
-          {
-            "name": "sid",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Sid"
-            }
-          },
-          {
-            "name": "browser_token",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Browser Token"
-            }
-          },
-          {
-            "name": "path",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Path"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/terminals/": {
-      "get": {
-        "tags": [
-          "terminals"
-        ],
-        "summary": "List Terminal Servers",
-        "description": "Return terminal servers the authenticated user has access to.",
-        "operationId": "list_terminal_servers_api_v1_terminals__get",
+        "summary": "Create Keypair",
+        "operationId": "create_keypair_api_v1_machines_ssh_keypair_post",
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -31416,13 +31699,1026 @@
         ]
       }
     },
-    "/api/v1/terminals/{server_id}/chats/{chat_id}/{path}": {
+    "/api/v1/machines/ssh/probe": {
+      "post": {
+        "tags": [
+          "machines"
+        ],
+        "summary": "Probe",
+        "operationId": "probe_api_v1_machines_ssh_probe_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SSHTarget"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/machines/ssh/authorize": {
+      "post": {
+        "tags": [
+          "machines"
+        ],
+        "summary": "Install Key",
+        "operationId": "install_key_api_v1_machines_ssh_authorize_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InstallKeyForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/machines/ssh": {
+      "post": {
+        "tags": [
+          "machines"
+        ],
+        "summary": "Create Machine",
+        "operationId": "create_machine_api_v1_machines_ssh_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/open_webui__routers__machines__CreateForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/machines/local": {
       "get": {
         "tags": [
-          "terminals"
+          "machines"
         ],
-        "summary": "Proxy Terminal",
-        "operationId": "proxy_terminal_api_v1_terminals__server_id__chats__chat_id___path__get",
+        "summary": "Get Local Machine Defaults",
+        "description": "What adding this computer would do: where sessions start by default, and whether it is already added.",
+        "operationId": "get_local_machine_defaults_api_v1_machines_local_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "machines"
+        ],
+        "summary": "Create Local Machine",
+        "description": "Install Open Terminal on the computer Open WebUI runs on. Experimental; single instance only.",
+        "operationId": "create_local_machine_api_v1_machines_local_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocalForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/machines/managed/{machine_id}/upgrade": {
+      "post": {
+        "tags": [
+          "machines"
+        ],
+        "summary": "Upgrade Machine",
+        "description": "Install the machine's chosen Open Terminal version again ('latest' fetches the newest); also repairs.",
+        "operationId": "upgrade_machine_api_v1_machines_managed__machine_id__upgrade_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "machine_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Machine Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/UpgradeForm"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Form"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/machines/managed/{machine_id}/install": {
+      "post": {
+        "tags": [
+          "machines"
+        ],
+        "summary": "Install Machine Packages",
+        "description": "Install system packages on the machine through `open-terminal install-deps`. Needs passwordless sudo.",
+        "operationId": "install_machine_packages_api_v1_machines_managed__machine_id__install_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "machine_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Machine Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InstallForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/machines/managed/{machine_id}/configure": {
+      "post": {
+        "tags": [
+          "machines"
+        ],
+        "summary": "Configure Machine",
+        "description": "Change where terminal sessions start and the Open Terminal flags, then restart Open Terminal with them.",
+        "operationId": "configure_machine_api_v1_machines_managed__machine_id__configure_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "machine_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Machine Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfigureForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/machines/managed/{machine_id}/restart": {
+      "post": {
+        "tags": [
+          "machines"
+        ],
+        "summary": "Restart Machine",
+        "operationId": "restart_machine_api_v1_machines_managed__machine_id__restart_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "machine_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Machine Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/machines/managed/{machine_id}/logs": {
+      "get": {
+        "tags": [
+          "machines"
+        ],
+        "summary": "Machine Logs",
+        "operationId": "machine_logs_api_v1_machines_managed__machine_id__logs_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "machine_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Machine Id"
+            }
+          },
+          {
+            "name": "lines",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 200,
+              "title": "Lines"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/machines/managed/{machine_id}": {
+      "delete": {
+        "tags": [
+          "machines"
+        ],
+        "summary": "Uninstall Machine",
+        "description": "Uninstall from the machine and remove it. With force, remove it even if the machine is unreachable.",
+        "operationId": "uninstall_machine_api_v1_machines_managed__machine_id__delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "machine_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Machine Id"
+            }
+          },
+          {
+            "name": "force",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Force"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/machines/{server_id}/browser/view/{sid}/{browser_token}/{path}": {
+      "get": {
+        "tags": [
+          "machines"
+        ],
+        "summary": "Browser Http",
+        "operationId": "browser_http_api_v1_machines__server_id__browser_view__sid___browser_token___path__get",
+        "parameters": [
+          {
+            "name": "server_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Server Id"
+            }
+          },
+          {
+            "name": "sid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Sid"
+            }
+          },
+          {
+            "name": "browser_token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Browser Token"
+            }
+          },
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Path"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "machines"
+        ],
+        "summary": "Browser Http",
+        "operationId": "browser_http_api_v1_machines__server_id__browser_view__sid___browser_token___path__get",
+        "parameters": [
+          {
+            "name": "server_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Server Id"
+            }
+          },
+          {
+            "name": "sid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Sid"
+            }
+          },
+          {
+            "name": "browser_token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Browser Token"
+            }
+          },
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Path"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "machines"
+        ],
+        "summary": "Browser Http",
+        "operationId": "browser_http_api_v1_machines__server_id__browser_view__sid___browser_token___path__get",
+        "parameters": [
+          {
+            "name": "server_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Server Id"
+            }
+          },
+          {
+            "name": "sid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Sid"
+            }
+          },
+          {
+            "name": "browser_token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Browser Token"
+            }
+          },
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Path"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "head": {
+        "tags": [
+          "machines"
+        ],
+        "summary": "Browser Http",
+        "operationId": "browser_http_api_v1_machines__server_id__browser_view__sid___browser_token___path__get",
+        "parameters": [
+          {
+            "name": "server_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Server Id"
+            }
+          },
+          {
+            "name": "sid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Sid"
+            }
+          },
+          {
+            "name": "browser_token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Browser Token"
+            }
+          },
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Path"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "machines"
+        ],
+        "summary": "Browser Http",
+        "operationId": "browser_http_api_v1_machines__server_id__browser_view__sid___browser_token___path__get",
+        "parameters": [
+          {
+            "name": "server_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Server Id"
+            }
+          },
+          {
+            "name": "sid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Sid"
+            }
+          },
+          {
+            "name": "browser_token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Browser Token"
+            }
+          },
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Path"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "machines"
+        ],
+        "summary": "Browser Http",
+        "operationId": "browser_http_api_v1_machines__server_id__browser_view__sid___browser_token___path__get",
+        "parameters": [
+          {
+            "name": "server_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Server Id"
+            }
+          },
+          {
+            "name": "sid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Sid"
+            }
+          },
+          {
+            "name": "browser_token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Browser Token"
+            }
+          },
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Path"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "options": {
+        "tags": [
+          "machines"
+        ],
+        "summary": "Browser Http",
+        "operationId": "browser_http_api_v1_machines__server_id__browser_view__sid___browser_token___path__get",
+        "parameters": [
+          {
+            "name": "server_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Server Id"
+            }
+          },
+          {
+            "name": "sid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Sid"
+            }
+          },
+          {
+            "name": "browser_token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Browser Token"
+            }
+          },
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Path"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/machines/": {
+      "get": {
+        "tags": [
+          "machines"
+        ],
+        "summary": "List Machines",
+        "description": "Return terminal servers the authenticated user has access to.",
+        "operationId": "list_machines_api_v1_machines__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/machines/{server_id}/chats/{chat_id}/{path}": {
+      "get": {
+        "tags": [
+          "machines"
+        ],
+        "summary": "Proxy Machine",
+        "operationId": "proxy_machine_api_v1_machines__server_id__chats__chat_id___path__get",
         "security": [
           {
             "HTTPBearer": []
@@ -31471,10 +32767,10 @@
       },
       "delete": {
         "tags": [
-          "terminals"
+          "machines"
         ],
-        "summary": "Proxy Terminal",
-        "operationId": "proxy_terminal_api_v1_terminals__server_id__chats__chat_id___path__get",
+        "summary": "Proxy Machine",
+        "operationId": "proxy_machine_api_v1_machines__server_id__chats__chat_id___path__get",
         "security": [
           {
             "HTTPBearer": []
@@ -31523,10 +32819,10 @@
       },
       "put": {
         "tags": [
-          "terminals"
+          "machines"
         ],
-        "summary": "Proxy Terminal",
-        "operationId": "proxy_terminal_api_v1_terminals__server_id__chats__chat_id___path__get",
+        "summary": "Proxy Machine",
+        "operationId": "proxy_machine_api_v1_machines__server_id__chats__chat_id___path__get",
         "security": [
           {
             "HTTPBearer": []
@@ -31575,10 +32871,10 @@
       },
       "head": {
         "tags": [
-          "terminals"
+          "machines"
         ],
-        "summary": "Proxy Terminal",
-        "operationId": "proxy_terminal_api_v1_terminals__server_id__chats__chat_id___path__get",
+        "summary": "Proxy Machine",
+        "operationId": "proxy_machine_api_v1_machines__server_id__chats__chat_id___path__get",
         "security": [
           {
             "HTTPBearer": []
@@ -31627,10 +32923,10 @@
       },
       "post": {
         "tags": [
-          "terminals"
+          "machines"
         ],
-        "summary": "Proxy Terminal",
-        "operationId": "proxy_terminal_api_v1_terminals__server_id__chats__chat_id___path__get",
+        "summary": "Proxy Machine",
+        "operationId": "proxy_machine_api_v1_machines__server_id__chats__chat_id___path__get",
         "security": [
           {
             "HTTPBearer": []
@@ -31679,10 +32975,10 @@
       },
       "patch": {
         "tags": [
-          "terminals"
+          "machines"
         ],
-        "summary": "Proxy Terminal",
-        "operationId": "proxy_terminal_api_v1_terminals__server_id__chats__chat_id___path__get",
+        "summary": "Proxy Machine",
+        "operationId": "proxy_machine_api_v1_machines__server_id__chats__chat_id___path__get",
         "security": [
           {
             "HTTPBearer": []
@@ -31731,10 +33027,10 @@
       },
       "options": {
         "tags": [
-          "terminals"
+          "machines"
         ],
-        "summary": "Proxy Terminal",
-        "operationId": "proxy_terminal_api_v1_terminals__server_id__chats__chat_id___path__get",
+        "summary": "Proxy Machine",
+        "operationId": "proxy_machine_api_v1_machines__server_id__chats__chat_id___path__get",
         "security": [
           {
             "HTTPBearer": []
@@ -31782,13 +33078,13 @@
         }
       }
     },
-    "/api/v1/terminals/{server_id}/{path}": {
+    "/api/v1/machines/{server_id}/{path}": {
       "get": {
         "tags": [
-          "terminals"
+          "machines"
         ],
-        "summary": "Proxy Terminal",
-        "operationId": "proxy_terminal_api_v1_terminals__server_id___path__get",
+        "summary": "Proxy Machine",
+        "operationId": "proxy_machine_api_v1_machines__server_id___path__get",
         "security": [
           {
             "HTTPBearer": []
@@ -31837,10 +33133,10 @@
       },
       "delete": {
         "tags": [
-          "terminals"
+          "machines"
         ],
-        "summary": "Proxy Terminal",
-        "operationId": "proxy_terminal_api_v1_terminals__server_id___path__get",
+        "summary": "Proxy Machine",
+        "operationId": "proxy_machine_api_v1_machines__server_id___path__get",
         "security": [
           {
             "HTTPBearer": []
@@ -31889,10 +33185,10 @@
       },
       "put": {
         "tags": [
-          "terminals"
+          "machines"
         ],
-        "summary": "Proxy Terminal",
-        "operationId": "proxy_terminal_api_v1_terminals__server_id___path__get",
+        "summary": "Proxy Machine",
+        "operationId": "proxy_machine_api_v1_machines__server_id___path__get",
         "security": [
           {
             "HTTPBearer": []
@@ -31941,10 +33237,10 @@
       },
       "head": {
         "tags": [
-          "terminals"
+          "machines"
         ],
-        "summary": "Proxy Terminal",
-        "operationId": "proxy_terminal_api_v1_terminals__server_id___path__get",
+        "summary": "Proxy Machine",
+        "operationId": "proxy_machine_api_v1_machines__server_id___path__get",
         "security": [
           {
             "HTTPBearer": []
@@ -31993,10 +33289,10 @@
       },
       "post": {
         "tags": [
-          "terminals"
+          "machines"
         ],
-        "summary": "Proxy Terminal",
-        "operationId": "proxy_terminal_api_v1_terminals__server_id___path__get",
+        "summary": "Proxy Machine",
+        "operationId": "proxy_machine_api_v1_machines__server_id___path__get",
         "security": [
           {
             "HTTPBearer": []
@@ -32045,10 +33341,10 @@
       },
       "patch": {
         "tags": [
-          "terminals"
+          "machines"
         ],
-        "summary": "Proxy Terminal",
-        "operationId": "proxy_terminal_api_v1_terminals__server_id___path__get",
+        "summary": "Proxy Machine",
+        "operationId": "proxy_machine_api_v1_machines__server_id___path__get",
         "security": [
           {
             "HTTPBearer": []
@@ -32097,10 +33393,10 @@
       },
       "options": {
         "tags": [
-          "terminals"
+          "machines"
         ],
-        "summary": "Proxy Terminal",
-        "operationId": "proxy_terminal_api_v1_terminals__server_id___path__get",
+        "summary": "Proxy Machine",
+        "operationId": "proxy_machine_api_v1_machines__server_id___path__get",
         "security": [
           {
             "HTTPBearer": []
@@ -32225,6 +33521,21 @@
               "default": 1,
               "title": "Page"
             }
+          },
+          {
+            "name": "view",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "all",
+                "mine",
+                "shared"
+              ],
+              "type": "string",
+              "default": "all",
+              "title": "View"
+            }
           }
         ],
         "responses": {
@@ -32263,11 +33574,34 @@
         ],
         "parameters": [
           {
+            "name": "machine_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Machine Id"
+            }
+          },
+          {
             "name": "terminal_id",
             "in": "query",
-            "required": true,
+            "required": false,
             "schema": {
-              "type": "string",
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
               "title": "Terminal Id"
             }
           },
@@ -32546,6 +33880,168 @@
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/AutomationRunForm"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Form Data"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/automations/{id}/token/regenerate": {
+      "post": {
+        "tags": [
+          "automations"
+        ],
+        "summary": "Regenerate Automation Token",
+        "operationId": "regenerate_automation_token_api_v1_automations__id__token_regenerate_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AutomationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/automations/hooks/{id}/{token}": {
+      "get": {
+        "tags": [
+          "automations"
+        ],
+        "summary": "Trigger Automation Webhook",
+        "description": "Public: the token in the URL is the credential.",
+        "operationId": "trigger_automation_webhook_api_v1_automations_hooks__id___token__get",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "automations"
+        ],
+        "summary": "Trigger Automation Webhook",
+        "description": "Public: the token in the URL is the credential.",
+        "operationId": "trigger_automation_webhook_api_v1_automations_hooks__id___token__get",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Token"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -32613,6 +34109,63 @@
         }
       }
     },
+    "/api/v1/automations/{id}/access/update": {
+      "post": {
+        "tags": [
+          "automations"
+        ],
+        "summary": "Update Automation Access By Id",
+        "operationId": "update_automation_access_by_id_api_v1_automations__id__access_update_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AutomationAccessGrantsForm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AutomationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/automations/{id}/runs": {
       "get": {
         "tags": [
@@ -32653,6 +34206,20 @@
               "type": "integer",
               "default": 50,
               "title": "Limit"
+            }
+          },
+          {
+            "name": "direction",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string",
+              "default": "desc",
+              "title": "Direction"
             }
           }
         ],
@@ -33490,6 +35057,22 @@
             }
           },
           {
+            "name": "machine_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Machine Id"
+            }
+          },
+          {
             "name": "terminal_id",
             "in": "query",
             "required": false,
@@ -33578,6 +35161,22 @@
               "type": "boolean",
               "default": false,
               "title": "Refresh"
+            }
+          },
+          {
+            "name": "machine_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Machine Id"
             }
           },
           {
@@ -33717,7 +35316,7 @@
     "/api/v1/embeddings": {
       "post": {
         "summary": "Embeddings",
-        "description": "OpenAI-compatible embeddings endpoint.\n\nThis handler:\n  - Performs user/model checks and dispatches to the correct backend.\n  - Supports OpenAI, Ollama, arena models, pipelines, and any compatible provider.\n\nArgs:\n    request (Request): Request context.\n    form_data (dict): OpenAI-like payload (e.g., {\"model\": \"...\", \"input\": [...]})\n    user (UserModel): Authenticated user.\n\nReturns:\n    dict: OpenAI-compatible embeddings response.",
+        "description": "OpenAI-compatible embeddings endpoint.\n\nThis handler:\n  - Performs user/model checks and dispatches to the correct backend.\n  - Supports OpenAI, Ollama, router models, pipelines, and any compatible provider.\n\nArgs:\n    request (Request): Request context.\n    form_data (dict): OpenAI-like payload (e.g., {\"model\": \"...\", \"input\": [...]})\n    user (UserModel): Authenticated user.\n\nReturns:\n    dict: OpenAI-compatible embeddings response.",
         "operationId": "embeddings_api_v1_embeddings_post",
         "requestBody": {
           "content": {
@@ -33761,7 +35360,7 @@
     "/api/embeddings": {
       "post": {
         "summary": "Embeddings",
-        "description": "OpenAI-compatible embeddings endpoint.\n\nThis handler:\n  - Performs user/model checks and dispatches to the correct backend.\n  - Supports OpenAI, Ollama, arena models, pipelines, and any compatible provider.\n\nArgs:\n    request (Request): Request context.\n    form_data (dict): OpenAI-like payload (e.g., {\"model\": \"...\", \"input\": [...]})\n    user (UserModel): Authenticated user.\n\nReturns:\n    dict: OpenAI-compatible embeddings response.",
+        "description": "OpenAI-compatible embeddings endpoint.\n\nThis handler:\n  - Performs user/model checks and dispatches to the correct backend.\n  - Supports OpenAI, Ollama, router models, pipelines, and any compatible provider.\n\nArgs:\n    request (Request): Request context.\n    form_data (dict): OpenAI-like payload (e.g., {\"model\": \"...\", \"input\": [...]})\n    user (UserModel): Authenticated user.\n\nReturns:\n    dict: OpenAI-compatible embeddings response.",
         "operationId": "embeddings_api_embeddings_post",
         "requestBody": {
           "content": {
@@ -35065,6 +36664,35 @@
         ],
         "title": "AccessGrantModel"
       },
+      "AccessGrantResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "principal_type": {
+            "type": "string",
+            "title": "Principal Type"
+          },
+          "principal_id": {
+            "type": "string",
+            "title": "Principal Id"
+          },
+          "permission": {
+            "type": "string",
+            "title": "Permission"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "principal_type",
+          "principal_id",
+          "permission"
+        ],
+        "title": "AccessGrantResponse",
+        "description": "Slim grant model for API responses \u2014 resource context is implicit from the parent."
+      },
       "AccessGrantsPermissions": {
         "properties": {
           "allow_users": {
@@ -35080,6 +36708,82 @@
         },
         "type": "object",
         "title": "AccessGrantsPermissions"
+      },
+      "ActiveFolderResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "machine_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Machine Id"
+          },
+          "directory": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Directory"
+          },
+          "waiting": {
+            "type": "boolean",
+            "title": "Waiting",
+            "default": false
+          },
+          "running": {
+            "type": "boolean",
+            "title": "Running",
+            "default": false
+          },
+          "terminals": {
+            "type": "integer",
+            "title": "Terminals",
+            "default": 0
+          },
+          "ports": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Ports",
+            "default": []
+          },
+          "tabs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tabs",
+            "default": []
+          },
+          "updated_at": {
+            "type": "integer",
+            "title": "Updated At",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "ActiveFolderResponse"
       },
       "AddMemoryForm": {
         "properties": {
@@ -35386,9 +37090,26 @@
             ],
             "title": "Automation Min Interval"
           },
+          "AUTOMATION_MAX_CONCURRENT": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Automation Max Concurrent"
+          },
           "ENABLE_AUTOMATIONS": {
             "type": "boolean",
             "title": "Enable Automations"
+          },
+          "ENABLE_AUTOMATION_WEBHOOKS": {
+            "type": "boolean",
+            "title": "Enable Automation Webhooks",
+            "default": true
           },
           "ENABLE_CHANNELS": {
             "type": "boolean",
@@ -35471,6 +37192,18 @@
               }
             ],
             "title": "View Chat Max Chars"
+          },
+          "TOOL_OUTPUT_MAX_CHARS": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tool Output Max Chars"
           },
           "ENABLE_NOTES": {
             "type": "boolean",
@@ -36051,6 +37784,23 @@
         ],
         "title": "AuthorizationRequest"
       },
+      "AutomationAccessGrantsForm": {
+        "properties": {
+          "access_grants": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Access Grants"
+          }
+        },
+        "type": "object",
+        "required": [
+          "access_grants"
+        ],
+        "title": "AutomationAccessGrantsForm"
+      },
       "AutomationData": {
         "properties": {
           "prompt": {
@@ -36063,12 +37813,13 @@
           },
           "rrule": {
             "type": "string",
-            "title": "Rrule"
+            "title": "Rrule",
+            "default": ""
           },
-          "terminal": {
+          "machine": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/AutomationTerminalConfig"
+                "$ref": "#/components/schemas/AutomationMachineConfig"
               },
               {
                 "type": "null"
@@ -36084,13 +37835,22 @@
                 "type": "null"
               }
             ]
+          },
+          "webhook": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AutomationWebhook"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "type": "object",
         "required": [
           "prompt",
-          "model_id",
-          "rrule"
+          "model_id"
         ],
         "title": "AutomationData"
       },
@@ -36145,6 +37905,30 @@
           "data"
         ],
         "title": "AutomationForm"
+      },
+      "AutomationMachineConfig": {
+        "properties": {
+          "server_id": {
+            "type": "string",
+            "title": "Server Id"
+          },
+          "cwd": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cwd"
+          }
+        },
+        "type": "object",
+        "required": [
+          "server_id"
+        ],
+        "title": "AutomationMachineConfig"
       },
       "AutomationResponse": {
         "properties": {
@@ -36245,6 +38029,41 @@
               }
             ],
             "title": "Next Runs"
+          },
+          "user": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/open_webui__models__users__UserResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "write_access": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Write Access"
+          },
+          "access_grants": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/AccessGrantResponse"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Access Grants"
           }
         },
         "type": "object",
@@ -36258,6 +38077,24 @@
           "updated_at"
         ],
         "title": "AutomationResponse"
+      },
+      "AutomationRunForm": {
+        "properties": {
+          "variables": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Variables"
+          }
+        },
+        "type": "object",
+        "title": "AutomationRunForm"
       },
       "AutomationRunModel": {
         "properties": {
@@ -36330,18 +38167,13 @@
               }
             ],
             "title": "Channel Id"
-          }
-        },
-        "type": "object",
-        "title": "AutomationTarget"
-      },
-      "AutomationTerminalConfig": {
-        "properties": {
-          "server_id": {
-            "type": "string",
-            "title": "Server Id"
           },
-          "cwd": {
+          "new_chat": {
+            "type": "boolean",
+            "title": "New Chat",
+            "default": true
+          },
+          "chat_id": {
             "anyOf": [
               {
                 "type": "string"
@@ -36350,14 +38182,60 @@
                 "type": "null"
               }
             ],
-            "title": "Cwd"
+            "title": "Chat Id"
+          },
+          "new_thread": {
+            "type": "boolean",
+            "title": "New Thread",
+            "default": true
+          },
+          "thread_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Thread Id"
+          },
+          "reply_in_thread": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reply In Thread"
           }
         },
         "type": "object",
-        "required": [
-          "server_id"
-        ],
-        "title": "AutomationTerminalConfig"
+        "title": "AutomationTarget"
+      },
+      "AutomationWebhook": {
+        "properties": {
+          "token": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Token"
+          },
+          "allow_get": {
+            "type": "boolean",
+            "title": "Allow Get",
+            "default": false
+          }
+        },
+        "type": "object",
+        "title": "AutomationWebhook"
       },
       "AzureOpenAIConfigForm": {
         "properties": {
@@ -38558,6 +40436,20 @@
           "write_access": {
             "type": "boolean",
             "title": "Write Access"
+          },
+          "task_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Task Ids"
           }
         },
         "type": "object",
@@ -38584,6 +40476,60 @@
           "history"
         ],
         "title": "ChatBody"
+      },
+      "ChatChildResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "subagent",
+              "timer"
+            ],
+            "title": "Type"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "waiting",
+              "running",
+              "scheduled",
+              "done"
+            ],
+            "title": "Status"
+          },
+          "created_at": {
+            "type": "integer",
+            "title": "Created At"
+          },
+          "due_at": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Due At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "type",
+          "status",
+          "created_at"
+        ],
+        "title": "ChatChildResponse"
       },
       "ChatConfigForm": {
         "properties": {
@@ -38754,6 +40700,11 @@
           "TOOL_SEARCH_DEFER_BUILTIN_TOOLS": {
             "type": "boolean",
             "title": "Tool Search Defer Builtin Tools",
+            "default": true
+          },
+          "TOOL_SEARCH_LIST_TOOLS": {
+            "type": "boolean",
+            "title": "Tool Search List Tools",
             "default": true
           }
         },
@@ -38933,6 +40884,11 @@
           "TOOL_SEARCH_DEFER_BUILTIN_TOOLS": {
             "type": "boolean",
             "title": "Tool Search Defer Builtin Tools",
+            "default": true
+          },
+          "TOOL_SEARCH_LIST_TOOLS": {
+            "type": "boolean",
+            "title": "Tool Search List Tools",
             "default": true
           },
           "DEFAULT_TOOL_PERMISSIONS_AUTO_PROMPT": {
@@ -40357,7 +42313,7 @@
             ],
             "title": "Rag Full Context"
           },
-          "RAG_FULL_TEXT_CHAR_THRESHOLD": {
+          "RAG_FULL_TEXT_THRESHOLD": {
             "anyOf": [
               {
                 "type": "integer",
@@ -40367,7 +42323,18 @@
                 "type": "null"
               }
             ],
-            "title": "Rag Full Text Char Threshold"
+            "title": "Rag Full Text Threshold"
+          },
+          "RAG_FULL_TEXT_THRESHOLD_TYPE": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rag Full Text Threshold Type"
           },
           "ENABLE_RAG_HYBRID_SEARCH": {
             "anyOf": [
@@ -41132,6 +43099,24 @@
         "type": "object",
         "title": "ConfigForm"
       },
+      "ConfigureForm": {
+        "properties": {
+          "start_dir": {
+            "type": "string",
+            "maxLength": 1024,
+            "title": "Start Dir",
+            "default": ""
+          },
+          "flags": {
+            "type": "string",
+            "maxLength": 1024,
+            "title": "Flags",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "ConfigureForm"
+      },
       "ConnectionsConfigForm": {
         "properties": {
           "ENABLE_BASE_MODELS_CACHE": {
@@ -41287,30 +43272,6 @@
         },
         "type": "object",
         "title": "CreateChannelForm"
-      },
-      "CreateForm": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Id"
-          },
-          "connection_id": {
-            "type": "string",
-            "title": "Connection Id"
-          },
-          "data": {
-            "additionalProperties": true,
-            "type": "object",
-            "title": "Data"
-          }
-        },
-        "type": "object",
-        "required": [
-          "id",
-          "connection_id"
-        ],
-        "title": "CreateForm"
       },
       "CreateImageForm": {
         "properties": {
@@ -43060,6 +45021,29 @@
         ],
         "title": "FolderAccessGrantsForm"
       },
+      "FolderChatPriorityForm": {
+        "properties": {
+          "priority": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "urgent",
+                  "high",
+                  "medium",
+                  "low"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Priority"
+          }
+        },
+        "type": "object",
+        "title": "FolderChatPriorityForm"
+      },
       "FolderChatStatusForm": {
         "properties": {
           "status": {
@@ -43221,6 +45205,137 @@
           "updated_at"
         ],
         "title": "FolderNameIdResponse"
+      },
+      "FolderNoteListResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/FolderNoteResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total"
+        ],
+        "title": "FolderNoteListResponse"
+      },
+      "FolderNoteResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "user_id": {
+            "type": "string",
+            "title": "User Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data"
+          },
+          "meta": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Meta"
+          },
+          "folder_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Folder Id"
+          },
+          "is_pinned": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Pinned",
+            "default": false
+          },
+          "access_grants": {
+            "items": {
+              "$ref": "#/components/schemas/AccessGrantModel"
+            },
+            "type": "array",
+            "title": "Access Grants"
+          },
+          "created_at": {
+            "type": "integer",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "integer",
+            "title": "Updated At"
+          },
+          "user": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/open_webui__models__users__UserResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "tags": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Tags"
+          },
+          "write_access": {
+            "type": "boolean",
+            "title": "Write Access",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "user_id",
+          "title",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "FolderNoteResponse"
       },
       "FolderParentIdForm": {
         "properties": {
@@ -44708,6 +46823,90 @@
         ],
         "title": "ImportConfigForm"
       },
+      "InstallForm": {
+        "properties": {
+          "deps": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 16,
+            "title": "Deps"
+          },
+          "packages": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 64,
+            "title": "Packages"
+          }
+        },
+        "type": "object",
+        "title": "InstallForm"
+      },
+      "InstallKeyForm": {
+        "properties": {
+          "host": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9.\\-:\\[\\]]{1,253}$",
+            "title": "Host"
+          },
+          "port": {
+            "type": "integer",
+            "maximum": 65535.0,
+            "minimum": 1.0,
+            "title": "Port",
+            "default": 22
+          },
+          "username": {
+            "type": "string",
+            "pattern": "^[a-z_][a-z0-9_.\\-]{0,31}$",
+            "title": "Username"
+          },
+          "host_key": {
+            "type": "string",
+            "pattern": "^ssh-[a-z0-9-]+ [A-Za-z0-9+/=]+$|^ecdsa-sha2-nistp\\d+ [A-Za-z0-9+/=]+$",
+            "title": "Host Key"
+          },
+          "id": {
+            "type": "string",
+            "pattern": "^m_[0-9a-f]{8}$",
+            "title": "Id"
+          },
+          "public_key": {
+            "type": "string",
+            "title": "Public Key"
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 1024,
+            "title": "Password",
+            "default": ""
+          },
+          "private_key": {
+            "type": "string",
+            "maxLength": 16384,
+            "title": "Private Key",
+            "default": ""
+          },
+          "passphrase": {
+            "type": "string",
+            "maxLength": 1024,
+            "title": "Passphrase",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "required": [
+          "host",
+          "username",
+          "host_key",
+          "id",
+          "public_key"
+        ],
+        "title": "InstallKeyForm"
+      },
       "InstanceForm": {
         "properties": {
           "user_id": {
@@ -45599,6 +47798,44 @@
         ],
         "title": "LoadUrlForm"
       },
+      "LocalForm": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^m_[0-9a-f]{8}$",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "title": "Name",
+            "default": ""
+          },
+          "version": {
+            "type": "string",
+            "maxLength": 20,
+            "title": "Version",
+            "default": "latest"
+          },
+          "start_dir": {
+            "type": "string",
+            "maxLength": 1024,
+            "title": "Start Dir",
+            "default": ""
+          },
+          "flags": {
+            "type": "string",
+            "maxLength": 1024,
+            "title": "Flags",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "title": "LocalForm"
+      },
       "MCPAppRPCForm": {
         "properties": {
           "tool_name": {
@@ -45637,6 +47874,136 @@
           "params"
         ],
         "title": "MCPAppRPCForm"
+      },
+      "MachineConnection": {
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id",
+            "default": ""
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "default": ""
+          },
+          "enabled": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Enabled",
+            "default": true
+          },
+          "url": {
+            "type": "string",
+            "title": "Url"
+          },
+          "path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Path",
+            "default": "/openapi.json"
+          },
+          "key": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Key",
+            "default": ""
+          },
+          "auth_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Auth Type",
+            "default": "bearer"
+          },
+          "forward_cookies": {
+            "type": "boolean",
+            "title": "Forward Cookies",
+            "default": false
+          },
+          "config": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Config"
+          },
+          "server_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Server Type"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "title": "MachineConnection"
+      },
+      "MachinesConfigForm": {
+        "properties": {
+          "MACHINE_CONNECTIONS": {
+            "items": {
+              "$ref": "#/components/schemas/MachineConnection"
+            },
+            "type": "array",
+            "title": "Machine Connections"
+          }
+        },
+        "type": "object",
+        "required": [
+          "MACHINE_CONNECTIONS"
+        ],
+        "title": "MachinesConfigForm"
       },
       "Manifest": {
         "properties": {
@@ -48220,6 +50587,23 @@
         ],
         "title": "NoteAccessGrantsForm"
       },
+      "NoteFolderIdForm": {
+        "properties": {
+          "folder_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Folder Id"
+          }
+        },
+        "type": "object",
+        "title": "NoteFolderIdForm"
+      },
       "NoteForm": {
         "properties": {
           "title": {
@@ -48249,6 +50633,17 @@
               }
             ],
             "title": "Meta"
+          },
+          "folder_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Folder Id"
           },
           "access_grants": {
             "anyOf": [
@@ -48393,6 +50788,17 @@
               }
             ],
             "title": "Meta"
+          },
+          "folder_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Folder Id"
           },
           "is_pinned": {
             "anyOf": [
@@ -48567,6 +50973,17 @@
             ],
             "title": "Meta"
           },
+          "folder_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Folder Id"
+          },
           "is_pinned": {
             "anyOf": [
               {
@@ -48609,6 +51026,44 @@
           "updated_at"
         ],
         "title": "NoteResponse"
+      },
+      "NoteTagColorForm": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "color": {
+            "type": "string",
+            "maxLength": 32,
+            "minLength": 1,
+            "pattern": "^[a-z][a-z0-9-]*$",
+            "title": "Color"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "color"
+        ],
+        "title": "NoteTagColorForm"
+      },
+      "NoteTagForm": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "NoteTagForm"
       },
       "NoteUpdateForm": {
         "properties": {
@@ -48732,6 +51187,17 @@
             ],
             "title": "Meta"
           },
+          "folder_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Folder Id"
+          },
           "is_pinned": {
             "anyOf": [
               {
@@ -48768,6 +51234,14 @@
                 "type": "null"
               }
             ]
+          },
+          "tags": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Tags"
           }
         },
         "type": "object",
@@ -51032,6 +53506,189 @@
         ],
         "title": "ResolveToolCallForm"
       },
+      "RouterModel": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Name"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/RouterModelMeta"
+          },
+          "config": {
+            "$ref": "#/components/schemas/RouterModelConfig"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "meta"
+        ],
+        "title": "RouterModel"
+      },
+      "RouterModelConfig": {
+        "properties": {
+          "decisions": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RouterModelDecisionsConfig"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "title": "RouterModelConfig"
+      },
+      "RouterModelDecisionsConfig": {
+        "properties": {
+          "api_base_url": {
+            "type": "string",
+            "title": "Api Base Url",
+            "default": "https://api.openai.com/v1"
+          },
+          "api_key": {
+            "type": "string",
+            "title": "Api Key",
+            "default": ""
+          },
+          "model": {
+            "type": "string",
+            "title": "Model",
+            "default": "gpt-6-luna"
+          },
+          "threshold": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Threshold",
+            "default": 0.5
+          },
+          "prompt": {
+            "type": "string",
+            "title": "Prompt",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "RouterModelDecisionsConfig"
+      },
+      "RouterModelMeta": {
+        "properties": {
+          "routes": {
+            "items": {
+              "$ref": "#/components/schemas/RouterModelRoute"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Routes"
+          },
+          "strategy": {
+            "type": "string",
+            "enum": [
+              "first",
+              "random"
+            ],
+            "title": "Strategy",
+            "default": "first"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "routes"
+        ],
+        "title": "RouterModelMeta"
+      },
+      "RouterModelRoute": {
+        "properties": {
+          "model_id": {
+            "type": "string",
+            "title": "Model Id"
+          },
+          "condition": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Condition"
+          },
+          "pattern": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pattern"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "model_id"
+        ],
+        "title": "RouterModelRoute"
+      },
+      "RouterModelsConfigForm": {
+        "properties": {
+          "ROUTER_MODELS": {
+            "items": {
+              "$ref": "#/components/schemas/RouterModel"
+            },
+            "type": "array",
+            "title": "Router Models"
+          }
+        },
+        "type": "object",
+        "required": [
+          "ROUTER_MODELS"
+        ],
+        "title": "RouterModelsConfigForm"
+      },
+      "SSHTarget": {
+        "properties": {
+          "host": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9.\\-:\\[\\]]{1,253}$",
+            "title": "Host"
+          },
+          "port": {
+            "type": "integer",
+            "maximum": 65535.0,
+            "minimum": 1.0,
+            "title": "Port",
+            "default": 22
+          },
+          "username": {
+            "type": "string",
+            "pattern": "^[a-z_][a-z0-9_.\\-]{0,31}$",
+            "title": "Username"
+          }
+        },
+        "type": "object",
+        "required": [
+          "host",
+          "username"
+        ],
+        "title": "SSHTarget"
+      },
       "STTConfigForm": {
         "properties": {
           "OPENAI_API_BASE_URL": {
@@ -52593,10 +55250,6 @@
             "type": "boolean",
             "title": "Enable Subagents"
           },
-          "SUBAGENTS_BACKGROUND_ENABLED": {
-            "type": "boolean",
-            "title": "Subagents Background Enabled"
-          },
           "SUBAGENTS_MAX_CONCURRENT": {
             "anyOf": [
               {
@@ -52653,7 +55306,6 @@
         "type": "object",
         "required": [
           "ENABLE_SUBAGENTS",
-          "SUBAGENTS_BACKGROUND_ENABLED",
           "SUBAGENTS_SYSTEM_PROMPT"
         ],
         "title": "SubagentsConfigForm"
@@ -53169,136 +55821,6 @@
           "VOICE_MODE_PROMPT_TEMPLATE"
         ],
         "title": "TaskConfigForm"
-      },
-      "TerminalServerConnection": {
-        "properties": {
-          "id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Id",
-            "default": ""
-          },
-          "name": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Name",
-            "default": ""
-          },
-          "enabled": {
-            "anyOf": [
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Enabled",
-            "default": true
-          },
-          "url": {
-            "type": "string",
-            "title": "Url"
-          },
-          "path": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Path",
-            "default": "/openapi.json"
-          },
-          "key": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Key",
-            "default": ""
-          },
-          "auth_type": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Auth Type",
-            "default": "bearer"
-          },
-          "forward_cookies": {
-            "type": "boolean",
-            "title": "Forward Cookies",
-            "default": false
-          },
-          "config": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Config"
-          },
-          "server_type": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Server Type"
-          }
-        },
-        "additionalProperties": true,
-        "type": "object",
-        "required": [
-          "url"
-        ],
-        "title": "TerminalServerConnection"
-      },
-      "TerminalServersConfigForm": {
-        "properties": {
-          "TERMINAL_SERVER_CONNECTIONS": {
-            "items": {
-              "$ref": "#/components/schemas/TerminalServerConnection"
-            },
-            "type": "array",
-            "title": "Terminal Server Connections"
-          }
-        },
-        "type": "object",
-        "required": [
-          "TERMINAL_SERVER_CONNECTIONS"
-        ],
-        "title": "TerminalServersConfigForm"
       },
       "TokenExchangeForm": {
         "properties": {
@@ -53960,38 +56482,6 @@
         ],
         "title": "UpdateActiveMemberForm"
       },
-      "UpdateConfigForm": {
-        "properties": {
-          "ENABLE_EVALUATION_ARENA_MODELS": {
-            "anyOf": [
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Enable Evaluation Arena Models"
-          },
-          "EVALUATION_ARENA_MODELS": {
-            "anyOf": [
-              {
-                "items": {
-                  "additionalProperties": true,
-                  "type": "object"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Evaluation Arena Models"
-          }
-        },
-        "type": "object",
-        "title": "UpdateConfigForm"
-      },
       "UpdateMembersForm": {
         "properties": {
           "user_ids": {
@@ -54140,6 +56630,54 @@
           "timezone"
         ],
         "title": "UpdateTimezoneForm"
+      },
+      "UpgradeForm": {
+        "properties": {
+          "version": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 20
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Version"
+          },
+          "deps": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array",
+                "maxItems": 16
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deps"
+          },
+          "packages": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array",
+                "maxItems": 64
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Packages"
+          }
+        },
+        "type": "object",
+        "title": "UpgradeForm"
       },
       "UrlForm": {
         "properties": {
@@ -56846,6 +59384,85 @@
         ],
         "title": "ReactionForm"
       },
+      "open_webui__routers__machines__CreateForm": {
+        "properties": {
+          "host": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9.\\-:\\[\\]]{1,253}$",
+            "title": "Host"
+          },
+          "port": {
+            "type": "integer",
+            "maximum": 65535.0,
+            "minimum": 1.0,
+            "title": "Port",
+            "default": 22
+          },
+          "username": {
+            "type": "string",
+            "pattern": "^[a-z_][a-z0-9_.\\-]{0,31}$",
+            "title": "Username"
+          },
+          "host_key": {
+            "type": "string",
+            "pattern": "^ssh-[a-z0-9-]+ [A-Za-z0-9+/=]+$|^ecdsa-sha2-nistp\\d+ [A-Za-z0-9+/=]+$",
+            "title": "Host Key"
+          },
+          "id": {
+            "type": "string",
+            "pattern": "^m_[0-9a-f]{8}$",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "title": "Name",
+            "default": ""
+          },
+          "version": {
+            "type": "string",
+            "maxLength": 20,
+            "title": "Version",
+            "default": "latest"
+          },
+          "start_dir": {
+            "type": "string",
+            "maxLength": 1024,
+            "title": "Start Dir",
+            "default": ""
+          },
+          "flags": {
+            "type": "string",
+            "maxLength": 1024,
+            "title": "Flags",
+            "default": ""
+          },
+          "deps": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 16,
+            "title": "Deps"
+          },
+          "packages": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 64,
+            "title": "Packages"
+          }
+        },
+        "type": "object",
+        "required": [
+          "host",
+          "username",
+          "host_key",
+          "id"
+        ],
+        "title": "CreateForm"
+      },
       "open_webui__routers__ollama__ConnectionVerificationForm": {
         "properties": {
           "url": {
@@ -57236,6 +59853,30 @@
         },
         "type": "object",
         "title": "OpenAIConfigForm"
+      },
+      "open_webui__routers__templates__CreateForm": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "connection_id": {
+            "type": "string",
+            "title": "Connection Id"
+          },
+          "data": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Data"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "connection_id"
+        ],
+        "title": "CreateForm"
       }
     },
     "securitySchemes": {
