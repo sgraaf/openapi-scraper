@@ -33522,6 +33522,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
         "500":
           description: An internal error occurred.
           content:
@@ -33655,6 +33661,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
         "500":
           description: An internal error occurred.
           content:
@@ -33721,6 +33733,12 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "409":
           description: The request conflicted with the current session state.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
           content:
             application/json:
               schema:
@@ -33794,6 +33812,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
         "500":
           description: An internal error occurred.
           content:
@@ -33858,6 +33882,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
         "500":
           description: An internal error occurred.
           content:
@@ -33918,6 +33948,12 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "409":
           description: The request conflicted with the current session state.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
           content:
             application/json:
               schema:
@@ -33987,6 +34023,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
         "500":
           description: An internal error occurred.
           content:
@@ -34047,6 +34089,12 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "409":
           description: The request conflicted with the current session state.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
           content:
             application/json:
               schema:
@@ -34182,6 +34230,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
         "500":
           description: An internal error occurred.
           content:
@@ -34255,6 +34309,12 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "409":
           description: The request conflicted with the current session state.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
           content:
             application/json:
               schema:
@@ -34346,6 +34406,12 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "409":
           description: The request conflicted with the current environment state.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded a rate or capacity limit.
           content:
             application/json:
               schema:
@@ -34500,6 +34566,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
         "500":
           description: An internal error occurred.
           content:
@@ -34603,6 +34675,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
         "500":
           description: An internal error occurred.
           content:
@@ -34677,7 +34755,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "429":
-          description: The Files API rate limit for your user has been exceeded.
+          description: The Files API rate limit for your user has been exceeded. This
+            status also applies to the endpoint rate limit.
           content:
             application/json:
               schema:
@@ -34817,6 +34896,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
         "500":
           description: An internal error occurred.
           content:
@@ -34887,6 +34972,12 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "409":
           description: The request conflicted with the current session state.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
           content:
             application/json:
               schema:
@@ -34988,6 +35079,12 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "409":
           description: The request conflicted with the current session state.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
           content:
             application/json:
               schema:
@@ -35094,6 +35191,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
         "500":
           description: An internal error occurred.
           content:
@@ -35172,6 +35275,12 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "409":
           description: The request conflicted with the current session state.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
           content:
             application/json:
               schema:
@@ -35284,6 +35393,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
         "500":
           description: An internal error occurred.
           content:
@@ -35369,6 +35484,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
         "500":
           description: An internal error occurred.
           content:
@@ -35426,6 +35547,12 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "409":
           description: The request conflicted with the current session state.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
           content:
             application/json:
               schema:
@@ -35496,6 +35623,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
         "500":
           description: An internal error occurred.
           content:
@@ -35562,6 +35695,12 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "409":
           description: The request conflicted with the current session state.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
           content:
             application/json:
               schema:
@@ -35825,6 +35964,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
         "500":
           description: An internal error occurred.
           content:
@@ -35905,6 +36050,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
         "500":
           description: An internal error occurred.
           content:
@@ -35957,6 +36108,12 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "404":
           description: The requested environment definition was not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
           content:
             application/json:
               schema:
@@ -36018,6 +36175,12 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "404":
           description: The requested environment definition was not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
           content:
             application/json:
               schema:
@@ -36093,6 +36256,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
         "500":
           description: An internal error occurred.
           content:
@@ -36155,6 +36324,12 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "409":
           description: The request conflicted with the current environment state.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
           content:
             application/json:
               schema:
@@ -36275,6 +36450,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
         "500":
           description: An internal error occurred.
           content:
@@ -36342,7 +36523,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "429":
-          description: The Files API rate limit for your user has been exceeded.
+          description: The Files API rate limit for your user has been exceeded. This
+            status also applies to the endpoint rate limit.
           content:
             application/json:
               schema:
@@ -36413,6 +36595,12 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "409":
           description: The request conflicted with the current session state.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
           content:
             application/json:
               schema:
@@ -36489,6 +36677,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
         "500":
           description: An internal error occurred.
           content:
@@ -36554,6 +36748,12 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "409":
           description: The request conflicted with the current session state.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
           content:
             application/json:
               schema:
@@ -36662,6 +36862,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
         "500":
           description: An internal error occurred.
           content:
@@ -36737,6 +36943,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
         "500":
           description: An internal error occurred.
           content:
@@ -36807,6 +37019,12 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "409":
           description: The request conflicted with the current session state.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
           content:
             application/json:
               schema:
@@ -36887,6 +37105,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
         "500":
           description: An internal error occurred.
           content:
@@ -36957,6 +37181,12 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "409":
           description: The request conflicted with the current session state.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
           content:
             application/json:
               schema:
@@ -37046,6 +37276,12 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "409":
           description: The request conflicted with the current session state.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
           content:
             application/json:
               schema:
@@ -37140,6 +37376,12 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "409":
           description: The request conflicted with the current session state.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
           content:
             application/json:
               schema:
@@ -37242,6 +37484,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
         "500":
           description: An internal error occurred.
           content:
@@ -37336,6 +37584,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
         "500":
           description: An internal error occurred.
           content:
@@ -37407,6 +37661,12 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "409":
           description: The request conflicted with the current session state.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
           content:
             application/json:
               schema:
@@ -37508,6 +37768,12 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "409":
           description: The request conflicted with the current session state.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
           content:
             application/json:
               schema:
@@ -37626,6 +37892,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
         "500":
           description: An internal error occurred.
           content:
@@ -37683,6 +37955,12 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "409":
           description: The request conflicted with the current vault state.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
           content:
             application/json:
               schema:
@@ -37749,6 +38027,12 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "409":
           description: The request conflicted with the current vault state.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
           content:
             application/json:
               schema:
@@ -37825,6 +38109,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
         "500":
           description: An internal error occurred.
           content:
@@ -37886,6 +38176,12 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "409":
           description: The request conflicted with the current vault state.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
           content:
             application/json:
               schema:
@@ -38013,6 +38309,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
         "500":
           description: An internal error occurred.
           content:
@@ -38080,6 +38382,12 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "409":
           description: The request conflicted with the current vault state.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
           content:
             application/json:
               schema:
@@ -38155,6 +38463,12 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "409":
           description: The request conflicted with the current vault state.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
           content:
             application/json:
               schema:
@@ -38241,6 +38555,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
         "500":
           description: An internal error occurred.
           content:
@@ -38310,6 +38630,12 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse-2"
         "409":
           description: The request conflicted with the current vault state.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse-2"
+        "429":
+          description: The request exceeded this endpoint's rate limit.
           content:
             application/json:
               schema:
@@ -41605,9 +41931,7 @@ components:
         object:
           description: The object type, which is always `assistant`.
           type: string
-          enum:
-            - assistant
-          x-stainless-const: true
+          const: assistant
         created_at:
           description: The Unix timestamp (in seconds) for when the assistant was created.
           type: integer
@@ -41897,9 +42221,7 @@ components:
         type:
           type: string
           description: "The type of tool being defined: `code_interpreter`"
-          enum:
-            - code_interpreter
-          x-stainless-const: true
+          const: code_interpreter
       required:
         - type
     AssistantToolsFileSearch:
@@ -41909,9 +42231,7 @@ components:
         type:
           type: string
           description: "The type of tool being defined: `file_search`"
-          enum:
-            - file_search
-          x-stainless-const: true
+          const: file_search
         file_search:
           type: object
           description: Overrides for the file search tool.
@@ -41935,9 +42255,7 @@ components:
         type:
           type: string
           description: "The type of tool being defined: `file_search`"
-          enum:
-            - file_search
-          x-stainless-const: true
+          const: file_search
       required:
         - type
     AssistantToolsFunction:
@@ -41947,9 +42265,7 @@ components:
         type:
           type: string
           description: "The type of tool being defined: `function`"
-          enum:
-            - function
-          x-stainless-const: true
+          const: function
         function:
           $ref: "#/components/schemas/FunctionObject"
       required:
@@ -41968,9 +42284,7 @@ components:
         - type: string
           description: |
             `auto` is the default value
-          enum:
-            - auto
-          x-stainless-const: true
+          const: auto
         - $ref: "#/components/schemas/ResponseFormatText"
         - $ref: "#/components/schemas/ResponseFormatJsonObject"
         - $ref: "#/components/schemas/ResponseFormatJsonSchema"
@@ -45011,11 +45325,9 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - files
+          const: files
           description: |
             The type of the code interpreter file output. Always `files`.
-          x-stainless-const: true
         files:
           type: array
           items:
@@ -45043,11 +45355,9 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - logs
+          const: logs
           description: |
             The type of the code interpreter text output. Always `logs`.
-          x-stainless-const: true
         logs:
           type: string
           description: |
@@ -45063,11 +45373,9 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - code_interpreter
+          const: code_interpreter
           description: |
             The type of the code interpreter tool. Always `code_interpreter`.
-          x-stainless-const: true
         container:
           description: >
             The code interpreter container. Can be a container ID or an object
@@ -45100,10 +45408,8 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - code_interpreter_call
+          const: code_interpreter_call
           default: code_interpreter_call
-          x-stainless-const: true
           description: >
             The type of the code interpreter tool call. Always
             `code_interpreter_call`.
@@ -45797,9 +46103,7 @@ components:
             - type: "null"
         object:
           type: string
-          enum:
-            - organization.costs.result
-          x-stainless-const: true
+          const: organization.costs.result
         amount:
           type: object
           description: The monetary value in its associated currency.
@@ -45982,9 +46286,7 @@ components:
                                   type:
                                     type: string
                                     description: Always `auto`.
-                                    enum:
-                                      - auto
-                                    x-stainless-const: true
+                                    const: auto
                                 required:
                                   - type
                               - type: object
@@ -45994,9 +46296,7 @@ components:
                                   type:
                                     type: string
                                     description: Always `static`.
-                                    enum:
-                                      - static
-                                    x-stainless-const: true
+                                    const: static
                                   static:
                                     type: object
                                     additionalProperties: false
@@ -47520,11 +47820,9 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - custom
+          const: custom
           default: custom
           description: The type of data source. Always `custom`.
-          x-stainless-const: true
         item_schema:
           type: object
           description: The json schema for each row in the data source.
@@ -47592,11 +47890,9 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - jsonl
+          const: jsonl
           default: jsonl
           description: The type of data source. Always `jsonl`.
-          x-stainless-const: true
         source:
           description: Determines what populates the `item` namespace in the data source.
           oneOf:
@@ -47628,9 +47924,7 @@ components:
         type:
           description: The object type, which is always `label_model`.
           type: string
-          enum:
-            - label_model
-          x-stainless-const: true
+          const: label_model
         name:
           type: string
           description: The name of the grader.
@@ -47694,11 +47988,9 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - logs
+          const: logs
           default: logs
           description: The type of data source. Always `logs`.
-          x-stainless-const: true
         metadata:
           type: object
           description: Metadata filters for the logs data source.
@@ -47926,11 +48218,9 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - stored_completions
+          const: stored_completions
           default: stored_completions
           description: The type of data source. Always `stored_completions`.
-          x-stainless-const: true
         metadata:
           type: object
           description: Metadata filters for the stored completions data source.
@@ -50101,9 +50391,7 @@ components:
                                   type:
                                     type: string
                                     description: Always `auto`.
-                                    enum:
-                                      - auto
-                                    x-stainless-const: true
+                                    const: auto
                                 required:
                                   - type
                               - type: object
@@ -50113,9 +50401,7 @@ components:
                                   type:
                                     type: string
                                     description: Always `static`.
-                                    enum:
-                                      - static
-                                    x-stainless-const: true
+                                    const: static
                                   static:
                                     type: object
                                     additionalProperties: false
@@ -50341,9 +50627,7 @@ components:
         task:
           type: string
           description: The type of task that was run. Always `transcribe`.
-          enum:
-            - transcribe
-          x-stainless-const: true
+          const: transcribe
         duration:
           type: number
           format: double
@@ -50558,9 +50842,7 @@ components:
           anyOf:
             - type: string
             - type: string
-              enum:
-                - whisper-1
-              x-stainless-const: true
+              const: whisper-1
           x-oaiTypeLabel: string
         prompt:
           description: |
@@ -50878,9 +51160,7 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - custom_tool_call
-          x-stainless-const: true
+          const: custom_tool_call
           description: |
             The type of the custom tool call. Always `custom_tool_call`.
         id:
@@ -50926,9 +51206,7 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - custom_tool_call_output
-          x-stainless-const: true
+          const: custom_tool_call_output
           description: >
             The type of the custom tool call output. Always
             `custom_tool_call_output`.
@@ -51043,10 +51321,8 @@ components:
                   properties:
                     type:
                       type: string
-                      enum:
-                        - text
+                      const: text
                       description: Unconstrained text format. Always `text`.
-                      x-stainless-const: true
                   required:
                     - type
                   additionalProperties: false
@@ -51056,10 +51332,8 @@ components:
                   properties:
                     type:
                       type: string
-                      enum:
-                        - grammar
+                      const: grammar
                       description: Grammar format. Always `grammar`.
-                      x-stainless-const: true
                     grammar:
                       type: object
                       title: Grammar format
@@ -51095,9 +51369,7 @@ components:
           type: boolean
         object:
           type: string
-          enum:
-            - assistant.deleted
-          x-stainless-const: true
+          const: assistant.deleted
       required:
         - id
         - object
@@ -51157,9 +51429,7 @@ components:
           type: boolean
         object:
           type: string
-          enum:
-            - thread.message.deleted
-          x-stainless-const: true
+          const: thread.message.deleted
       required:
         - id
         - object
@@ -51186,9 +51456,7 @@ components:
           type: boolean
         object:
           type: string
-          enum:
-            - thread.deleted
-          x-stainless-const: true
+          const: thread.deleted
       required:
         - id
         - object
@@ -51254,14 +51522,10 @@ components:
       properties:
         event:
           type: string
-          enum:
-            - done
-          x-stainless-const: true
+          const: done
         data:
           type: string
-          enum:
-            - "[DONE]"
-          x-stainless-const: true
+          const: "[DONE]"
       required:
         - event
         - data
@@ -51317,9 +51581,7 @@ components:
           type: string
           description: |
             The type of the message input. Always `message`.
-          enum:
-            - message
-          x-stainless-const: true
+          const: message
       required:
         - role
         - content
@@ -51627,9 +51889,7 @@ components:
       properties:
         event:
           type: string
-          enum:
-            - error
-          x-stainless-const: true
+          const: error
         data:
           $ref: "#/components/schemas/Error"
       required:
@@ -51662,11 +51922,9 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - eval
+          const: eval
           default: eval
           description: The object type.
-          x-stainless-const: true
         id:
           type: string
           description: Unique identifier for the evaluation.
@@ -51828,11 +52086,9 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - custom
+          const: custom
           default: custom
           description: The type of data source. Always `custom`.
-          x-stainless-const: true
         schema:
           type: object
           description: |
@@ -51974,9 +52230,7 @@ components:
           type: string
           description: |
             The type of the message input. Always `message`.
-          enum:
-            - message
-          x-stainless-const: true
+          const: message
       required:
         - role
         - content
@@ -52020,9 +52274,7 @@ components:
           type: string
           description: |
             The type of the output text. Always `output_text`.
-          enum:
-            - output_text
-          x-stainless-const: true
+          const: output_text
         text:
           type: string
           description: |
@@ -52044,9 +52296,7 @@ components:
           type: string
           description: |
             The type of the image input. Always `input_image`.
-          enum:
-            - input_image
-          x-stainless-const: true
+          const: input_image
         image_url:
           type: string
           format: uri
@@ -52066,11 +52316,9 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - file_content
+          const: file_content
           default: file_content
           description: The type of jsonl source. Always `file_content`.
-          x-stainless-const: true
         content:
           type: array
           items:
@@ -52094,11 +52342,9 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - file_id
+          const: file_id
           default: file_id
           description: The type of jsonl source. Always `file_id`.
-          x-stainless-const: true
         id:
           type: string
           description: The identifier of the file.
@@ -52113,12 +52359,10 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - list
+          const: list
           default: list
           description: |
             The type of this object. It is always set to "list".
-          x-stainless-const: true
         data:
           type: array
           description: |
@@ -52212,11 +52456,9 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - logs
+          const: logs
           default: logs
           description: The type of data source. Always `logs`.
-          x-stainless-const: true
         metadata:
           $ref: "#/components/schemas/Metadata"
         schema:
@@ -52351,11 +52593,9 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - eval.run
+          const: eval.run
           default: eval.run
           description: The type of the object. Always "eval.run".
-          x-stainless-const: true
         id:
           type: string
           description: Unique identifier for the evaluation run.
@@ -52641,12 +52881,10 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - list
+          const: list
           default: list
           description: |
             The type of this object. It is always set to "list".
-          x-stainless-const: true
         data:
           type: array
           description: |
@@ -52745,11 +52983,9 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - eval.run.output_item
+          const: eval.run.output_item
           default: eval.run.output_item
           description: The type of the object. Always "eval.run.output_item".
-          x-stainless-const: true
         id:
           type: string
           description: Unique identifier for the evaluation run output item.
@@ -52940,12 +53176,10 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - list
+          const: list
           default: list
           description: |
             The type of this object. It is always set to "list".
-          x-stainless-const: true
         data:
           type: array
           description: |
@@ -53068,11 +53302,9 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - stored_completions
+          const: stored_completions
           default: stored_completions
           description: The type of data source. Always `stored_completions`.
-          x-stainless-const: true
         metadata:
           $ref: "#/components/schemas/Metadata"
         schema:
@@ -53119,11 +53351,9 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - stored_completions
+          const: stored_completions
           default: stored_completions
           description: The type of source. Always `stored_completions`.
-          x-stainless-const: true
         metadata:
           $ref: "#/components/schemas/Metadata"
         model:
@@ -53173,9 +53403,7 @@ components:
           description: "Anchor timestamp after which the expiration policy applies.
             Supported anchors: `created_at`."
           type: string
-          enum:
-            - created_at
-          x-stainless-const: true
+          const: created_at
         seconds:
           description: The number of seconds after the anchor time that the file will
             expire. Must be between 3600 (1 hour) and 2592000 (30 days).
@@ -53196,9 +53424,7 @@ components:
           type: string
           description: |
             The type of the file path. Always `file_path`.
-          enum:
-            - file_path
-          x-stainless-const: true
+          const: file_path
         file_id:
           type: string
           description: |
@@ -53252,11 +53478,9 @@ components:
             The unique ID of the file search tool call.
         type:
           type: string
-          enum:
-            - file_search_call
+          const: file_search_call
           description: |
             The type of the file search tool call. Always `file_search_call`.
-          x-stainless-const: true
         status:
           type: string
           description: |
@@ -54229,9 +54453,7 @@ components:
         type:
           description: The object type, which is always `label_model`.
           type: string
-          enum:
-            - label_model
-          x-stainless-const: true
+          const: label_model
         name:
           type: string
           description: The name of the grader.
@@ -54303,11 +54525,9 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - multi
+          const: multi
           default: multi
           description: The object type, which is always `multi`.
-          x-stainless-const: true
         name:
           type: string
           description: The name of the grader.
@@ -54370,10 +54590,8 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - python
+          const: python
           description: The object type, which is always `python`.
-          x-stainless-const: true
         name:
           type: string
           description: The name of the grader.
@@ -54406,10 +54624,8 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - score_model
+          const: score_model
           description: The object type, which is always `score_model`.
-          x-stainless-const: true
         name:
           type: string
           description: The name of the grader.
@@ -54512,10 +54728,8 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - string_check
+          const: string_check
           description: The object type, which is always `string_check`.
-          x-stainless-const: true
         name:
           type: string
           description: The name of the grader.
@@ -54560,11 +54774,9 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - text_similarity
+          const: text_similarity
           default: text_similarity
           description: The type of grader.
-          x-stainless-const: true
         name:
           type: string
           description: The name of the grader.
@@ -54619,10 +54831,8 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - group
+          const: group
           description: Always `group`.
-          x-stainless-const: true
         id:
           type: string
           description: Identifier for the group.
@@ -54658,10 +54868,8 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - group.deleted
+          const: group.deleted
           description: Always `group.deleted`.
-          x-stainless-const: true
         id:
           type: string
           description: Identifier of the deleted group.
@@ -54685,10 +54893,8 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - list
+          const: list
           description: Always `list`.
-          x-stainless-const: true
         data:
           type: array
           description: Groups returned in the current page.
@@ -54859,10 +55065,8 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - group.role
+          const: group.role
           description: Always `group.role`.
-          x-stainless-const: true
         group:
           $ref: "#/components/schemas/Group"
         role:
@@ -54921,10 +55125,8 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - group.user
+          const: group.user
           description: Always `group.user`.
-          x-stainless-const: true
         user_id:
           type: string
           description: Identifier of the user that was added.
@@ -54949,10 +55151,8 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - group.user.deleted
+          const: group.user.deleted
           description: Always `group.user.deleted`.
-          x-stainless-const: true
         deleted:
           type: boolean
           description: Whether the group membership was removed.
@@ -55393,11 +55593,9 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - image_generation
+          const: image_generation
           description: |
             The type of the image generation tool. Always `image_generation`.
-          x-stainless-const: true
         model:
           anyOf:
             - type: string
@@ -57096,11 +57294,9 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - local_shell_call
+          const: local_shell_call
           description: |
             The type of the local shell call. Always `local_shell_call`.
-          x-stainless-const: true
         id:
           type: string
           description: |
@@ -57133,12 +57329,10 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - local_shell_call_output
+          const: local_shell_call_output
           description: >
             The type of the local shell tool call output. Always
             `local_shell_call_output`.
-          x-stainless-const: true
         id:
           type: string
           description: |
@@ -57596,9 +57790,7 @@ components:
         type:
           description: Always `image_file`.
           type: string
-          enum:
-            - image_file
-          x-stainless-const: true
+          const: image_file
         image_file:
           type: object
           properties:
@@ -57631,10 +57823,8 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - image_url
+          const: image_url
           description: The type of the content part.
-          x-stainless-const: true
         image_url:
           type: object
           properties:
@@ -57666,9 +57856,7 @@ components:
         type:
           description: Always `refusal`.
           type: string
-          enum:
-            - refusal
-          x-stainless-const: true
+          const: refusal
         refusal:
           type: string
       required:
@@ -57684,9 +57872,7 @@ components:
         type:
           description: Always `file_citation`.
           type: string
-          enum:
-            - file_citation
-          x-stainless-const: true
+          const: file_citation
         text:
           description: The text in the message content that needs to be replaced.
           type: string
@@ -57719,9 +57905,7 @@ components:
         type:
           description: Always `file_path`.
           type: string
-          enum:
-            - file_path
-          x-stainless-const: true
+          const: file_path
         text:
           description: The text in the message content that needs to be replaced.
           type: string
@@ -57753,9 +57937,7 @@ components:
         type:
           description: Always `text`.
           type: string
-          enum:
-            - text
-          x-stainless-const: true
+          const: text
         text:
           type: object
           properties:
@@ -57787,9 +57969,7 @@ components:
         type:
           description: Always `image_file`.
           type: string
-          enum:
-            - image_file
-          x-stainless-const: true
+          const: image_file
         image_file:
           type: object
           properties:
@@ -57824,9 +58004,7 @@ components:
         type:
           description: Always `image_url`.
           type: string
-          enum:
-            - image_url
-          x-stainless-const: true
+          const: image_url
         image_url:
           type: object
           properties:
@@ -57858,9 +58036,7 @@ components:
         type:
           description: Always `refusal`.
           type: string
-          enum:
-            - refusal
-          x-stainless-const: true
+          const: refusal
         refusal:
           type: string
       required:
@@ -57879,9 +58055,7 @@ components:
         type:
           description: Always `file_citation`.
           type: string
-          enum:
-            - file_citation
-          x-stainless-const: true
+          const: file_citation
         text:
           description: The text in the message content that needs to be replaced.
           type: string
@@ -57915,9 +58089,7 @@ components:
         type:
           description: Always `file_path`.
           type: string
-          enum:
-            - file_path
-          x-stainless-const: true
+          const: file_path
         text:
           description: The text in the message content that needs to be replaced.
           type: string
@@ -57947,9 +58119,7 @@ components:
         type:
           description: Always `text`.
           type: string
-          enum:
-            - text
-          x-stainless-const: true
+          const: text
         text:
           type: object
           properties:
@@ -57980,9 +58150,7 @@ components:
         object:
           description: The object type, which is always `thread.message.delta`.
           type: string
-          enum:
-            - thread.message.delta
-          x-stainless-const: true
+          const: thread.message.delta
         delta:
           description: The delta containing the fields that have changed on the Message.
           type: object
@@ -58035,9 +58203,7 @@ components:
         object:
           description: The object type, which is always `thread.message`.
           type: string
-          enum:
-            - thread.message
-          x-stainless-const: true
+          const: thread.message
         created_at:
           description: The Unix timestamp (in seconds) for when the message was created.
           type: integer
@@ -58203,9 +58369,7 @@ components:
         type:
           description: Always `text`.
           type: string
-          enum:
-            - text
-          x-stainless-const: true
+          const: text
         text:
           type: string
           description: Text content to be sent to the model
@@ -58218,9 +58382,7 @@ components:
           properties:
             event:
               type: string
-              enum:
-                - thread.message.created
-              x-stainless-const: true
+              const: thread.message.created
             data:
               $ref: "#/components/schemas/MessageObject"
           required:
@@ -58237,9 +58399,7 @@ components:
           properties:
             event:
               type: string
-              enum:
-                - thread.message.in_progress
-              x-stainless-const: true
+              const: thread.message.in_progress
             data:
               $ref: "#/components/schemas/MessageObject"
           required:
@@ -58256,9 +58416,7 @@ components:
           properties:
             event:
               type: string
-              enum:
-                - thread.message.delta
-              x-stainless-const: true
+              const: thread.message.delta
             data:
               $ref: "#/components/schemas/MessageDeltaObject"
           required:
@@ -58275,9 +58433,7 @@ components:
           properties:
             event:
               type: string
-              enum:
-                - thread.message.completed
-              x-stainless-const: true
+              const: thread.message.completed
             data:
               $ref: "#/components/schemas/MessageObject"
           required:
@@ -58294,9 +58450,7 @@ components:
           properties:
             event:
               type: string
-              enum:
-                - thread.message.incomplete
-              x-stainless-const: true
+              const: thread.message.incomplete
             data:
               $ref: "#/components/schemas/MessageObject"
           required:
@@ -58319,7 +58473,7 @@ components:
             useful for storing additional information about the object in a
             structured
 
-            format, and querying for objects via API or the dashboard.
+            format.
 
 
             Keys are strings with a maximum length of 64 characters. Values are
@@ -58424,6 +58578,10 @@ components:
             - gpt-rosalind-research
             - gpt-6-rosalind
             - gpt-6.2-astra-law
+            - gpt-6-astra-healthcare
+            - gpt-6.1-sol-healthcare
+            - gpt-6.2-astra-healthcare
+            - gpt-6.2-sol-healthcare
           x-openai-enum-deprecations:
             o1-pro:
               message: "Announced shutdown date: 2026-10-23. See
@@ -59687,12 +59845,10 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - content
+          const: content
           description: |
             The type of the predicted content you want to provide. This type is
             currently always `content`.
-          x-stainless-const: true
         content:
           description: >
             The content that should be matched when generating a model response.
@@ -60844,10 +61000,8 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - list
+          const: list
           description: Always `list`.
-          x-stainless-const: true
         data:
           type: array
           description: Roles returned in the current page.
@@ -71676,9 +71830,7 @@ components:
           type: string
           description: |
             The type of the object. Always `reasoning`.
-          enum:
-            - reasoning
-          x-stainless-const: true
+          const: reasoning
         id:
           type: string
           description: |
@@ -76752,10 +76904,8 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - role
+          const: role
           description: Always `role`.
-          x-stainless-const: true
         id:
           type: string
           description: Identifier for the role.
@@ -76808,10 +76958,8 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - role.deleted
+          const: role.deleted
           description: Always `role.deleted`.
-          x-stainless-const: true
         id:
           type: string
           description: Identifier of the deleted role.
@@ -76836,10 +76984,8 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - list
+          const: list
           description: Always `list`.
-          x-stainless-const: true
         data:
           type: array
           description: Role assignments returned in the current page.
@@ -77074,9 +77220,7 @@ components:
         object:
           description: The object type, which is always `thread.run`.
           type: string
-          enum:
-            - thread.run
-          x-stainless-const: true
+          const: thread.run
         created_at:
           description: The Unix timestamp (in seconds) for when the run was created.
           type: integer
@@ -77116,9 +77260,7 @@ components:
             type:
               description: For now, this is always `submit_tool_outputs`.
               type: string
-              enum:
-                - submit_tool_outputs
-              x-stainless-const: true
+              const: submit_tool_outputs
             submit_tool_outputs:
               type: object
               description: Details on the tool outputs needed for this run to continue.
@@ -77364,9 +77506,7 @@ components:
         object:
           description: The object type, which is always `thread.run.step.delta`.
           type: string
-          enum:
-            - thread.run.step.delta
-          x-stainless-const: true
+          const: thread.run.step.delta
         delta:
           description: The delta containing the fields that have changed on the run step.
           type: object
@@ -77410,9 +77550,7 @@ components:
         type:
           description: Always `message_creation`.
           type: string
-          enum:
-            - message_creation
-          x-stainless-const: true
+          const: message_creation
         message_creation:
           type: object
           properties:
@@ -77436,9 +77574,7 @@ components:
           type: string
           description: The type of tool call. This is always going to be
             `code_interpreter` for this type of tool call.
-          enum:
-            - code_interpreter
-          x-stainless-const: true
+          const: code_interpreter
         code_interpreter:
           type: object
           description: The Code Interpreter tool call definition.
@@ -77472,9 +77608,7 @@ components:
         type:
           description: Always `image`.
           type: string
-          enum:
-            - image
-          x-stainless-const: true
+          const: image
         image:
           type: object
           properties:
@@ -77497,9 +77631,7 @@ components:
         type:
           description: Always `logs`.
           type: string
-          enum:
-            - logs
-          x-stainless-const: true
+          const: logs
         logs:
           type: string
           description: The text output from the Code Interpreter tool call.
@@ -77520,9 +77652,7 @@ components:
           type: string
           description: The type of tool call. This is always going to be `file_search` for
             this type of tool call.
-          enum:
-            - file_search
-          x-stainless-const: true
+          const: file_search
         file_search:
           type: object
           description: For now, this is always going to be an empty object.
@@ -77545,9 +77675,7 @@ components:
           type: string
           description: The type of tool call. This is always going to be `function` for
             this type of tool call.
-          enum:
-            - function
-          x-stainless-const: true
+          const: function
         function:
           type: object
           description: The definition of the function that was called.
@@ -77577,9 +77705,7 @@ components:
         type:
           description: Always `tool_calls`.
           type: string
-          enum:
-            - tool_calls
-          x-stainless-const: true
+          const: tool_calls
         tool_calls:
           type: array
           description: >
@@ -77601,9 +77727,7 @@ components:
         type:
           description: Always `message_creation`.
           type: string
-          enum:
-            - message_creation
-          x-stainless-const: true
+          const: message_creation
         message_creation:
           type: object
           properties:
@@ -77627,9 +77751,7 @@ components:
           type: string
           description: The type of tool call. This is always going to be
             `code_interpreter` for this type of tool call.
-          enum:
-            - code_interpreter
-          x-stainless-const: true
+          const: code_interpreter
         code_interpreter:
           type: object
           description: The Code Interpreter tool call definition.
@@ -77662,9 +77784,7 @@ components:
         type:
           description: Always `image`.
           type: string
-          enum:
-            - image
-          x-stainless-const: true
+          const: image
         image:
           type: object
           properties:
@@ -77686,9 +77806,7 @@ components:
         type:
           description: Always `logs`.
           type: string
-          enum:
-            - logs
-          x-stainless-const: true
+          const: logs
         logs:
           type: string
           description: The text output from the Code Interpreter tool call.
@@ -77706,9 +77824,7 @@ components:
           type: string
           description: The type of tool call. This is always going to be `file_search` for
             this type of tool call.
-          enum:
-            - file_search
-          x-stainless-const: true
+          const: file_search
         file_search:
           type: object
           description: For now, this is always going to be an empty object.
@@ -77770,9 +77886,7 @@ components:
               type:
                 type: string
                 description: The type of the content.
-                enum:
-                  - text
-                x-stainless-const: true
+                const: text
               text:
                 type: string
                 description: The text content of the file.
@@ -77791,9 +77905,7 @@ components:
           type: string
           description: The type of tool call. This is always going to be `function` for
             this type of tool call.
-          enum:
-            - function
-          x-stainless-const: true
+          const: function
         function:
           type: object
           description: The definition of the function that was called.
@@ -77828,9 +77940,7 @@ components:
         type:
           description: Always `tool_calls`.
           type: string
-          enum:
-            - tool_calls
-          x-stainless-const: true
+          const: tool_calls
         tool_calls:
           type: array
           description: >
@@ -77858,9 +77968,7 @@ components:
         object:
           description: The object type, which is always `thread.run.step`.
           type: string
-          enum:
-            - thread.run.step
-          x-stainless-const: true
+          const: thread.run.step
         created_at:
           description: The Unix timestamp (in seconds) for when the run step was created.
           type: integer
@@ -78006,9 +78114,7 @@ components:
           properties:
             event:
               type: string
-              enum:
-                - thread.run.step.created
-              x-stainless-const: true
+              const: thread.run.step.created
             data:
               $ref: "#/components/schemas/RunStepObject"
           required:
@@ -78025,9 +78131,7 @@ components:
           properties:
             event:
               type: string
-              enum:
-                - thread.run.step.in_progress
-              x-stainless-const: true
+              const: thread.run.step.in_progress
             data:
               $ref: "#/components/schemas/RunStepObject"
           required:
@@ -78044,9 +78148,7 @@ components:
           properties:
             event:
               type: string
-              enum:
-                - thread.run.step.delta
-              x-stainless-const: true
+              const: thread.run.step.delta
             data:
               $ref: "#/components/schemas/RunStepDeltaObject"
           required:
@@ -78063,9 +78165,7 @@ components:
           properties:
             event:
               type: string
-              enum:
-                - thread.run.step.completed
-              x-stainless-const: true
+              const: thread.run.step.completed
             data:
               $ref: "#/components/schemas/RunStepObject"
           required:
@@ -78082,9 +78182,7 @@ components:
           properties:
             event:
               type: string
-              enum:
-                - thread.run.step.failed
-              x-stainless-const: true
+              const: thread.run.step.failed
             data:
               $ref: "#/components/schemas/RunStepObject"
           required:
@@ -78101,9 +78199,7 @@ components:
           properties:
             event:
               type: string
-              enum:
-                - thread.run.step.cancelled
-              x-stainless-const: true
+              const: thread.run.step.cancelled
             data:
               $ref: "#/components/schemas/RunStepObject"
           required:
@@ -78120,9 +78216,7 @@ components:
           properties:
             event:
               type: string
-              enum:
-                - thread.run.step.expired
-              x-stainless-const: true
+              const: thread.run.step.expired
             data:
               $ref: "#/components/schemas/RunStepObject"
           required:
@@ -78141,9 +78235,7 @@ components:
           properties:
             event:
               type: string
-              enum:
-                - thread.run.created
-              x-stainless-const: true
+              const: thread.run.created
             data:
               $ref: "#/components/schemas/RunObject"
           required:
@@ -78160,9 +78252,7 @@ components:
           properties:
             event:
               type: string
-              enum:
-                - thread.run.queued
-              x-stainless-const: true
+              const: thread.run.queued
             data:
               $ref: "#/components/schemas/RunObject"
           required:
@@ -78179,9 +78269,7 @@ components:
           properties:
             event:
               type: string
-              enum:
-                - thread.run.in_progress
-              x-stainless-const: true
+              const: thread.run.in_progress
             data:
               $ref: "#/components/schemas/RunObject"
           required:
@@ -78198,9 +78286,7 @@ components:
           properties:
             event:
               type: string
-              enum:
-                - thread.run.requires_action
-              x-stainless-const: true
+              const: thread.run.requires_action
             data:
               $ref: "#/components/schemas/RunObject"
           required:
@@ -78217,9 +78303,7 @@ components:
           properties:
             event:
               type: string
-              enum:
-                - thread.run.completed
-              x-stainless-const: true
+              const: thread.run.completed
             data:
               $ref: "#/components/schemas/RunObject"
           required:
@@ -78236,9 +78320,7 @@ components:
           properties:
             event:
               type: string
-              enum:
-                - thread.run.incomplete
-              x-stainless-const: true
+              const: thread.run.incomplete
             data:
               $ref: "#/components/schemas/RunObject"
           required:
@@ -78255,9 +78337,7 @@ components:
           properties:
             event:
               type: string
-              enum:
-                - thread.run.failed
-              x-stainless-const: true
+              const: thread.run.failed
             data:
               $ref: "#/components/schemas/RunObject"
           required:
@@ -78274,9 +78354,7 @@ components:
           properties:
             event:
               type: string
-              enum:
-                - thread.run.cancelling
-              x-stainless-const: true
+              const: thread.run.cancelling
             data:
               $ref: "#/components/schemas/RunObject"
           required:
@@ -78293,9 +78371,7 @@ components:
           properties:
             event:
               type: string
-              enum:
-                - thread.run.cancelled
-              x-stainless-const: true
+              const: thread.run.cancelled
             data:
               $ref: "#/components/schemas/RunObject"
           required:
@@ -78312,9 +78388,7 @@ components:
           properties:
             event:
               type: string
-              enum:
-                - thread.run.expired
-              x-stainless-const: true
+              const: thread.run.expired
             data:
               $ref: "#/components/schemas/RunObject"
           required:
@@ -78341,9 +78415,7 @@ components:
           type: string
           description: The type of tool call the output is required for. For now, this is
             always `function`.
-          enum:
-            - function
-          x-stainless-const: true
+          const: function
         function:
           type: object
           description: The function definition.
@@ -78623,9 +78695,7 @@ components:
         type:
           type: string
           description: The type of response format being defined. Always `json_schema`.
-          enum:
-            - json_schema
-          x-stainless-const: true
+          const: json_schema
         description:
           type: string
           description: >
@@ -78667,9 +78737,7 @@ components:
         object:
           description: The object type, which is always `thread`.
           type: string
-          enum:
-            - thread
-          x-stainless-const: true
+          const: thread
         created_at:
           description: The Unix timestamp (in seconds) for when the thread was created.
           type: integer
@@ -78734,9 +78802,7 @@ components:
               description: Whether to enable input audio transcription.
             event:
               type: string
-              enum:
-                - thread.created
-              x-stainless-const: true
+              const: thread.created
             data:
               $ref: "#/components/schemas/ThreadObject"
           required:
@@ -78791,10 +78857,8 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - allowed_tools
+          const: allowed_tools
           description: Allowed tool configuration type. Always `allowed_tools`.
-          x-stainless-const: true
         mode:
           type: string
           enum:
@@ -78843,10 +78907,8 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - custom
+          const: custom
           description: For custom tool calling, the type is always `custom`.
-          x-stainless-const: true
         name:
           type: string
           description: The name of the custom tool to call.
@@ -78861,10 +78923,8 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - function
+          const: function
           description: For function calling, the type is always `function`.
-          x-stainless-const: true
         name:
           type: string
           description: The name of the function to call.
@@ -78880,10 +78940,8 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - mcp
+          const: mcp
           description: For MCP tools, the type is always `mcp`.
-          x-stainless-const: true
         server_label:
           type: string
           description: |
@@ -79038,9 +79096,7 @@ components:
           type: string
           description: |
             The type of the event. Always `transcript.text.delta`.
-          enum:
-            - transcript.text.delta
-          x-stainless-const: true
+          const: transcript.text.delta
         delta:
           type: string
           description: |
@@ -79093,9 +79149,7 @@ components:
           type: string
           description: |
             The type of the event. Always `transcript.text.done`.
-          enum:
-            - transcript.text.done
-          x-stainless-const: true
+          const: transcript.text.done
         text:
           type: string
           description: |
@@ -79160,9 +79214,7 @@ components:
         type:
           type: string
           description: The type of the event. Always `transcript.text.segment`.
-          enum:
-            - transcript.text.segment
-          x-stainless-const: true
+          const: transcript.text.segment
         id:
           type: string
           description: Unique identifier for the segment.
@@ -79206,10 +79258,8 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - duration
+          const: duration
           description: The type of the usage object. Always `duration` for this variant.
-          x-stainless-const: true
         seconds:
           type: number
           format: double
@@ -79224,10 +79274,8 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - tokens
+          const: tokens
           description: The type of the usage object. Always `tokens` for this variant.
-          x-stainless-const: true
         input_tokens:
           type: integer
           description: Number of input tokens billed for this request.
@@ -79280,9 +79328,7 @@ components:
           type: string
           description: |
             The type of the segment. Always `transcript.text.segment`.
-          enum:
-            - transcript.text.segment
-          x-stainless-const: true
+          const: transcript.text.segment
         id:
           type: string
           description: Unique identifier for the segment.
@@ -79644,9 +79690,7 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - organization.usage.audio_speeches.result
-          x-stainless-const: true
+          const: organization.usage.audio_speeches.result
         characters:
           type: integer
           description: The number of characters processed.
@@ -79700,9 +79744,7 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - organization.usage.audio_transcriptions.result
-          x-stainless-const: true
+          const: organization.usage.audio_transcriptions.result
         seconds:
           type: integer
           format: int64
@@ -79757,9 +79799,7 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - organization.usage.code_interpreter_sessions.result
-          x-stainless-const: true
+          const: organization.usage.code_interpreter_sessions.result
         num_sessions:
           type: integer
           description: The number of code interpreter sessions.
@@ -79798,9 +79838,7 @@ components:
             - type: "null"
         object:
           type: string
-          enum:
-            - organization.usage.completions.result
-          x-stainless-const: true
+          const: organization.usage.completions.result
         input_tokens:
           type: integer
           description: The aggregated number of input tokens used, including cached and
@@ -79942,9 +79980,7 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - organization.usage.embeddings.result
-          x-stainless-const: true
+          const: organization.usage.embeddings.result
         input_tokens:
           type: integer
           description: The aggregated number of input tokens used.
@@ -79998,9 +80034,7 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - organization.usage.file_searches.result
-          x-stainless-const: true
+          const: organization.usage.file_searches.result
         num_requests:
           type: integer
           description: The count of file search calls.
@@ -80048,9 +80082,7 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - organization.usage.images.result
-          x-stainless-const: true
+          const: organization.usage.images.result
         images:
           type: integer
           description: The number of images processed.
@@ -80118,9 +80150,7 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - organization.usage.moderations.result
-          x-stainless-const: true
+          const: organization.usage.moderations.result
         input_tokens:
           type: integer
           description: The aggregated number of input tokens used.
@@ -80172,9 +80202,7 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - page
-          x-stainless-const: true
+          const: page
         data:
           type: array
           items:
@@ -80195,9 +80223,7 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - bucket
-          x-stainless-const: true
+          const: bucket
         start_time:
           type: integer
         end_time:
@@ -80230,9 +80256,7 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - organization.usage.vector_stores.result
-          x-stainless-const: true
+          const: organization.usage.vector_stores.result
         usage_bytes:
           type: integer
           description: The vector stores usage in bytes.
@@ -80272,9 +80296,7 @@ components:
             - type: "null"
         object:
           type: string
-          enum:
-            - organization.usage.web_searches.result
-          x-stainless-const: true
+          const: organization.usage.web_searches.result
         num_model_requests:
           type: integer
           description: The count of model requests.
@@ -80334,10 +80356,8 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - organization.user
+          const: organization.user
           description: The object type, which is always `organization.user`
-          x-stainless-const: true
         id:
           type: string
           description: The identifier, which can be referenced in API endpoints
@@ -80373,9 +80393,7 @@ components:
           properties:
             object:
               type: string
-              enum:
-                - user
-              x-stainless-const: true
+              const: user
             id:
               type: string
             email:
@@ -80439,9 +80457,7 @@ components:
               properties:
                 object:
                   type: string
-                  enum:
-                    - list
-                  x-stainless-const: true
+                  const: list
                 data:
                   type: array
                   items:
@@ -80484,9 +80500,7 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - organization.user.deleted
-          x-stainless-const: true
+          const: organization.user.deleted
         id:
           type: string
         deleted:
@@ -80501,10 +80515,8 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - list
+          const: list
           description: Always `list`.
-          x-stainless-const: true
         data:
           type: array
           description: Users in the current page.
@@ -80544,9 +80556,7 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - list
-          x-stainless-const: true
+          const: list
         data:
           type: array
           items:
@@ -80571,10 +80581,8 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - user.role
+          const: user.role
           description: Always `user.role`.
-          x-stainless-const: true
         user:
           $ref: "#/components/schemas/User"
         role:
@@ -81221,9 +81229,7 @@ components:
           example: cons_1234
         object:
           type: string
-          enum:
-            - audio.voice_consent
-          x-stainless-const: true
+          const: audio.voice_consent
         deleted:
           type: boolean
       required:
@@ -81244,9 +81250,7 @@ components:
       properties:
         object:
           type: string
-          enum:
-            - list
-          x-stainless-const: true
+          const: list
         data:
           type: array
           items:
@@ -81292,9 +81296,7 @@ components:
         object:
           type: string
           description: The object type, which is always `audio.voice_consent`.
-          enum:
-            - audio.voice_consent
-          x-stainless-const: true
+          const: audio.voice_consent
         id:
           type: string
           description: The consent recording identifier.
@@ -81337,9 +81339,7 @@ components:
           example: voice_1234
         object:
           type: string
-          enum:
-            - audio.voice.deleted
-          x-stainless-const: true
+          const: audio.voice.deleted
           description: The object type, which is always `audio.voice.deleted`.
         deleted:
           type: boolean
@@ -81398,9 +81398,7 @@ components:
         object:
           type: string
           description: The object type, which is always `audio.voice`.
-          enum:
-            - audio.voice
-          x-stainless-const: true
+          const: audio.voice
         id:
           type: string
           description: The voice identifier, which can be referenced in API endpoints.
@@ -90148,6 +90146,12 @@ components:
                 for objects via API or the dashboard.
                         Keys are strings with a maximum length of 64 characters. Values are strings         with a maximum length of 512 characters.
             - type: "null"
+        safety_identifier:
+          anyOf:
+            - type: string
+              maxLength: 128
+              description: A stable identifier used for safety monitoring and abuse detection.
+            - type: "null"
         items:
           anyOf:
             - items:
@@ -97281,7 +97285,7 @@ components:
           minItems: 0
           maxItems: 16384
           description: Tools available to the agent. Omit to inherit, or pass null to
-            clear them. The resolved tool list must fit within 3 MiB (3,145,728
+            clear them. The resolved tool list must fit within 8 MiB (8,388,608
             bytes) of compact UTF-8 JSON.
       additionalProperties: false
       description: Agent configuration for a session. Omitted fields inherit from
@@ -110112,10 +110116,8 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - custom
+          const: custom
           description: For custom tool calling, the type is always `custom`.
-          x-stainless-const: true
         name:
           type: string
           description: The name of the custom tool to call.
@@ -110131,10 +110133,8 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - mcp
+          const: mcp
           description: For MCP tools, the type is always `mcp`.
-          x-stainless-const: true
         server_label:
           type: string
           description: |
@@ -110156,10 +110156,8 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - function
+          const: function
           description: For function calling, the type is always `function`.
-          x-stainless-const: true
         name:
           type: string
           description: The name of the function to call.
@@ -110219,10 +110217,8 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - allowed_tools
+          const: allowed_tools
           description: Allowed tool configuration type. Always `allowed_tools`.
-          x-stainless-const: true
         mode:
           type: string
           enum:
@@ -110526,9 +110522,7 @@ components:
         type:
           type: string
           description: The type of response format being defined. Always `json_schema`.
-          enum:
-            - json_schema
-          x-stainless-const: true
+          const: json_schema
         description:
           type: string
           description: >
@@ -111215,11 +111209,9 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - image_generation
+          const: image_generation
           description: |
             The type of the image generation tool. Always `image_generation`.
-          x-stainless-const: true
         model:
           anyOf:
             - type: string
@@ -111508,11 +111500,9 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - code_interpreter
+          const: code_interpreter
           description: |
             The type of the code interpreter tool. Always `code_interpreter`.
-          x-stainless-const: true
         container:
           description: >
             The code interpreter container. Can be a container ID or an object
@@ -112324,9 +112314,7 @@ components:
           description: The agent that produced this item.
         type:
           type: string
-          enum:
-            - custom_tool_call
-          x-stainless-const: true
+          const: custom_tool_call
           description: |
             The type of the custom tool call. Always `custom_tool_call`.
         id:
@@ -112419,9 +112407,7 @@ components:
           description: The agent that produced this item.
         type:
           type: string
-          enum:
-            - custom_tool_call_output
-          x-stainless-const: true
+          const: custom_tool_call_output
           description: >
             The type of the custom tool call output. Always
             `custom_tool_call_output`.
@@ -113309,12 +113295,10 @@ components:
           description: The agent that produced this item.
         type:
           type: string
-          enum:
-            - local_shell_call_output
+          const: local_shell_call_output
           description: >
             The type of the local shell tool call output. Always
             `local_shell_call_output`.
-          x-stainless-const: true
         id:
           type: string
           description: |
@@ -113352,11 +113336,9 @@ components:
           description: The agent that produced this item.
         type:
           type: string
-          enum:
-            - local_shell_call
+          const: local_shell_call
           description: |
             The type of the local shell call. Always `local_shell_call`.
-          x-stainless-const: true
         id:
           type: string
           description: |
@@ -113436,10 +113418,8 @@ components:
           description: The agent that produced this item.
         type:
           type: string
-          enum:
-            - code_interpreter_call
+          const: code_interpreter_call
           default: code_interpreter_call
-          x-stainless-const: true
           description: >
             The type of the code interpreter tool call. Always
             `code_interpreter_call`.
@@ -113749,9 +113729,7 @@ components:
           type: string
           description: |
             The type of the object. Always `reasoning`.
-          enum:
-            - reasoning
-          x-stainless-const: true
+          const: reasoning
         id:
           type: string
           description: |
@@ -115306,11 +115284,9 @@ components:
             The unique ID of the file search tool call.
         type:
           type: string
-          enum:
-            - file_search_call
+          const: file_search_call
           description: |
             The type of the file search tool call. Always `file_search_call`.
-          x-stainless-const: true
         status:
           type: string
           description: |
@@ -115567,9 +115543,7 @@ components:
           type: string
           description: |
             The type of the file path. Always `file_path`.
-          enum:
-            - file_path
-          x-stainless-const: true
+          const: file_path
         file_id:
           type: string
           description: |
@@ -115786,9 +115760,7 @@ components:
           type: string
           description: |
             The type of the message input. Always `message`.
-          enum:
-            - message
-          x-stainless-const: true
+          const: message
       required:
         - role
         - content
@@ -115979,6 +115951,10 @@ components:
             - gpt-rosalind-research
             - gpt-6-rosalind
             - gpt-6.2-astra-law
+            - gpt-6-astra-healthcare
+            - gpt-6.1-sol-healthcare
+            - gpt-6.2-astra-healthcare
+            - gpt-6.2-sol-healthcare
           x-openai-enum-deprecations:
             o1-pro:
               message: "Announced shutdown date: 2026-10-23. See
@@ -119139,7 +119115,7 @@ components:
             useful for storing additional information about the object in a
             structured
 
-            format, and querying for objects via API or the dashboard.
+            format.
 
 
             Keys are strings with a maximum length of 64 characters. Values are
